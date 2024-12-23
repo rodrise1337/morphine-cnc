@@ -1,6 +1,6 @@
 package models
 
-import "Nosviak2/core/sources/ranks"
+import "Morphine/core/sources/ranks"
 
 //this will store information about the ranks
 //allows for better customizing without issues happening

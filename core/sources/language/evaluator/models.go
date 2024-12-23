@@ -1,6 +1,6 @@
 package evaluator
 
-import "Nosviak2/core/sources/language/lexer"
+import "Morphine/core/sources/language/lexer"
 
 //aka variable structure properly
 //this stores our different variables properly

@@ -1,14 +1,14 @@
 package pager
 
 import (
-	"Nosviak2/core/clients/sessions"
+	"Morphine/core/clients/sessions"
 	"strings"
 
 	"github.com/alexeyco/simpletable"
 )
 
-//stores the table information
-//this will help us to properly decide if we want to render
+// stores the table information
+// this will help us to properly decide if we want to render
 type MakeTableRender struct {
 	//stores the table name properly
 	//this will make sure we know if we are gradienting the table
@@ -21,24 +21,23 @@ type MakeTableRender struct {
 	session *sessions.Session
 }
 
-
-//makes the table correctly and properly
-//this will ensure its done without errors happening
+// makes the table correctly and properly
+// this will ensure its done without errors happening
 func MakeTable(header string, table *simpletable.Table, s *sessions.Session) *MakeTableRender {
 	return &MakeTableRender{ //returns the structure properly
-		header: header, //sets the header properly
-		table: table, //sets the table properly
-		session: s, //sets the session properly
+		header:  header, //sets the header properly
+		table:   table,  //sets the table properly
+		session: s,      //sets the session properly
 	}
 }
 
-//this will completely and properly texture the table
-//some sections will use gcode to properly render out the ranks
+// this will completely and properly texture the table
+// some sections will use gcode to properly render out the ranks
 func (mtr *MakeTableRender) TextureTable() error { //returns the error
 	//this will properly try to render the different type
 	//this loads the configuration file without issues happening
 	pointer, err := mtr.GetQuery() //gets the query configuration properly
-	if err != nil { //basic error handling properly without issues
+	if err != nil {                //basic error handling properly without issues
 		return err //returns the err
 	}
 
@@ -47,7 +46,7 @@ func (mtr *MakeTableRender) TextureTable() error { //returns the error
 	mtr.table.SetStyle(mtr.TypeControl(pointer.Style, false)) //sets style
 	//checks if a pager is needed properly
 	//this will start the pager seq without issues
-	if len(strings.Split(mtr.table.String(), "\n")) >  mtr.session.Height {
+	if len(strings.Split(mtr.table.String(), "\n")) > mtr.session.Height {
 		return mtr.Pager(strings.Split(strings.Join(mtr.session.Written, "\r\n"), "\033c")[len(strings.Split(strings.Join(mtr.session.Written, "\r\n"), "\033c"))-1]) //executes the pager properly
 	} else { //renders the normal system properly
 		return mtr.normal(pointer) //returns the standard properly

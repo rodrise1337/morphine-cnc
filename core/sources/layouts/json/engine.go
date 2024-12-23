@@ -4,8 +4,8 @@ import (
 	"errors"
 )
 
-//tries to properly parse the value without issues
-//this will make sure its done without issues happening
+// tries to properly parse the value without issues
+// this will make sure its done without issues happening
 func (j *JsonEngine) renderValue(i string, v string) error {
 
 	//tries to collect the function properly
@@ -15,7 +15,7 @@ func (j *JsonEngine) renderValue(i string, v string) error {
 	//checks if the function was found
 	//this ensures it was done without errors happening
 	if hidden == nil { //err handling without issues happening
-		return errors.New("invalid fileClass has been passed into header storage:"+i)
+		return errors.New("invalid fileClass has been passed into header storage:" + i)
 	}
 
 	//executes the function properly

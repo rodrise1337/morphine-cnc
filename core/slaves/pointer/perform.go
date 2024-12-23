@@ -1,15 +1,15 @@
 package pointer
 
 import (
-	deployment "Nosviak2/core/configs"
-	"Nosviak2/core/sources/layouts/toml"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/layouts/toml"
 	"fmt"
 	"net"
 	"strconv"
 )
 
-//makes the pointers towards the system
-//this will ensure its done without issues happening
+// makes the pointers towards the system
+// this will ensure its done without issues happening
 func MakePointer() error { //returns an error properly
 
 	for { //keeps looping properly
@@ -17,7 +17,8 @@ func MakePointer() error { //returns an error properly
 		if err != nil { //err handles properly
 			if deployment.DebugMode { //debug mode
 				fmt.Printf("[POINTER] %s\r\n", err.Error())
-			}; continue
+			}
+			continue
 		} else if deployment.DebugMode {
 			fmt.Printf("[POINTER] [Connection made with pointer server]")
 		}

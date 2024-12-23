@@ -1,9 +1,9 @@
 package functions
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/sources/language/evaluator"
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/sources/language/evaluator"
+	"Morphine/core/sources/language/lexer"
 	"bytes"
 	"errors"
 	"io"
@@ -34,9 +34,9 @@ func init() {
 			}
 
 			err := s.Write(lexer.AnsiUtil(buffer.String(), lexer.Escapes))
-		
+
 			//writes to the buffer
-			//this will write the buffer to the remote host properly			
+			//this will write the buffer to the remote host properly
 			return make([]evaluator.Object, 0), err
 		},
 	})

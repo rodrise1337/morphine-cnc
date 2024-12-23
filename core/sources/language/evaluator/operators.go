@@ -1,6 +1,6 @@
 package evaluator
 
-import "Nosviak2/core/sources/language/lexer"
+import "Morphine/core/sources/language/lexer"
 
 //tries to correctly validate the token given as operator
 //this will allow us to completely validate without issues happening

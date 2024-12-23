@@ -1,8 +1,8 @@
 package views
 
 import (
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/layouts/toml"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/layouts/toml"
 	"io/ioutil"
 	"log"
 	"path/filepath"
@@ -14,13 +14,13 @@ var (
 	Subject []EngineView = make([]EngineView, 0)
 )
 
-//clears all objects from the map without issues happening
+// clears all objects from the map without issues happening
 func Reset() { //removes all the branding from the map
 	Subject = make([]EngineView, 0) //clears the map properly
 }
 
-//stores the engineView properly
-//this will make sure its done properly and safely
+// stores the engineView properly
+// this will make sure its done properly and safely
 type EngineView struct { //stored in type structure
 	//stores the location of the file
 	//this will allow us to properly find the file
@@ -30,13 +30,13 @@ type EngineView struct { //stored in type structure
 	Containing string //stored in type string correctly
 }
 
-//properly tries to gather the peices
-//this will make sure its done correctly and safely
+// properly tries to gather the peices
+// this will make sure its done correctly and safely
 func GatherPeices(dir string) error {
 	//gets all the files inside properly
 	//this will help for better control without issues happening
 	Objects, err := ReadForever(dir) //reads the item correctly and properly
-	if err != nil { //error handles properly and safely without issues
+	if err != nil {                  //error handles properly and safely without issues
 		return err //returns the error correctly
 	}
 

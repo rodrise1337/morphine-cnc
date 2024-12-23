@@ -1,19 +1,18 @@
 package evaluator
 
 import (
-	"Nosviak2/core/configs/models"
-	"Nosviak2/core/sources/layouts/json"
-	"Nosviak2/core/sources/tools/gradient"
+	"Morphine/core/configs/models"
+	"Morphine/core/sources/layouts/json"
+	"Morphine/core/sources/tools/gradient"
 
-	//"Nosviak2/core/sources/tools"
+	//"Morphine/core/sources/tools"
 	//"fmt"
 	"regexp"
 	"strings"
 )
 
-//WithinLine will parse the bodys inside
+// WithinLine will parse the bodys inside
 func WithinLine(line string) string {
-
 
 	//ranges through all presets set within the configuration
 	for key, preset_Fade := range json.GradientColour { //ranges
@@ -39,13 +38,13 @@ func WithinLine(line string) string {
 		}
 	}
 
-
 	return line //returns the line
 }
 
-//converts all to valid colours properly
+// converts all to valid colours properly
 func ToRGB(C []*models.RGB, src [][]int) [][]int {
 	for _, m := range C { //ranges through
-		src = append(src, []int{m.Red,m.Green,m.Blue})
-	}; return src
+		src = append(src, []int{m.Red, m.Green, m.Blue})
+	}
+	return src
 }

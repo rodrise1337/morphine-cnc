@@ -1,6 +1,6 @@
 package packages
 
-import "Nosviak2/core/sources/language/evaluator"
+import "Morphine/core/sources/language/evaluator"
 
 var (
 	//stores all the collected packages

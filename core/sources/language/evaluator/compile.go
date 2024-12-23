@@ -1,14 +1,14 @@
 package evaluator
 
 import (
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"errors"
 	"strconv"
 )
 
-//properly controls/compiles the tokens without issues
-//this will allow for better controlling without issues happening
+// properly controls/compiles the tokens without issues
+// this will allow for better controlling without issues happening
 func (e *Evaluator) compileTokens(tokens []lexer.Token, mustType lexer.TokenType) (*lexer.Token, error) {
 	//properly tries to correctly find the token type
 	//this will work what the token type should be allows support for multisystems
@@ -49,7 +49,7 @@ func (e *Evaluator) compileTokens(tokens []lexer.Token, mustType lexer.TokenType
 				//makes sure its correctly done without issues
 				if len(mem) > 1 {
 					//returns the error properly without issues
-					return nil, errors.New("mismatch type, one wanted, "+strconv.Itoa(len(mem))+" given")
+					return nil, errors.New("mismatch type, one wanted, " + strconv.Itoa(len(mem)) + " given")
 				}
 				//inserts into the array correctly and properly
 				//this will ensure its done properly and we can access it
@@ -57,14 +57,13 @@ func (e *Evaluator) compileTokens(tokens []lexer.Token, mustType lexer.TokenType
 			} else {
 				//sets the object properly
 				//allows for better support without issues happening
-				token = object.TokenValue //sets the value properly without issues 
+				token = object.TokenValue //sets the value properly without issues
 			}
 		}
 		//updates the token type properly
 		//this will ensure its done properly without issues happening
 		mustType = token.TokenType() //forces the update without issues happening
 	}
-
 
 	switch mustType {
 

@@ -1,30 +1,30 @@
 package static
 
 import (
-	termfx "Nosviak2/core/sources/language/tfx"
+	termfx "Morphine/core/sources/language/tfx"
 	"io"
 	"strconv"
 )
 
-//runs the system within the slaves controller properly
-//this will ensure its done without errors happening on purpose
+// runs the system within the slaves controller properly
+// this will ensure its done without errors happening on purpose
 func SlaveController(payload string, arch string, IP, Port string, Type string, Same int, All int, s io.Writer) (int, error) {
 
 	terms := termfx.New()
 
-	terms.RegisterVariable("ip", IP) //ip <<$ip>>
-	terms.RegisterVariable("port", Port) //port <<$port>>
-	terms.RegisterVariable("type", Type) //type <<$type>>
+	terms.RegisterVariable("ip", IP)             //ip <<$ip>>
+	terms.RegisterVariable("port", Port)         //port <<$port>>
+	terms.RegisterVariable("type", Type)         //type <<$type>>
 	terms.RegisterVariable("architecture", arch) //architecture <<$architecture>>
 
 	//devices system properly and safely
-	//this will ensure its done without errors happening 
+	//this will ensure its done without errors happening
 	terms.RegisterFunction("devices", func(session io.Writer, args string) (int, error) {
 		return session.Write([]byte(strconv.Itoa(All)))
 	})
 
 	//devices system properly and safely
-	//this will ensure its done without errors happening 
+	//this will ensure its done without errors happening
 	terms.RegisterFunction("same_arch_connected", func(session io.Writer, args string) (int, error) {
 		return session.Write([]byte(strconv.Itoa(Same)))
 	})

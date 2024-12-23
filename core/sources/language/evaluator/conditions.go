@@ -1,8 +1,8 @@
 package evaluator
 
 import (
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"errors"
 	"strings"
 
@@ -34,13 +34,13 @@ func (e *Evaluator) ConditionsWorker(p *parser.Conditional) error {
 			//this will make sure its safe without issues happening
 			Value, err := e.findScope(p.Sections[section][0].Literal())
 			if err != nil || Value == nil { //error handles the request without issues
-				return errors.New("can't find the variable `"+p.Sections[section][0].Literal()+"`")
+				return errors.New("can't find the variable `" + p.Sections[section][0].Literal() + "`")
 			}
 
 			//creates the array correctly and properly
-			p.Sections[section] = make([]lexer.Token, 0) //clears array
+			p.Sections[section] = make([]lexer.Token, 0)                         //clears array
 			p.Sections[section] = append(p.Sections[section], *Value.TokenValue) //inserts into array
-			continue //continues to loop again properly
+			continue                                                             //continues to loop again properly
 		}
 
 		//tries to correctly parse the function without issues happening
@@ -61,7 +61,7 @@ func (e *Evaluator) ConditionsWorker(p *parser.Conditional) error {
 			return errors.New("function must only return one value within system")
 		}
 
-		p.Sections[section] = make([]lexer.Token, 0) //clears array
+		p.Sections[section] = make([]lexer.Token, 0)                                                                                       //clears array
 		p.Sections[section] = append(p.Sections[section], *lexer.NewToken(Objects[0].Literal, Objects[0].Type, Path.Labels[0].Position())) //inserts into array
 		continue
 	}
@@ -72,7 +72,7 @@ func (e *Evaluator) ConditionsWorker(p *parser.Conditional) error {
 	for section := 0; section < len(p.Sections); section++ {
 		rawUTL += e.joinLabels(p.Sections[section]) + " "
 	}
-	
+
 	//parses the system links without issues happening
 	//this will ensure its done without issues happening
 	P := conditions.NewParser(strings.NewReader(rawUTL))

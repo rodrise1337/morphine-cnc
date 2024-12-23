@@ -1,7 +1,7 @@
 {
 
     "database" : {
-        "name" : "Nosviak2",
+        "name" : "Morphine",
         "username" : "root",
         "password" : "",
         "host" : "localhost:3306"
@@ -18,7 +18,7 @@
         "serverKey" : "server.rsa",
         "beforePasswdPrompt" : {
             "status" : false,
-            "message" : "Nosviak2 - FB:2022"
+            "message" : "Morphine - FB:2022"
         },
 
         "accounts" : {

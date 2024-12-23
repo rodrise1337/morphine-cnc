@@ -1,14 +1,14 @@
 package commands
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/clients/views/pager"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/language"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/ranks"
-	"Nosviak2/core/sources/tools"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/clients/views/pager"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/language"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/ranks"
+	"Morphine/core/sources/tools"
+	"Morphine/core/sources/views"
 	"strconv"
 	"strings"
 
@@ -40,7 +40,6 @@ func init() {
 				},
 			}
 
-
 			//ranges through every opens ession
 			//this will make sure its done without issues
 			for _, usr := range sessions.Sessions {
@@ -55,18 +54,18 @@ func init() {
 				//properly deploys the rank into string
 				//this will ensure its done without errors happening
 				ranks, err := r.DeployRanks(true) //deploys into string format
-				if err != nil { //error handles the syntax properly without issues
+				if err != nil {                   //error handles the syntax properly without issues
 					return err //returns the error properly
 				}
 
 				//creates the store properly without issues
 				rk := []*simpletable.Cell{ //fills with the information properly without issues
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))}, //id
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)}, //username
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))},                //id
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)},                  //username
 					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "connected.txt").Containing, lexer.Escapes), "<<$connected>>", usr.Connected.Format("15:04:05"))}, //maxtime
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)}, //conns
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))}, //cooldown
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))}, //ranks
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)},                                     //conns
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))},    //cooldown
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))},                 //ranks
 				}
 
 				//saves into the array correctly
@@ -83,9 +82,9 @@ func init() {
 			//checks if the rank is valid properly
 			//this will ensure only valid options are ok
 			if _, ok := ranks.PresetRanks[cmd[1]]; !ok {
-				return language.ExecuteLanguage([]string{"errors", "command403.itl"}, s.Channel, deployment.Engine, s, map[string]string{"command":cmd[0]}) //executes properly
+				return language.ExecuteLanguage([]string{"errors", "command403.itl"}, s.Channel, deployment.Engine, s, map[string]string{"command": cmd[0]}) //executes properly
 			}
-			
+
 			//creates the simpletable
 			//this will store our information
 			table := simpletable.New() //makes the structure
@@ -103,7 +102,6 @@ func init() {
 				},
 			}
 
-
 			//ranges through every opens ession
 			//this will make sure its done without issues
 			for _, usr := range sessions.Sessions {
@@ -120,22 +118,21 @@ func init() {
 					continue
 				}
 
-
 				//properly deploys the rank into string
 				//this will ensure its done without errors happening
 				ranks, err := r.DeployRanks(true) //deploys into string format
-				if err != nil { //error handles the syntax properly without issues
+				if err != nil {                   //error handles the syntax properly without issues
 					return err //returns the error properly
 				}
 
 				//creates the store properly without issues
 				rk := []*simpletable.Cell{ //fills with the information properly without issues
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))}, //id
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)}, //username
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))},                //id
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)},                  //username
 					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "connected.txt").Containing, lexer.Escapes), "<<$connected>>", usr.Connected.Format("15:04:05"))}, //maxtime
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)}, //conns
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))}, //cooldown
-					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))}, //ranks
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)},                                     //conns
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))},    //cooldown
+					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))},                 //ranks
 				}
 
 				//saves into the array correctly
@@ -149,10 +146,10 @@ func init() {
 		},
 		SubCommands: []SubCommand{
 			{
-				SubcommandName: "list",
-				Description: "list all open sessions",
+				SubcommandName:     "list",
+				Description:        "list all open sessions",
 				CommandPermissions: []string{"admin", "moderator"},
-				CommandSplit: " ", SubCommandFunction: func(s *sessions.Session, cmd []string) error {
+				CommandSplit:       " ", SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//creates the simpletable
 					//this will store our information
 					table := simpletable.New() //makes the structure
@@ -169,8 +166,7 @@ func init() {
 							{Align: simpletable.AlignCenter, Text: lexer.AnsiUtil(views.GetView("sessions", "list", "headers", "ranks.txt").Containing, lexer.Escapes)},
 						},
 					}
-				
-				
+
 					//ranges through every opens ession
 					//this will make sure its done without issues
 					for _, usr := range sessions.Sessions {
@@ -185,35 +181,35 @@ func init() {
 						//properly deploys the rank into string
 						//this will ensure its done without errors happening
 						ranks, err := r.DeployRanks(true) //deploys into string format
-						if err != nil { //error handles the syntax properly without issues
+						if err != nil {                   //error handles the syntax properly without issues
 							return err //returns the error properly
 						}
-					
+
 						//creates the store properly without issues
 						rk := []*simpletable.Cell{ //fills with the information properly without issues
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))}, //id
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)}, //username
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))},                //id
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)},                  //username
 							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "connected.txt").Containing, lexer.Escapes), "<<$connected>>", usr.Connected.Format("15:04:05"))}, //maxtime
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)}, //conns
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))}, //cooldown
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))}, //ranks
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)},                                     //conns
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))},    //cooldown
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "list", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))},                 //ranks
 						}
-					
+
 						//saves into the array correctly
 						//this will be properly founded later onwards
 						table.Body.Cells = append(table.Body.Cells, rk)
 					}
-				
+
 					//renders the table properly
 					//this will ensure its done without issues
 					return pager.MakeTable("sessions", table, s).TextureTable()
 				},
 			},
 			{
-				SubcommandName: "admin",
-				Description: "view sessions with admin",
+				SubcommandName:     "admin",
+				Description:        "view sessions with admin",
 				CommandPermissions: []string{"admin"},
-				CommandSplit: " ", SubCommandFunction: func(s *sessions.Session, cmd []string) error {
+				CommandSplit:       " ", SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//creates the simpletable
 					//this will store our information
 					table := simpletable.New() //makes the structure
@@ -230,8 +226,7 @@ func init() {
 							{Align: simpletable.AlignCenter, Text: lexer.AnsiUtil(views.GetView("sessions", "headers", "ranks.txt").Containing, lexer.Escapes)},
 						},
 					}
-				
-				
+
 					//ranges through every opens ession
 					//this will make sure its done without issues
 					for _, usr := range sessions.Sessions {
@@ -243,48 +238,47 @@ func init() {
 						if err := r.SyncWithString(usr.User.Ranks); err != nil {
 							return err //returns the error correctly and properly
 						}
-					
+
 						if !r.CanAccess(cmd[1]) {
 							continue
 						}
-					
-					
+
 						//properly deploys the rank into string
 						//this will ensure its done without errors happening
 						ranks, err := r.DeployRanks(true) //deploys into string format
-						if err != nil { //error handles the syntax properly without issues
+						if err != nil {                   //error handles the syntax properly without issues
 							return err //returns the error properly
 						}
-					
+
 						//creates the store properly without issues
 						rk := []*simpletable.Cell{ //fills with the information properly without issues
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))}, //id
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)}, //username
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))},                //id
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)},                  //username
 							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "connected.txt").Containing, lexer.Escapes), "<<$connected>>", usr.Connected.Format("15:04:05"))}, //maxtime
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)}, //conns
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))}, //cooldown
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))}, //ranks
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)},                                     //conns
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))},    //cooldown
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))},                 //ranks
 						}
-					
+
 						//saves into the array correctly
 						//this will be properly founded later onwards
 						table.Body.Cells = append(table.Body.Cells, rk)
 					}
-				
+
 					//renders the table properly
 					//this will ensure its done without issues
 					return pager.MakeTable("sessions", table, s).TextureTable()
 				},
 			},
 			{
-				SubcommandName: "moderator",
-				Description: "view sessions with moderator",
+				SubcommandName:     "moderator",
+				Description:        "view sessions with moderator",
 				CommandPermissions: []string{"admin", "moderator"},
-				CommandSplit: " ", SubCommandFunction: func(s *sessions.Session, cmd []string) error {
+				CommandSplit:       " ", SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//creates the simpletable
 					//this will store our information
 					table := simpletable.New() //makes the structure
-						
+
 					//sets table header
 					//this will be used to define information
 					table.Header = &simpletable.Header{
@@ -297,8 +291,7 @@ func init() {
 							{Align: simpletable.AlignCenter, Text: lexer.AnsiUtil(views.GetView("sessions", "headers", "ranks.txt").Containing, lexer.Escapes)},
 						},
 					}
-				
-				
+
 					//ranges through every opens ession
 					//this will make sure its done without issues
 					for _, usr := range sessions.Sessions {
@@ -310,44 +303,43 @@ func init() {
 						if err := r.SyncWithString(usr.User.Ranks); err != nil {
 							return err //returns the error correctly and properly
 						}
-					
+
 						if !r.CanAccess(cmd[1]) {
 							continue
 						}
-					
-					
+
 						//properly deploys the rank into string
 						//this will ensure its done without errors happening
 						ranks, err := r.DeployRanks(true) //deploys into string format
-						if err != nil { //error handles the syntax properly without issues
+						if err != nil {                   //error handles the syntax properly without issues
 							return err //returns the error properly
 						}
-					
+
 						//creates the store properly without issues
 						rk := []*simpletable.Cell{ //fills with the information properly without issues
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))}, //id
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)}, //username
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(usr.User.Identity))},                //id
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)},                  //username
 							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "connected.txt").Containing, lexer.Escapes), "<<$connected>>", usr.Connected.Format("15:04:05"))}, //maxtime
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)}, //conns
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))}, //cooldown
-							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))}, //ranks
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)},                                     //conns
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "idle.txt").Containing, lexer.Escapes), "<<$idle>>", tools.ResolveTimeStamp(usr.Idle, false))},    //cooldown
+							{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("sessions", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks, " "))},                 //ranks
 						}
-					
+
 						//saves into the array correctly
 						//this will be properly founded later onwards
 						table.Body.Cells = append(table.Body.Cells, rk)
 					}
-				
+
 					//renders the table properly
 					//this will ensure its done without issues
 					return pager.MakeTable("sessions", table, s).TextureTable()
 				},
 			},
 			{
-				SubcommandName: "message", //message an active session
+				SubcommandName:     "message", //message an active session
 				CommandPermissions: []string{"admin", "moderator", "reseller"},
-				Description: "message active sessions",
-				CommandSplit: " ", //no split to be active within commands
+				Description:        "message active sessions",
+				CommandSplit:       " ", //no split to be active within commands
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//tries to validate the length
 					//this will ensure its done without any errors
@@ -358,7 +350,7 @@ func init() {
 					//stores all the targeted sessions
 					//this will be what we broadcast to correctly
 					var operants []sessions.Session = make([]sessions.Session, 0)
-					var messages []string           = make([]string, 0) //message
+					var messages []string = make([]string, 0) //message
 
 					//tries to build the message information
 					//this will be what we broadcast correctly
@@ -370,7 +362,8 @@ func init() {
 							//this will collect only that session properly
 							if strings.Split(cmd[2:][pos], ":")[0] == "" { //checks
 								//inserts all of the users sessions properly without any issues happening
-								operants = append(operants, s.GetSessions(strings.ReplaceAll(cmd[2:][pos], ":", ""))...); continue
+								operants = append(operants, s.GetSessions(strings.ReplaceAll(cmd[2:][pos], ":", ""))...)
+								continue
 							}
 
 							//converts the id properly without issues
@@ -382,18 +375,20 @@ func init() {
 
 							//tries to find with the id given
 							//this will ensure its done without any errors
-							session := s.GetWithID(int64(id)) //tries to find the session
+							session := s.GetWithID(int64(id))                                                   //tries to find the session
 							if session == nil || session.User.Username != strings.Split(cmd[2:][pos], ":")[0] { //renders the branding peice properly
 								return language.ExecuteLanguage([]string{"sessions", "message", "mismatch_id_username.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 							}
 
 							//saves into the array properly
 							//this will ensure its done without any errors happening
-							operants = append(operants, *session);continue
+							operants = append(operants, *session)
+							continue
 						}
 						//saves an as argument properly
 						//this will ensure its done without any errors happening
-						messages = append(messages, cmd[2:][pos]); continue
+						messages = append(messages, cmd[2:][pos])
+						continue
 					}
 
 					//ranges through all the sessions and broadcasts the message
@@ -401,17 +396,18 @@ func init() {
 					for active := range operants { //ranges through without any errors
 						//tries to launch the message without any errors happening properly
 						//this will ensure its done without any errors happening on purpose making it safer
-						err := language.ExecuteLanguage([]string{"alerts", "session-message.itl"}, operants[active].Channel, deployment.Engine, &operants[active], map[string]string{"message":strings.Join(messages, " ")})
+						err := language.ExecuteLanguage([]string{"alerts", "session-message.itl"}, operants[active].Channel, deployment.Engine, &operants[active], map[string]string{"message": strings.Join(messages, " ")})
 						if err != nil { //error handles the alert properly
 							//this will try to launch the broadcast safely without errors
 							operants[active].Write("Message>", strings.Join(messages, " ")) //writes
-						}; continue //continues looping without any errors
+						}
+						continue //continues looping without any errors
 					}
 					return nil
 				},
 				//AutoComplete allows for statement auto callback
 				AutoComplete: func(s *sessions.Session) []string {
-	
+
 					//stores all the storage properly
 					//this will ensure its done properly
 					var storage []string = make([]string, 0)
@@ -424,11 +420,11 @@ func init() {
 							continue
 						}
 
-						storage = append(storage, open.User.Username + ":" + strconv.Itoa(int(open.ID)))
-						
+						storage = append(storage, open.User.Username+":"+strconv.Itoa(int(open.ID)))
+
 						//checks for the main system properly and safely
-						if !tools.NeedleHaystackOne(storage, ":" + open.User.Username) {
-							storage = append(storage, ":" + open.User.Username)
+						if !tools.NeedleHaystackOne(storage, ":"+open.User.Username) {
+							storage = append(storage, ":"+open.User.Username)
 						}
 					}
 
@@ -438,10 +434,10 @@ func init() {
 				},
 			},
 			{
-				SubcommandName: "maximise",
-				Description: "Expand a terminal window",
+				SubcommandName:     "maximise",
+				Description:        "Expand a terminal window",
 				CommandPermissions: []string{"admin", "moderator", "sessions"},
-				CommandSplit: " ",
+				CommandSplit:       " ",
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//tries to validate the length
 					//this will ensure its done without any errors
@@ -463,7 +459,8 @@ func init() {
 							//this will collect only that session properly
 							if strings.Split(cmd[2:][pos], ":")[0] == "" { //checks
 								//inserts all of the users sessions properly without any issues happening
-								operants = append(operants, s.GetSessions(strings.ReplaceAll(cmd[2:][pos], ":", ""))...); continue
+								operants = append(operants, s.GetSessions(strings.ReplaceAll(cmd[2:][pos], ":", ""))...)
+								continue
 							}
 
 							//converts the id properly without issues
@@ -475,16 +472,17 @@ func init() {
 
 							//tries to find with the id given
 							//this will ensure its done without any errors
-							session := s.GetWithID(int64(id)) //tries to find the session
+							session := s.GetWithID(int64(id))                                                   //tries to find the session
 							if session == nil || session.User.Username != strings.Split(cmd[2:][pos], ":")[0] { //renders the branding peice properly
 								return language.ExecuteLanguage([]string{"sessions", "maximise", "mismatch_id_username.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 							}
 
 							//saves into the array properly
 							//this will ensure its done without any errors happening
-							operants = append(operants, *session);continue
+							operants = append(operants, *session)
+							continue
 						}
-					
+
 						return language.ExecuteLanguage([]string{"sessions", "maximise", "invalid_id.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 					}
 
@@ -496,14 +494,13 @@ func init() {
 						//ensures its done properly and safely within it
 						operants[active].Write("\x1b[9;2;0t") //maxises
 
-
 						continue //continues looping without any errors
 					}
 					return nil
 				},
 				//AutoComplete allows for statement auto callback
 				AutoComplete: func(s *sessions.Session) []string {
-	
+
 					//stores all the storage properly
 					//this will ensure its done properly
 					var storage []string = make([]string, 0)
@@ -516,11 +513,11 @@ func init() {
 							continue
 						}
 
-						storage = append(storage, open.User.Username + ":" + strconv.Itoa(int(open.ID)))
-						
+						storage = append(storage, open.User.Username+":"+strconv.Itoa(int(open.ID)))
+
 						//checks for the main system properly and safely
-						if !tools.NeedleHaystackOne(storage, ":" + open.User.Username) {
-							storage = append(storage, ":" + open.User.Username)
+						if !tools.NeedleHaystackOne(storage, ":"+open.User.Username) {
+							storage = append(storage, ":"+open.User.Username)
 						}
 					}
 
@@ -530,10 +527,10 @@ func init() {
 				},
 			},
 			{
-				SubcommandName: "kick",
-				Description: "kick an active session",
+				SubcommandName:     "kick",
+				Description:        "kick an active session",
 				CommandPermissions: []string{"admin", "moderator", "reseller"},
-				CommandSplit: " ", SubCommandFunction: func(s *sessions.Session, cmd []string) error {
+				CommandSplit:       " ", SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//tries to validate the length
 					//this will ensure its done without any errors
 					if len(cmd) < 3 { //checks the length properly
@@ -554,7 +551,8 @@ func init() {
 							//this will collect only that session properly
 							if strings.Split(cmd[2:][pos], ":")[0] == "" { //checks
 								//inserts all of the users sessions properly without any issues happening
-								operants = append(operants, s.GetSessions(strings.ReplaceAll(cmd[2:][pos], ":", ""))...); continue
+								operants = append(operants, s.GetSessions(strings.ReplaceAll(cmd[2:][pos], ":", ""))...)
+								continue
 							}
 
 							//converts the id properly without issues
@@ -566,16 +564,17 @@ func init() {
 
 							//tries to find with the id given
 							//this will ensure its done without any errors
-							session := s.GetWithID(int64(id)) //tries to find the session
+							session := s.GetWithID(int64(id))                                                   //tries to find the session
 							if session == nil || session.User.Username != strings.Split(cmd[2:][pos], ":")[0] { //renders the branding peice properly
 								return language.ExecuteLanguage([]string{"sessions", "kick", "mismatch_id_username.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 							}
 
 							//saves into the array properly
 							//this will ensure its done without any errors happening
-							operants = append(operants, *session);continue
+							operants = append(operants, *session)
+							continue
 						}
-					
+
 						return language.ExecuteLanguage([]string{"sessions", "kick", "invalid_id.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 					}
 
@@ -583,14 +582,14 @@ func init() {
 					//this will ensure its done without any errors happening on purpose
 					for active := range operants { //ranges through without any errors
 						operants[active].Channel.Close() //tries to close the channel
-						language.ExecuteLanguage([]string{"sessions", "kick", "kicked.itl"}, s.Channel, deployment.Engine, s, map[string]string{"username":operants[active].User.Username})
+						language.ExecuteLanguage([]string{"sessions", "kick", "kicked.itl"}, s.Channel, deployment.Engine, s, map[string]string{"username": operants[active].User.Username})
 						continue //continues looping without any errors
 					}
 					return nil
 				},
 				//AutoComplete allows for statement auto callback
 				AutoComplete: func(s *sessions.Session) []string {
-					
+
 					//stores all the storage properly
 					//this will ensure its done properly
 					var storage []string = make([]string, 0)
@@ -603,11 +602,11 @@ func init() {
 							continue
 						}
 
-						storage = append(storage, open.User.Username + ":" + strconv.Itoa(int(open.ID)))
-						
+						storage = append(storage, open.User.Username+":"+strconv.Itoa(int(open.ID)))
+
 						//checks for the main system properly and safely
-						if !tools.NeedleHaystackOne(storage, ":" + open.User.Username) {
-							storage = append(storage, ":" + open.User.Username)
+						if !tools.NeedleHaystackOne(storage, ":"+open.User.Username) {
+							storage = append(storage, ":"+open.User.Username)
 						}
 					}
 
@@ -617,13 +616,13 @@ func init() {
 				},
 			},
 			{
-				SubcommandName: "observe",
-				Description: "observe a sessions activity",
+				SubcommandName:     "observe",
+				Description:        "observe a sessions activity",
 				CommandPermissions: []string{"admin", "moderator"}, CommandSplit: " ",
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 
 					//detects invalid syntax within the string
-					if len(cmd) != 3 || !strings.Contains(cmd[2], ":"){
+					if len(cmd) != 3 || !strings.Contains(cmd[2], ":") {
 						return language.ExecuteLanguage([]string{"sessions", "observe", "syntax.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 					}
 
@@ -636,18 +635,18 @@ func init() {
 					//gets session
 					target := sessions.Sessions[int64(convert)]
 					if target == nil || target.User.Username != strings.Split(cmd[2], ":")[0] { //prints the unknown user message
-						return language.ExecuteLanguage([]string{"sessions", "observe", "unknown_username.itl"}, s.Channel, deployment.Engine, s, map[string]string{"username":strings.Split(cmd[2], ":")[0], "id":strings.Split(cmd[2], ":")[1]})
+						return language.ExecuteLanguage([]string{"sessions", "observe", "unknown_username.itl"}, s.Channel, deployment.Engine, s, map[string]string{"username": strings.Split(cmd[2], ":")[0], "id": strings.Split(cmd[2], ":")[1]})
 					}
 
-					language.ExecuteLanguage([]string{"alerts", "being_observed.itl"}, target.Channel, deployment.Engine, target, map[string]string{"observer":s.User.Username})
+					language.ExecuteLanguage([]string{"alerts", "being_observed.itl"}, target.Channel, deployment.Engine, target, map[string]string{"observer": s.User.Username})
 
 					before := s.Capture() //captures current window size properly
 
 					var close bool = false
 					go func() { //routine for detecting exit
 						buf := make([]byte, 1) //stores buffer
-						s.Channel.Read(buf) //reads from term
-						close=true
+						s.Channel.Read(buf)    //reads from term
+						close = true
 					}()
 
 					var clicks int = 0 //current length of system
@@ -669,9 +668,9 @@ func init() {
 						//writes to the terminal
 						s.Write("\033c"+target.Capture(), "\x1b[0;0f\x1b[101;30m"+Centre("Currently observing "+target.User.Username+", as "+s.User.Username, s.Length, "")+"\x1b[0m") //writes source
 						//time.Sleep(500 * time.Millisecond) //frame buffer on the system
-					}	
+					}
 
-					return s.Write("\033c"+before)
+					return s.Write("\033c" + before)
 				},
 
 				//AutoComplete allows for statement auto callback
@@ -682,7 +681,7 @@ func init() {
 
 					//ranges through the sessions properly
 					for _, open := range sessions.Sessions {
-						storage = append(storage, open.User.Username + ":" + strconv.Itoa(int(open.ID)))
+						storage = append(storage, open.User.Username+":"+strconv.Itoa(int(open.ID)))
 					}
 
 					//returns the modules properly
@@ -691,6 +690,5 @@ func init() {
 				},
 			},
 		},
-
 	})
 }

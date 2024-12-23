@@ -1,9 +1,9 @@
 package webhooks
 
 import (
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/views"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/views"
 	"log"
 
 	"io/ioutil"
@@ -16,16 +16,16 @@ var (
 	//stores all the valid webhooks which we loaded
 	//this will ensure they are all properly handled
 	Webhooking map[string]string = make(map[string]string)
-	mutex      sync.Mutex //basic termlox control
+	mutex      sync.Mutex        //basic termlox control
 )
 
-//completes clears the branding map
+// completes clears the branding map
 func Reset() { //resets everything inside
 	Webhooking = make(map[string]string)
 }
 
-//loads all the webhooks properly
-//this will ensure its done without any errors
+// loads all the webhooks properly
+// this will ensure its done without any errors
 func RenderWebhooks() error { //return error
 	//tries to read all the assets properly
 	//this will ensure its done without any errors happening
@@ -45,7 +45,7 @@ func RenderWebhooks() error { //return error
 		//reads the file properly without issues
 		//this will ensure without any errors issues
 		Value, err := ioutil.ReadFile(assets[item]) //reads the file
-		if err != nil { //error handles properly without issues
+		if err != nil {                             //error handles properly without issues
 			return err //returns the error
 		}
 

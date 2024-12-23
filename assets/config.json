@@ -15,7 +15,7 @@
         "serverKey": "ssh.ppk",
         "beforePasswdPrompt": {
             "status": false,
-            "message": "Nosviak2 - FB:2022"
+            "message": "Morphine - FB:2022"
         },
         "accounts": {
             "passwordLength": 32,

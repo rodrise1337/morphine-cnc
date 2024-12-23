@@ -1,13 +1,13 @@
 package json
 
 import (
-	"Nosviak2/core/sources/views"
+	"Morphine/core/sources/views"
 	"io/ioutil"
 	"strings"
 )
 
-//stores information about the current
-//this allows for proper handling without issues happening
+// stores information about the current
+// this allows for proper handling without issues happening
 type JsonEngine struct {
 	//stores the directory which holds the information
 	//this ensures its safely and properly done without issues happening
@@ -20,8 +20,8 @@ type JsonEngine struct {
 	Paths map[string]func(file string, value string) error
 }
 
-//creates the engine structure
-//this ensures its done without issues
+// creates the engine structure
+// this ensures its done without issues
 func MakeEngine(dir string, hierarchy []string) *JsonEngine {
 	//returns the structure properly
 	return &JsonEngine{
@@ -37,15 +37,15 @@ func MakeEngine(dir string, hierarchy []string) *JsonEngine {
 	}
 }
 
-//this will properly execute the render engine without issues happening
-//this allows for proper handling without issues happening on requests
+// this will properly execute the render engine without issues happening
+// this allows for proper handling without issues happening on requests
 func (j *JsonEngine) RunEngine() error {
 	j.Paths = Objects
-	
+
 	//this will read everything inside the dir without issues happening
 	//makes sure we can access everything without issues happening on reqeusts
 	render, err := views.ReadForever(j.Directory) //properly reads
-	if err != nil { //error handles the statement without issues
+	if err != nil {                               //error handles the statement without issues
 		return err //returns the error correctly and properly
 	}
 	//creates an array to the size of the files
@@ -61,7 +61,7 @@ func (j *JsonEngine) RunEngine() error {
 		if strings.Split(render[app], ".")[len(strings.Split(render[app], "."))-1] != "json" {
 			continue //forces the continue properly
 		}
-		
+
 		//tries to read the file properly
 		//this will make sure its done without issues
 		object, err := ioutil.ReadFile(render[app])
@@ -75,7 +75,6 @@ func (j *JsonEngine) RunEngine() error {
 		if err != nil { //error handles properly without issues
 			return err //returns the error without issues
 		}
-
 
 		//stores into the array properly
 		//this will ensure its done without issues

@@ -1,9 +1,9 @@
 package functions
 
 import (
-	"Nosviak2/core/configs/models"
-	"Nosviak2/core/database"
-	"Nosviak2/core/sources/ranks"
+	"Morphine/core/configs/models"
+	"Morphine/core/database"
+	"Morphine/core/sources/ranks"
 	"time"
 )
 
@@ -15,7 +15,7 @@ func MergeFieldsWithUser(product *models.Product, user *database.User) error {
 		if err != nil {
 			return err
 		}
-	
+
 		for _, i := range *product.Fields.Ranks {
 			r.GiveRank(i)
 		}
@@ -57,7 +57,7 @@ func MergeFieldsWithUser(product *models.Product, user *database.User) error {
 
 		case "add": // Adds ontop of the users current expiry
 			user.Expiry = time.Unix(user.Expiry, 0).Add((time.Hour * 24) * time.Duration(product.Fields.Expiry.Value)).Unix()
-		
+
 		case "set": // Sets the users expiry to x amount of days
 			user.Expiry = time.Now().Add((time.Hour * 24) * time.Duration(product.Fields.Expiry.Value)).Unix()
 		}

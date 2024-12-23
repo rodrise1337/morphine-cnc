@@ -1,32 +1,31 @@
 package evaluator
 
 import (
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"errors"
 	"strconv"
 	"strings"
 )
 
-//compiles the selection of the tokens into one properly
-//this will allow for proper controlling without issues happening
+// compiles the selection of the tokens into one properly
+// this will allow for proper controlling without issues happening
 func (e *Evaluator) compileString(tokens []lexer.Token) (*lexer.Token, error) {
 	//stores all the different tokens properly without issues
 	//allows for better controlling without issues happening...
 	var operators []lexer.Token = make([]lexer.Token, 0) //creates the array
-	var objects []lexer.Token = make([]lexer.Token, 0) //creates the array
+	var objects []lexer.Token = make([]lexer.Token, 0)   //creates the array
 
 	//properly ranges through all the tokens
 	//this will execute and compile the string literal format
 	for position := 0; position < len(tokens); position++ {
-
 
 		//allows easier control on detecting operators
 		//this will allow for properly controlling without issues happenign
 		if e.validateOperator(&tokens[position]) {
 			//saves the object into the array
 			//this will properly try to save into the array
-			operators = append(operators, tokens[position])	
+			operators = append(operators, tokens[position])
 		} else {
 			//stores the token properly
 			//this makes sure its done properly
@@ -56,7 +55,7 @@ func (e *Evaluator) compileString(tokens []lexer.Token) (*lexer.Token, error) {
 					//makes sure its correctly done without issues
 					if len(mem) > 1 {
 						//returns the error properly without issues
-						return nil, errors.New("mismatch type, one wanted, "+strconv.Itoa(len(mem))+" given")
+						return nil, errors.New("mismatch type, one wanted, " + strconv.Itoa(len(mem)) + " given")
 					}
 
 					//inserts into the array correctly and properly
@@ -88,7 +87,7 @@ func (e *Evaluator) compileString(tokens []lexer.Token) (*lexer.Token, error) {
 
 	//ranges through the different objects properly
 	//this will make sure its properly done without issues
-	for stringAgent, operator := 1, 0; stringAgent < len(objects) && operator < len(operators); stringAgent, operator = stringAgent + 1, operator + 1 {
+	for stringAgent, operator := 1, 0; stringAgent < len(objects) && operator < len(operators); stringAgent, operator = stringAgent+1, operator+1 {
 		//switchs the systems without issues happening
 		//this will make sure its properly done without issues
 		switch operators[operator].TokenType() {
@@ -96,7 +95,8 @@ func (e *Evaluator) compileString(tokens []lexer.Token) (*lexer.Token, error) {
 		case lexer.Addition: //addition in strings properly
 			//properly sorts without issues happening
 			//makes sure its properly done without issues
-			value = value + objects[stringAgent].Literal(); continue
+			value = value + objects[stringAgent].Literal()
+			continue
 		}
 	}
 

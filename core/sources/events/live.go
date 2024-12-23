@@ -1,13 +1,13 @@
 package events
 
 import (
-	"Nosviak2/core/clients/commands"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/layouts/json"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/ranks"
-	"Nosviak2/core/sources/views"
-	"Nosviak2/core/sources/webhooks"
+	"Morphine/core/clients/commands"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/layouts/json"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/ranks"
+	"Morphine/core/sources/views"
+	"Morphine/core/sources/webhooks"
 	"log"
 	"path/filepath"
 	"strings"
@@ -16,8 +16,8 @@ import (
 	"github.com/radovskyb/watcher"
 )
 
-//this will properly detect a live update within the assets
-//allows for proper control without issues happening on reqeust
+// this will properly detect a live update within the assets
+// allows for proper control without issues happening on reqeust
 func LiveRenderUpdate() error { //returns an error if one happened properly
 
 	//this will make sure that its ignored
@@ -42,7 +42,7 @@ func LiveRenderUpdate() error { //returns an error if one happened properly
 		for { //loops forever through properly without issues
 			select { //selects the information properly
 			//displays the new event information properly
-			case event := <- watchers.Event: //new event
+			case event := <-watchers.Event: //new event
 				//gets the file which has been edited
 				//this will ensure we ignore the path upto
 				internal := strings.Split(event.Path, deployment.Runtime())[len(strings.Split(event.Path, deployment.Runtime()))-1]
@@ -63,14 +63,16 @@ func LiveRenderUpdate() error { //returns an error if one happened properly
 					//this will enforce its done without any errors
 					//this will follow the json engine properly without issues happening
 					if err := json.MakeEngine(deployment.Assets, deployment.JsonHierarchy).RunEngine(); err != nil {
-						log.Printf("[LiveReload] [Json] [%s]\r\n", err.Error()); continue //continues looping properly
-					}; 
-					
+						log.Printf("[LiveReload] [Json] [%s]\r\n", err.Error())
+						continue //continues looping properly
+					}
+
 					//displays the correct information properly
 					//this will print to the terminal without issues
 					log.Printf("[LiveReload] [Json] [@%s] [reloaded all of your json assets properly]", deployment.Assets)
 					//adds support for the sleep between properly without issues
-					time.Sleep(time.Duration(toml.ConfigurationToml.Itl.TimeoutBetween) * time.Millisecond); continue
+					time.Sleep(time.Duration(toml.ConfigurationToml.Itl.TimeoutBetween) * time.Millisecond)
+					continue
 
 				//detects a toml shift properly
 				//this will now follow the only toml route
@@ -91,25 +93,27 @@ func LiveRenderUpdate() error { //returns an error if one happened properly
 					//this will enforce its done without any errors
 					//this will follow the toml engine properly without issues happening
 					if err := toml.MakeEngine(deployment.Assets, deployment.TomlHierarchy).RunEngine(); err != nil {
-						log.Printf("[LiveReload] [Toml] [%s]\r\n", err.Error()); continue //continues looping properly
-					}; 
+						log.Printf("[LiveReload] [Toml] [%s]\r\n", err.Error())
+						continue //continues looping properly
+					}
 
 					//ranges through and adds properly
 					//this will ensure its done without errors happening
 					for header, body := range toml.RanksToml.Ranks { //ranges through
 						ranks.PresetRanks[header] = ranks.RankSettings{
 							RankDescription: body.RankDescription, //saves into the information
-							MainColour: body.MainColour, SecondColour: body.SecondColour,
+							MainColour:      body.MainColour, SecondColour: body.SecondColour,
 							SignatureCharater: body.SignatureCharater, CloseWhenAwarded: false,
 							Manage_ranks: body.Manage_ranks, DisplayInTable: true, //show in table
 						}
 					}
-					
+
 					//displays the correct information properly
 					//this will print to the terminal without issues
 					log.Printf("[LiveReload] [Toml] [%s] [reloaded all of your toml assets properly]", deployment.Assets)
 					//adds support for the sleep between properly without issues
-					time.Sleep(time.Duration(toml.ConfigurationToml.Itl.TimeoutBetween) * time.Millisecond); continue
+					time.Sleep(time.Duration(toml.ConfigurationToml.Itl.TimeoutBetween) * time.Millisecond)
+					continue
 				}
 
 				//checks if branding reload is active
@@ -120,27 +124,32 @@ func LiveRenderUpdate() error { //returns an error if one happened properly
 				//reloads all branding and commands
 				//this will reload all branding, commands & webhooking properly
 				//this will reset all the structures properly without any errors happening
-				views.Reset(); webhooks.Reset(); commands.RemoveObjects() //clears all properly
+				views.Reset()
+				webhooks.Reset()
+				commands.RemoveObjects() //clears all properly
 				//reloads all webhooks properly
 				//this will reload every single webhooks
 				if err := webhooks.RenderWebhooks(); err != nil { //err handles properly without issues
-					log.Printf("[LiveReload] [Webhooks] [%s] [%s]", deployment.Assets, err.Error()); continue //err
+					log.Printf("[LiveReload] [Webhooks] [%s] [%s]", deployment.Assets, err.Error())
+					continue //err
 				}
 				//reloads all branding properly
 				//this will reload every single branding
 				if err := views.GatherPeices(filepath.Join(deployment.Assets, "branding")); err != nil { //err handles properly without issues
-					log.Printf("[LiveReload] [Views] [%s] [%s]", deployment.Assets, err.Error()); continue //err
+					log.Printf("[LiveReload] [Views] [%s] [%s]", deployment.Assets, err.Error())
+					continue //err
 				}
 				//reloads all text commands properly
 				//this will ensure its done without any errors happening
 				LR, err := commands.EngineLoader(deployment.Assets, "commands", "text")
 				if err != nil { //err handles properly without any issues happening
-					log.Printf("[LiveReload] [CustomCommands@Text] [%s] [%s]", deployment.Assets, err.Error()); continue //err
+					log.Printf("[LiveReload] [CustomCommands@Text] [%s] [%s]", deployment.Assets, err.Error())
+					continue //err
 				}
 				//prints all of the success messages properly
 				//this will ensure its done without any issues happening
-				log.Printf("[LiveReload] [Webhooks] [%d] [reloaded all of your webhook items properly]", len(webhooks.Webhooking)) //webhooks
-				log.Printf("[LiveReload] [Views] [%d] [reloaded all of your view items properly]", len(views.Subject)) //views
+				log.Printf("[LiveReload] [Webhooks] [%d] [reloaded all of your webhook items properly]", len(webhooks.Webhooking))   //webhooks
+				log.Printf("[LiveReload] [Views] [%d] [reloaded all of your view items properly]", len(views.Subject))               //views
 				log.Printf("[LiveReload] [CustomCommands@Text] [%d] [reloaded all of your custom text commands items properly]", LR) //custom text commands
 			}
 		}
@@ -150,5 +159,6 @@ func LiveRenderUpdate() error { //returns an error if one happened properly
 	//this will for loop through properly
 	if err := watchers.Start(time.Duration(toml.ConfigurationToml.Itl.TimeoutBetween) * time.Millisecond); err != nil {
 		return err //returns the error which happened properly
-	}; return nil //we wont return any errors properly
+	}
+	return nil //we wont return any errors properly
 }

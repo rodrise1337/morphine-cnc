@@ -1,16 +1,16 @@
 package commands
 
 import (
-	attacks "Nosviak2/core/attack"
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/clients/views/pager"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/database"
-	"Nosviak2/core/sources/language"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/ranks"
-	"Nosviak2/core/sources/tools"
-	"Nosviak2/core/sources/views"
+	attacks "Morphine/core/attack"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/clients/views/pager"
+	deployment "Morphine/core/configs"
+	"Morphine/core/database"
+	"Morphine/core/sources/language"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/ranks"
+	"Morphine/core/sources/tools"
+	"Morphine/core/sources/views"
 	"sort"
 	"strconv"
 	"strings"
@@ -41,7 +41,6 @@ func init() {
 				},
 			}
 
-
 			//stores all captured methods properly
 			var capture []string = make([]string, 0)
 
@@ -60,11 +59,11 @@ func init() {
 				if method == nil {
 					continue
 				}
-				
+
 				//creates the store properly without issues
 				rk := []*simpletable.Cell{ //fills with the information properly without issues
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "methods", "values", "name.txt").Containing, lexer.Escapes), "<<$name>>", method.Name)}, //id
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "methods", "values", "description.txt").Containing, lexer.Escapes), "<<$description>>", method.Description)}, //username
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "methods", "values", "name.txt").Containing, lexer.Escapes), "<<$name>>", method.Name)},                                                 //id
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "methods", "values", "description.txt").Containing, lexer.Escapes), "<<$description>>", method.Description)},                            //username
 					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "methods", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks.CreateSystem(method.Permissions), " "))}, //maxtime
 				}
 
@@ -80,16 +79,15 @@ func init() {
 
 		SubCommands: []SubCommand{
 			{
-				SubcommandName: "launched",
-				Description: "view all floods launched from all users",
+				SubcommandName:     "launched",
+				Description:        "view all floods launched from all users",
 				CommandPermissions: []string{"admin", "moderator"}, CommandSplit: " ",
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
-
 
 					//ranges through all floods properly
 					//this will try to grab them from the database
 					floods, err := database.Conn.GlobalSent() //all sent
-					if err != nil { //err handles properly and safely
+					if err != nil {                           //err handles properly and safely
 						return language.ExecuteLanguage([]string{"attacks", "launched", "database-error.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 					}
 
@@ -136,12 +134,11 @@ func init() {
 			},
 
 			{
-				SubcommandName: "sent=",
-				Description: "amount of attacks sent from usr",
+				SubcommandName:     "sent=",
+				Description:        "amount of attacks sent from usr",
 				CommandPermissions: []string{"admin", "moderator"}, CommandSplit: "=",
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 
-				
 					if strings.Count(cmd[1], "=") <= 0 { //invalid syntax detection here properly
 						return language.ExecuteLanguage([]string{"attacks", "sent", "syntax.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 					}
@@ -149,7 +146,7 @@ func init() {
 					//ranges through all floods properly
 					//this will try to grab them from the database
 					floods, err := database.Conn.UserSent(strings.Split(cmd[1], "=")[1]) //all sent
-					if err != nil { //err handles properly and safely
+					if err != nil {                                                      //err handles properly and safely
 						return language.ExecuteLanguage([]string{"attacks", "launched", "database-error.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 					}
 
@@ -210,14 +207,14 @@ func init() {
 					for _, account := range systemAccounts { //ranges
 						system = append(system, account.Username)
 					}
-					
+
 					return system
 				},
 			},
 
 			{
-				SubcommandName: "enable",
-				Description: "enables floods across the global platform",
+				SubcommandName:     "enable",
+				Description:        "enables floods across the global platform",
 				CommandPermissions: []string{"admin"}, CommandSplit: " ", //admin only control
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//checks if they are already enabled properly
@@ -234,8 +231,8 @@ func init() {
 			},
 
 			{
-				SubcommandName: "enable-api",
-				Description: "enables floods across the api platform",
+				SubcommandName:     "enable-api",
+				Description:        "enables floods across the api platform",
 				CommandPermissions: []string{"admin"}, CommandSplit: " ", //admin only control
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//checks if they are already enabled properly
@@ -252,8 +249,8 @@ func init() {
 			},
 
 			{
-				SubcommandName: "disable",
-				Description: "disable floods across the global platform",
+				SubcommandName:     "disable",
+				Description:        "disable floods across the global platform",
 				CommandPermissions: []string{"admin"}, CommandSplit: " ", //admin only control
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//checks if they are already disbled properly
@@ -270,8 +267,8 @@ func init() {
 			},
 
 			{
-				SubcommandName: "disable-api",
-				Description: "disable floods across the api platform",
+				SubcommandName:     "disable-api",
+				Description:        "disable floods across the api platform",
 				CommandPermissions: []string{"admin"}, CommandSplit: " ", //admin only control
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//checks if they are already disbled properly
@@ -290,8 +287,8 @@ func init() {
 	})
 }
 
-//formats the target properly
-//this will ensure its done without errors
+// formats the target properly
+// this will ensure its done without errors
 func Format(targ string) string { //string returned
 	if utf8.RuneCountInString(targ) <= 10 {
 		return targ

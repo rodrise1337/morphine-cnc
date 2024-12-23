@@ -1,39 +1,38 @@
 package language
 
 import (
-	"Nosviak2/core/clients/sessions"
-	deployment "Nosviak2/core/configs"
-	"Nosviak2/core/sources/language/evaluator"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
-	"Nosviak2/core/sources/layouts/functions"
-	"Nosviak2/core/sources/layouts/packages"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/tools"
-	"Nosviak2/core/sources/views"
-	"Nosviak2/core/sources/webhooks"
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/language/evaluator"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
+	"Morphine/core/sources/layouts/functions"
+	"Morphine/core/sources/layouts/packages"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/tools"
+	"Morphine/core/sources/views"
+	"Morphine/core/sources/webhooks"
 	"errors"
 	"strings"
 
 	"io"
 )
 
-//tries to correctly execute the language
-//this will ensure its executed properly without issues happening
+// tries to correctly execute the language
+// this will ensure its executed properly without issues happening
 func ExecuteLanguage(render []string, wr io.Writer, template [2]string, session *sessions.Session, register map[string]string) error {
 	//adds support for the theme render
 	//this will allow for proper management without issues
 	path := RenderParser(render, session) //properly tries without issues
 
-
 	//tries to get properly without issues
 	//this will get without issues happening
 	value := views.GetView(path...) //gets within the theme properly
-	if value == nil { //checks if the theme was found properly
+	if value == nil {               //checks if the theme was found properly
 		//tries to get the default properly theme without issues happening
 		def := views.GetView(render...) //gets the default properly without issues
-		if def == nil { //error handles properly without issues happening on reqeust
-			return errors.New(strings.Join(render, "/")+" is classed as an invalid branding object")
+		if def == nil {                 //error handles properly without issues happening on reqeust
+			return errors.New(strings.Join(render, "/") + " is classed as an invalid branding object")
 		}
 
 		//updates the default properly
@@ -47,7 +46,7 @@ func ExecuteLanguage(render []string, wr io.Writer, template [2]string, session 
 		//this will ensure its done without any errors
 		go webhooks.PerformEventWebhook(render, session, register)
 	}
-	
+
 	//creates the new lexer structure with capture
 	//capture will enable usage of the template engine properly without issues
 	l := lexer.Make(value.Containing, true) //creates the structure properly
@@ -90,8 +89,8 @@ func ExecuteLanguage(render []string, wr io.Writer, template [2]string, session 
 	return nil
 }
 
-//tries to correctly execute the language
-//this will ensure its executed properly without issues happening
+// tries to correctly execute the language
+// this will ensure its executed properly without issues happening
 func ExecuteLanguageText(nodes string, wr io.Writer, template [2]string, session *sessions.Session, register map[string]string) error {
 	//creates the new lexer structure with capture
 	//capture will enable usage of the template engine properly without issues
@@ -135,8 +134,8 @@ func ExecuteLanguageText(nodes string, wr io.Writer, template [2]string, session
 	return nil
 }
 
-//this will correctly parse the path route
-//allows for proper management without issues
+// this will correctly parse the path route
+// allows for proper management without issues
 func RenderParser(render []string, s *sessions.Session) []string {
 	if s.User.Theme == "default" { //checks for the default properly
 		return render //returns the default properly without parsing statements

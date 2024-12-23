@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/sources/language/lexer"
 )
 
 type Parser struct {
@@ -13,8 +13,8 @@ type Parser struct {
 	position int
 }
 
-//creates the new parser path
-//this will ensure its properly done
+// creates the new parser path
+// this will ensure its properly done
 func MakeParser(l *lexer.Lexer) *Parser {
 	//creates the new parser structure
 	//this will ensure its properly done without issues
@@ -23,8 +23,8 @@ func MakeParser(l *lexer.Lexer) *Parser {
 	}
 }
 
-//properly tries to run the parser without issues
-//this will ensure its done correctly without issues allowing easier execution
+// properly tries to run the parser without issues
+// this will ensure its done correctly without issues allowing easier execution
 func MakeParserRun(l *lexer.Lexer, e error) ([]Node, error) {
 	//checks if there was an error properly
 	//this will ensure its done correctly and safely
@@ -38,20 +38,20 @@ func MakeParserRun(l *lexer.Lexer, e error) ([]Node, error) {
 	return MakeParser(l).RunPath()
 }
 
-//creates the parser structure without needing the lexer
-//this allows for properly handling without issues happening
+// creates the parser structure without needing the lexer
+// this allows for properly handling without issues happening
 func MakeTokens(t []lexer.Token, pos int) *Parser {
 	if len(t) == 0 {
 		return nil
 	}
 	return &Parser{ //returns the parser structure
-		lex: lexer.CreateLexer(t), //creates the new lexer structure
-		position: pos, //sets the position without issues
+		lex:      lexer.CreateLexer(t), //creates the new lexer structure
+		position: pos,                  //sets the position without issues
 	}
 }
 
-//correctly executes the parser using the keywords mode
-//this will ensure its properly done without issues happening
+// correctly executes the parser using the keywords mode
+// this will ensure its properly done without issues happening
 func (p *Parser) RunPath() ([]Node, error) {
 
 	//stores the many parsed nodes
@@ -72,7 +72,8 @@ func (p *Parser) RunPath() ([]Node, error) {
 		//this will ensure its properly found a path
 		if Token.TokenType() != lexer.Indent {
 			if Token.TokenType() == lexer.Comment {
-				token += p.Comments() - 1; continue
+				token += p.Comments() - 1
+				continue
 			}
 			//detects text types properly
 			//this will be used inside the system
@@ -91,7 +92,8 @@ func (p *Parser) RunPath() ([]Node, error) {
 
 				//saves into the array correctly
 				//allows for proper control without issues happening
-				routes = append(routes, Node{exe: Texture, text: Line}); continue
+				routes = append(routes, Node{exe: Texture, text: Line})
+				continue
 			} else if Token.TokenType() == lexer.NewBody || Token.TokenType() == lexer.EndBody {
 				continue
 			}
@@ -143,7 +145,7 @@ func (p *Parser) RunPath() ([]Node, error) {
 
 			//adds support for the skipping
 			//this will correctly skip the value amount
-			token += len(function.Tokens) - 1//skips the amount
+			token += len(function.Tokens) - 1 //skips the amount
 
 			//tries to correctly store into the array
 			//this will ensure its done properly without issues
@@ -189,9 +191,6 @@ func (p *Parser) RunPath() ([]Node, error) {
 			continue
 		}
 	}
-
-
-
 
 	return routes, nil
 }

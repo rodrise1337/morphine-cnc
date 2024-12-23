@@ -1,8 +1,8 @@
 package evaluator
 
 import (
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"errors"
 	"strconv"
 )
@@ -20,7 +20,6 @@ func (e *Evaluator) compileBoolean(tokens []lexer.Token) (*lexer.Token, error) {
 	//properly ranges through all the tokens
 	//this will execute and compile the string literal format
 	for position := 0; position < len(tokens); position++ {
-
 
 		//allows easier control on detecting operators
 		//this will allow for properly controlling without issues happenign
@@ -55,7 +54,7 @@ func (e *Evaluator) compileBoolean(tokens []lexer.Token) (*lexer.Token, error) {
 					//makes sure its correctly done without issues
 					if len(mem) > 1 {
 						//returns the error properly without issues
-						return nil, errors.New("mismatch type, one wanted, "+strconv.Itoa(len(mem))+" given")
+						return nil, errors.New("mismatch type, one wanted, " + strconv.Itoa(len(mem)) + " given")
 					}
 					//inserts into the array correctly and properly
 					//this will ensure its done properly and we can access it
@@ -95,7 +94,7 @@ func (e *Evaluator) compileBoolean(tokens []lexer.Token) (*lexer.Token, error) {
 			return nil, errors.New("invalid boolean structure detected")
 		}
 	}
-	
+
 	//returns the new token structure properly
 	//this will allow us to properly handle without errors happening
 	return lexer.NewToken(strconv.FormatBool(e.support(boolean...)), lexer.Boolean, objects[0].Position()), nil

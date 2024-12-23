@@ -1,12 +1,12 @@
 package functions
 
 import (
-	"Nosviak2/core/clients/animations"
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/language/evaluator"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/clients/animations"
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/language/evaluator"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"errors"
 	"io"
 	"strconv"

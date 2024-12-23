@@ -1,10 +1,10 @@
 package packages
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/functions"
-	"Nosviak2/core/sources/language/evaluator"
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/functions"
+	"Morphine/core/sources/language/evaluator"
+	"Morphine/core/sources/language/lexer"
 	"io"
 	"strings"
 	"unicode/utf8"
@@ -20,7 +20,7 @@ func init() {
 		Functions: map[string]evaluator.Builtin{
 			//sets the padding from the right to left
 			//this will ensure its done without issues happening
-			"padRight" : func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
+			"padRight": func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
 				//ensures the length is valid
 				//makes sure its properly done without issues
 				if len(args) != 2 { //checks length properly
@@ -46,7 +46,7 @@ func init() {
 
 			//sets the padding from the right to left with custom padding
 			//this will ensure its done without issues happening
-			"padcustomRight" : func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
+			"padcustomRight": func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
 				//ensures the length is valid
 				//makes sure its properly done without issues
 				if len(args) != 3 { //checks length properly
@@ -72,7 +72,7 @@ func init() {
 
 			//sets the padding from the left to the right
 			//this will ensure its done without issues happening
-			"padLeft" : func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
+			"padLeft": func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
 				//ensures the length is valid
 				//makes sure its properly done without issues
 				if len(args) != 2 { //checks length properly
@@ -91,7 +91,7 @@ func init() {
 				for pos := len(Text); pos < spacer; pos++ {
 					Text = " " + Text
 				}
-				
+
 				//returns the object properly
 				//this will make sure its done without issues
 				return evaluator.ArrayObject(evaluator.Object{Literal: Text, Type: lexer.String}), nil
@@ -99,7 +99,7 @@ func init() {
 
 			//sets the padding from the left to the right with custom padding
 			//this will ensure its done without issues happening
-			"padcustomLeft" : func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
+			"padcustomLeft": func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
 				//ensures the length is valid
 				//makes sure its properly done without issues
 				if len(args) != 3 { //checks length properly
@@ -143,7 +143,7 @@ func init() {
 				//this will try to properly centre without issues
 				for target := 0; target < spacer; target++ { //loops
 					//this will try to properly check for half pos
-					if spacer / 2 - utf8.RuneCountInString(args[0].Literal()) / 2 == target { //checks for half
+					if spacer/2-utf8.RuneCountInString(args[0].Literal())/2 == target { //checks for half
 						out += args[0].Literal()
 						target += utf8.RuneCountInString(args[0].Literal())
 						continue
@@ -180,7 +180,7 @@ func init() {
 				//this will try to properly centre without issues
 				for target := 0; target < spacer; target++ { //loops
 					//this will try to properly check for half pos
-					if spacer / 2 - lo / 2 == target { //checks for half
+					if spacer/2-lo/2 == target { //checks for half
 						out += args[0].Literal()
 						target += lo
 						continue
@@ -191,7 +191,7 @@ func init() {
 				return evaluator.ArrayObject(evaluator.Object{Type: lexer.String, Literal: out}), nil
 			},
 
-			"lower" : func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
+			"lower": func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
 
 				var lowered string = ""
 				for _, system := range args {
@@ -206,7 +206,7 @@ func init() {
 				return evaluator.ArrayObject(evaluator.Object{Type: lexer.String, Literal: strings.ToLower(lowered)}), nil
 			},
 
-			"upper" : func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
+			"upper": func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
 
 				var lowered string = ""
 				for _, system := range args {
@@ -223,7 +223,7 @@ func init() {
 
 			//stores the ansi object properly
 			//this will allow us to build of it safely
-			"ansi" : func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
+			"ansi": func(args []lexer.Token, s *sessions.Session, e *evaluator.Evaluator, wr io.Writer) ([]evaluator.Object, error) {
 
 				var build string = ""
 

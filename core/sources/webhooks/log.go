@@ -1,8 +1,8 @@
 package webhooks
 
 import (
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/layouts/toml"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/layouts/toml"
 	"bytes"
 	"encoding/json"
 	"errors"
@@ -14,27 +14,26 @@ import (
 	"time"
 )
 
-//runs the webhook system properly
-//this will ensure its done without issues
+// runs the webhook system properly
+// this will ensure its done without issues
 func RunWebhookSystem(text string, header string, colour int) error { //returns error properly
 	//checks for the enabled option properly
 	//this will ensure its done without any errors
 	if !toml.WebhookingToml.Webhooks.Enabled { //checks properly
 		return nil //returns nil as its disabled
 	}
-	
 
 	//checks inside the custom map for the object
 	//this will ensure its done without any errors
 	custom := toml.WebhookingToml.CustomConfigs[strings.Split(strings.Split(header, deployment.Runtime())[len(strings.Split(header, deployment.Runtime()))-1], ".")[0]]
 	if custom != nil { //decides that a custom config was found
-		colour = custom.Colour //sets the custom colour properly
+		colour = custom.Colour                                                                            //sets the custom colour properly
 		header = strings.ReplaceAll(custom.Title, "<<$cnc>>", toml.ConfigurationToml.AppSettings.AppName) //enforces the custom header properly
 	}
 
 	//properly sets the webhook model
 	//this will ensure its configured without errors
-	ByteValue, err := json.Marshal(Model{Embeds: []Embeds{{Title: header,Description: text,Color: colour,Footer: Footer{Text: toml.ConfigurationToml.AppSettings.AppName + " - " + strconv.Itoa(time.Now().Year())}}}})
+	ByteValue, err := json.Marshal(Model{Embeds: []Embeds{{Title: header, Description: text, Color: colour, Footer: Footer{Text: toml.ConfigurationToml.AppSettings.AppName + " - " + strconv.Itoa(time.Now().Year())}}}})
 	if err != nil { //error handles the request without issues
 		return err //returns the error which happened
 	}
@@ -59,7 +58,7 @@ func RunWebhookSystem(text string, header string, colour int) error { //returns 
 	//performs the reqeust
 	//this will ensure its done without any errors
 	res, err := cli.Do(req) //performs the reqeust without any issues
-	if err != nil { //error handles the request without issues
+	if err != nil {         //error handles the request without issues
 		return err //returns the error properly
 	}
 
@@ -68,7 +67,7 @@ func RunWebhookSystem(text string, header string, colour int) error { //returns 
 	if res.StatusCode > 204 { //checks for safe
 		body, err := ioutil.ReadAll(res.Body)
 		fmt.Println(string(body), err)
-		return errors.New("invalid status code of "+strconv.Itoa(res.StatusCode))
+		return errors.New("invalid status code of " + strconv.Itoa(res.StatusCode))
 	}
 
 	//returns nil as it was completed properly

@@ -1,14 +1,14 @@
 package pointer
 
 import (
-	"Nosviak2/core/slaves/mirai"
-	"Nosviak2/core/slaves/qbot"
-	"Nosviak2/core/sources/layouts/toml"
+	"Morphine/core/slaves/mirai"
+	"Morphine/core/slaves/qbot"
+	"Morphine/core/sources/layouts/toml"
 	"strings"
 )
 
-//builds the string properly
-//this will ensure its done without issues
+// builds the string properly
+// this will ensure its done without issues
 func BuildString() int { //returns an int properly
 
 	var pointer int = 0
@@ -23,6 +23,6 @@ func BuildString() int { //returns an int properly
 			pointer += len(qbot.QbotClients)
 		}
 	}
-	
+
 	return pointer
 }

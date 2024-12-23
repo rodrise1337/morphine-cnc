@@ -1,16 +1,15 @@
 package evaluator
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/sources/language/lexer"
 	"io"
 )
 
-
 type Builtin func(args []lexer.Token, s *sessions.Session, e *Evaluator, wr io.Writer) ([]Object, error)
 
-//stores the package header properly
-//this will ensure its done properly without issues happening
+// stores the package header properly
+// this will ensure its done properly without issues happening
 type Package struct {
 	//stores the package name correctly
 	//this will ensure its done properly without issues happening
@@ -20,20 +19,19 @@ type Package struct {
 	Functions map[string]Builtin
 }
 
-//stores the function information
-//stored inside an array allowing for better control without errors
+// stores the function information
+// stored inside an array allowing for better control without errors
 type Function struct {
 	//stores the function name correctly
 	//allows for better handle without issues
-	FunctionName string //stores the functionName 
+	FunctionName string //stores the functionName
 	//stores the function body correctly
 	//this will be executed on request without issues
 	Function Builtin
 }
 
-
-//locates the function correctly
-//this will return the functions structure without issues
+// locates the function correctly
+// this will return the functions structure without issues
 func (e *Evaluator) locateFunction(name string) *Function {
 	//ranges throughout the array of functions
 	//this will compare each name without issues
@@ -51,8 +49,8 @@ func (e *Evaluator) locateFunction(name string) *Function {
 	return nil
 }
 
-//creates the new package properly
-//this will ensure its done properly without issues happening
+// creates the new package properly
+// this will ensure its done properly without issues happening
 func MakePackage(name string, functions map[string]Builtin) *Package {
 	//creates the new package correctly
 	//this will ensure its done properly without issues happening
@@ -66,8 +64,8 @@ func MakePackage(name string, functions map[string]Builtin) *Package {
 	}
 }
 
-//tries to properly find the package
-//this ensures the correct package has been found without issues
+// tries to properly find the package
+// this ensures the correct package has been found without issues
 func (e *Evaluator) locatePackage(packages string) *Package {
 	//ranges throughout the package array
 	//this will allow us to properly handle without issues happening

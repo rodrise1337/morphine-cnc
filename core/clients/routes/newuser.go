@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/database"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/language"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/database"
+	"Morphine/core/sources/language"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/views"
 	"errors"
 
 	"golang.org/x/term"
@@ -16,8 +16,8 @@ var (
 	ErrInvalid error = errors.New("newLogin function returned invalid properly")
 )
 
-//this will enforce the user to change there password without issues
-//makes sure they change there password and if they dont close there session properly
+// this will enforce the user to change there password without issues
+// makes sure they change there password and if they dont close there session properly
 func NewLogin(s *sessions.Session) error { //returns error properly
 	//properly executes the language without issues
 	//this will ensure its done without any errors happening
@@ -60,7 +60,8 @@ func NewLogin(s *sessions.Session) error { //returns error properly
 		//this will ensure its done without any errors happening
 		if err := language.ExecuteLanguage([]string{"views", "newuser", "same-oldpassword.itl"}, s.Channel, deployment.Engine, s, make(map[string]string)); err != nil {
 			return err //returns the error properly
-		}; return ErrInvalid //returns the unauth error properly
+		}
+		return ErrInvalid //returns the unauth error properly
 	}
 
 	//tries to update the information
@@ -70,7 +71,8 @@ func NewLogin(s *sessions.Session) error { //returns error properly
 		//this will ensure its done without any errors happening
 		if err := language.ExecuteLanguage([]string{"views", "newuser", "password-error.itl"}, s.Channel, deployment.Engine, s, make(map[string]string)); err != nil {
 			return err //returns the error properly
-		}; return ErrInvalid //returns the unauth error properly
+		}
+		return ErrInvalid //returns the unauth error properly
 	}
 
 	//updates the sessions password aswell

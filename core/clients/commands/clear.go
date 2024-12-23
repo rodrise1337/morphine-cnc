@@ -1,10 +1,9 @@
 package commands
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/language"
-
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/language"
 )
 
 func init() {

@@ -1,17 +1,17 @@
 package evaluator
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/sources/language/lexer"
 	"io"
 
 	"fmt"
 	"reflect"
 )
 
-//this will properly register everysingle function without issues
-//this will ensure its properly done without errors happening making it safe
-//variable functions are function which are intended to compeltely return that value only and thats it
+// this will properly register everysingle function without issues
+// this will ensure its properly done without errors happening making it safe
+// variable functions are function which are intended to compeltely return that value only and thats it
 func (e *Evaluator) VariableFunction(header string, TokenType lexer.TokenType, literal string) {
 	//returns the function array correctly
 	//this will ensure its properly done without errors happening
@@ -33,8 +33,8 @@ func (e *Evaluator) VariableFunction(header string, TokenType lexer.TokenType, l
 	e.functions = append(e.functions, *Func) //inserts into the array correctly and properly
 }
 
-//correctly tries to insert the functions under a function
-//this will ensure its done properly without errors happening on request
+// correctly tries to insert the functions under a function
+// this will ensure its done properly without errors happening on request
 func (e *Evaluator) DropPackageStructure(pkg string, s interface{}) {
 
 	//gets the type of information
@@ -74,7 +74,8 @@ func (e *Evaluator) DropPackageStructure(pkg string, s interface{}) {
 		//this will make sure its done safely without errors happening
 		functions[field.Name] = func(args []lexer.Token, session *sessions.Session, e *Evaluator, wr io.Writer) ([]Object, error) {
 			return ArrayObject(Object{Type: Value, Literal: fmt.Sprint(ObjectValue)}), nil
-		}; continue
+		}
+		continue
 	}
 
 	//inserts the package correctly
@@ -82,8 +83,8 @@ func (e *Evaluator) DropPackageStructure(pkg string, s interface{}) {
 	e.AddPackage(MakePackage(pkg, functions))
 }
 
-//correctly places everysingle object into the functions array
-//we will properly use the variableFunction method to insert without issues
+// correctly places everysingle object into the functions array
+// we will properly use the variableFunction method to insert without issues
 func (e *Evaluator) DropStructure(s interface{}) {
 
 	//gets the type of information

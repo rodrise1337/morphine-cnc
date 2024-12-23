@@ -1,17 +1,17 @@
 package commands
 
 import (
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/language/evaluator"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/language/evaluator"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
 )
 
-//stores the command information
-//this will ensure its done without any errors
+// stores the command information
+// this will ensure its done without any errors
 type CustomCommand struct { //stores in type structure
 	//stores the filepath properly
 	//this will ensure its done without any errors
@@ -21,8 +21,8 @@ type CustomCommand struct { //stores in type structure
 	Body string //stores the command body
 }
 
-//stores the path properly
-//this will ensure its done without errors
+// stores the path properly
+// this will ensure its done without errors
 func EngineLoader(dir ...string) (int, error) {
 	//tries to read the file properly
 	//this will ensure its done without any errors
@@ -57,25 +57,25 @@ func EngineLoader(dir ...string) (int, error) {
 		//guides the name properly
 		//this will ensure its done without any errors
 		NameObject, err := eval.GetObject("name") //gets the object
-		if err != nil { //error handles the get statement properly
+		if err != nil {                           //error handles the get statement properly
 			return 0, err //returns the error properly
 		}
 		//guides the description properly
 		//this will ensure its done without any errors
 		DescriptionObject, err := eval.GetObject("description") //gets the object
-		if err != nil { //error handles the get statement properly
+		if err != nil {                                         //error handles the get statement properly
 			return 0, err //returns the error properly
 		}
 		//guides the permissions properly
 		//this will ensure its done without any errors
 		PermissionsObject, err := eval.GetObject("permissions") //gets the object
-		if err != nil { //error handles the get statement properly
+		if err != nil {                                         //error handles the get statement properly
 			return 0, err //returns the error properly
 		}
 		//guides the aliases properly
 		//this will ensure its done without any errors
 		aliasesObject, err := eval.GetObject("aliases") //gets the object
-		if err != nil { //error handles the get statement properly
+		if err != nil {                                 //error handles the get statement properly
 			return 0, err //returns the error properly
 		}
 
@@ -90,14 +90,13 @@ func EngineLoader(dir ...string) (int, error) {
 		Commands[NameObject.TokenValue.Literal()] = &Command{
 			Aliases: strings.Split(aliasesObject.TokenValue.Literal(), ","), CommandPermissions: cmds,
 			CommandDescription: DescriptionObject.TokenValue.Literal(), //registers the description
-			CommandName: NameObject.TokenValue.Literal(), //registers command name
-			CustomCommand: body, //registers the custom command body
-			CommandFunction: nil, //renders the function
-			SubCommands: make([]SubCommand, 0),
-			InvalidSubCommand: nil, //renders invalid
+			CommandName:        NameObject.TokenValue.Literal(),        //registers command name
+			CustomCommand:      body,                                   //registers the custom command body
+			CommandFunction:    nil,                                    //renders the function
+			SubCommands:        make([]SubCommand, 0),
+			InvalidSubCommand:  nil, //renders invalid
 		}
 	}
-
 
 	//returns the length properly
 	//this will ensure its done without errors

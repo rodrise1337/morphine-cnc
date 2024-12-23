@@ -1,11 +1,11 @@
 package clients
 
 import (
-	"Nosviak2/core/clients/routes"
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/layouts/json"
-	"Nosviak2/core/sources/layouts/logs"
+	"Morphine/core/clients/routes"
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/layouts/json"
+	"Morphine/core/sources/layouts/logs"
 	"encoding/binary"
 	"path/filepath"
 	"time"
@@ -16,9 +16,9 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-//handles the new socket connections
-//this will make sure its done without issues happening
-//this will make the system safer without issues happening
+// handles the new socket connections
+// this will make sure its done without issues happening
+// this will make the system safer without issues happening
 func serveIncomingConnection(c net.Conn, s ssh.ServerConfig) {
 	//creates the new server connection
 	//this will allow us to sort the different connection types
@@ -114,8 +114,8 @@ func serveIncomingConnection(c net.Conn, s ssh.ServerConfig) {
 	}
 }
 
-//parses the byte value into the sections
-//this will ensure its done without any error
+// parses the byte value into the sections
+// this will ensure its done without any error
 func ParseWinDifferent(b []byte) (uint32, uint32) {
 	w := binary.BigEndian.Uint32(b)     //detects the windows length of the binary
 	h := binary.BigEndian.Uint32(b[4:]) //detects how tall the window is

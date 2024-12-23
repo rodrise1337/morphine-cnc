@@ -1,11 +1,11 @@
 package evaluator
 
 import (
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/sources/language/parser"
 )
 
-//comparses the variable into a token subject
-//this will allow us to use the variable in anyplace
+// comparses the variable into a token subject
+// this will allow us to use the variable in anyplace
 func (e *Evaluator) comparseVariable(r *parser.DeclareRoute) (*Scope, error) {
 	//creates the scope properly
 	var object *Scope = &Scope{

@@ -1,14 +1,15 @@
 package toml
 
 import (
-	"Nosviak2/core/configs/models"
-	
+	"Morphine/core/configs/models"
+
 	"strings"
+
 	"github.com/naoina/toml"
 )
 
-//stores the main configuration without issues
-//this will ensure its done properly without errors
+// stores the main configuration without issues
+// this will ensure its done properly without errors
 var ConfigurationToml *models.ConfigurationToml = nil
 var DecorationToml *models.DecorationToml = nil
 var RanksToml *models.RanksToml = nil
@@ -23,8 +24,8 @@ var FakeToml *models.FakeSlaves = nil
 var Blacklisting *models.Blacklists = nil
 var Plans *models.Plans = nil
 
-//stores all the valid objects properly
-//any object inside here will be parsed without issues
+// stores all the valid objects properly
+// any object inside here will be parsed without issues
 var Objects map[string]func(file string, value string) error = map[string]func(file string, value string) error{
 
 	//stores the configuration element properly
@@ -43,7 +44,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"decoration.toml" : func(file, value string) error {
+	"decoration.toml": func(file, value string) error {
 		var t models.DecorationToml
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -57,7 +58,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"ranks.toml" : func(file, value string) error {
+	"ranks.toml": func(file, value string) error {
 		var t models.RanksToml
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -71,7 +72,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"attacks.toml" : func(file, value string) error {
+	"attacks.toml": func(file, value string) error {
 		var t models.AttackToml
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -85,7 +86,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"spinners.toml" : func(file, value string) error {
+	"spinners.toml": func(file, value string) error {
 		var t models.SpinnerConfig
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -99,7 +100,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"api.toml" : func(file, value string) error {
+	"api.toml": func(file, value string) error {
 		var t models.ApiTomlModel
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -113,7 +114,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"webhooks.toml" : func(file, value string) error {
+	"webhooks.toml": func(file, value string) error {
 		var t models.WebhookToml
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -127,7 +128,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"themes.toml" : func(file, value string) error {
+	"themes.toml": func(file, value string) error {
 		var t models.ThemeToml
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -141,7 +142,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"ip_rewrite.toml" : func(file, value string) error {
+	"ip_rewrite.toml": func(file, value string) error {
 		var t models.IP_Rewrite
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -155,7 +156,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"entry.toml" : func(file, value string) error {
+	"entry.toml": func(file, value string) error {
 		var t models.CatpchaToml
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -169,7 +170,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"fake_slaves.toml" : func(file, value string) error {
+	"fake_slaves.toml": func(file, value string) error {
 		var t models.FakeSlaves
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -183,7 +184,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"blacklists.toml" : func(file, value string) error {
+	"blacklists.toml": func(file, value string) error {
 		var t models.Blacklists
 		//this will properly umarshal the value
 		//allows for proper handling without issues
@@ -197,7 +198,7 @@ var Objects map[string]func(file string, value string) error = map[string]func(f
 		return nil
 	},
 
-	"plans.toml" : func(file, value string) error {
+	"plans.toml": func(file, value string) error {
 		var t models.Plans
 		//this will properly umarshal the value
 		//allows for proper handling without issues

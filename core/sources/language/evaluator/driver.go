@@ -1,16 +1,16 @@
 package evaluator
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"fmt"
 	"io"
 	"strings"
 )
 
-//stores the template driver information
-//this will properly and safely store the template driver execution route
+// stores the template driver information
+// this will properly and safely store the template driver execution route
 func (e *Evaluator) driver(tag string, s *sessions.Session, wr io.Writer) (int, error) {
 
 	//validates if the request is type function
@@ -22,7 +22,7 @@ func (e *Evaluator) driver(tag string, s *sessions.Session, wr io.Writer) (int, 
 
 		//correctly executes the lexer without issues
 		//this will ensure its safely executed without issues happening
-		if _,err := l.RunTarget(); err != nil {
+		if _, err := l.RunTarget(); err != nil {
 			//prints directly to the main object without issues happening on request
 			//this will make sure the users knows about the issue when it happens on request
 			return wr.Write([]byte(fmt.Sprintf("[#Unknown function %s#]", tag)))
@@ -51,7 +51,7 @@ func (e *Evaluator) driver(tag string, s *sessions.Session, wr io.Writer) (int, 
 		if len(objects) <= 0 { //length isnt 0 properly
 			return 0, nil
 		}
-	
+
 		return wr.Write([]byte(lexer.AnsiUtil(objects[0].Literal, lexer.Escapes)))
 	}
 
@@ -62,7 +62,6 @@ func (e *Evaluator) driver(tag string, s *sessions.Session, wr io.Writer) (int, 
 	//replaces the doller sign properly
 	//allows for better system handle without issues
 	tag = strings.Replace(tag, "$", "", -1)
-	
 
 	//tries to correctly find the object within
 	//this will ensure its done properly without errors happening

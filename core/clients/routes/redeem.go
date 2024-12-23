@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"Nosviak2/core/clients/views/util"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/language/lexer"
-	termfx "Nosviak2/core/sources/language/tfx"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/clients/views/util"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/language/lexer"
+	termfx "Morphine/core/sources/language/tfx"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/views"
 	"errors"
 	"fmt"
 	"io"
@@ -18,16 +18,16 @@ import (
 )
 
 type RedeemConfigure struct {
-	MaxTokenInput int    		`toml:"max_token_input"`
-	MaskCharater  string 		`toml:"maskingCharater"`
-	UsernameMaxLen int 			`toml:"username_max_input"`
-	UsernameMaskChar string 		`toml:"username_maskCharater"`
-	PasswordMaxLen int 			`toml:"password_max_input"`
-	PasswordMaskChar string 		`toml:"password_maskCharater"`
+	MaxTokenInput    int    `toml:"max_token_input"`
+	MaskCharater     string `toml:"maskingCharater"`
+	UsernameMaxLen   int    `toml:"username_max_input"`
+	UsernameMaskChar string `toml:"username_maskCharater"`
+	PasswordMaxLen   int    `toml:"password_max_input"`
+	PasswordMaskChar string `toml:"password_maskCharater"`
 }
 
-//stores the redeem route routes properly
-//this will execute when someone tries to redeem a token
+// stores the redeem route routes properly
+// this will execute when someone tries to redeem a token
 func RedeemRoute(ch ssh.Channel, conn *ssh.ServerConn) error {
 	//tries to render the system information
 	//allows for better control without issues happening
@@ -76,7 +76,6 @@ func RedeemRoute(ch ssh.Channel, conn *ssh.ServerConn) error {
 	if len(redeem.MaskCharater) > 0 {
 		masking = true
 	}
-	
 
 	//writes the prompt seq properly and safely
 	//this will ensure its done without errors happening

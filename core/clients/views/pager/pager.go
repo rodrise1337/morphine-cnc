@@ -1,9 +1,9 @@
 package pager
 
 import (
-	deployment "Nosviak2/core/configs"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/tools/gradient"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/tools/gradient"
 	"fmt"
 
 	//"fmt"
@@ -13,8 +13,8 @@ import (
 	"golang.org/x/term"
 )
 
-//renders the table with proper information
-//allows for better handling without issues happening
+// renders the table with proper information
+// allows for better handling without issues happening
 func (mtr *MakeTableRender) Pager(screenshot string) error {
 
 	var (
@@ -52,7 +52,7 @@ func (mtr *MakeTableRender) Pager(screenshot string) error {
 		system = strings.Split(strings.ReplaceAll(mtr.table.String(), "*", " "), "\n")
 	}
 
-	system = append([]string{"\x1b[47m\x1b[30m"+Centre("use W,S,UP,DOWN,SCROLL to navigate", mtr.session.Length, "")+"\x1b[0m"}, system...)
+	system = append([]string{"\x1b[47m\x1b[30m" + Centre("use W,S,UP,DOWN,SCROLL to navigate", mtr.session.Length, "") + "\x1b[0m"}, system...)
 	system = append(system, "\x1b[47m\x1b[30m"+Centre(toml.ConfigurationToml.AppSettings.AppName+" - "+deployment.Version, mtr.session.Length, "")+"\x1b[0m")
 
 	captured := mtr.session.Capture() //before pager enabled
@@ -105,7 +105,7 @@ func (mtr *MakeTableRender) Pager(screenshot string) error {
 					position = mtr.DOWN(position, system, 1)
 					continue
 				}
-				
+
 				// else if buf[2] == 32 { //click detect
 				//fmt.Println("CLICKED AT:",buf[3]-32, buf[4]-32)
 				//}
@@ -120,7 +120,7 @@ func (mtr *MakeTableRender) Pager(screenshot string) error {
 		case 13, 113, 81:
 			//executes the welcome.itl screen properly
 			//this will ensure its done without issues happening
-			return mtr.session.Write("\033c"+captured)
+			return mtr.session.Write("\033c" + captured)
 		case 87, 119: //up: w, W
 			position = mtr.UP(position, system, 1)
 
@@ -131,7 +131,6 @@ func (mtr *MakeTableRender) Pager(screenshot string) error {
 			}
 
 		case 102, 70:
-
 
 			if searched >= len(toml.ConfigurationToml.Pager.Colours) {
 				searched = 0
@@ -157,7 +156,7 @@ func (mtr *MakeTableRender) Pager(screenshot string) error {
 				//ensures we can find properly
 				if strings.Contains(line, lookin) {
 					commandPosition = position //looks
-					break //breaks looping
+					break                      //breaks looping
 				}
 			}
 
@@ -207,27 +206,27 @@ func (mtr *MakeTableRender) DOWN(position int, system []string, move int) int {
 
 	position += move
 	if position > mtr.session.Height {
-		mtr.session.Write("\033c"+strings.Join(DisplayChunk(system, position-mtr.session.Height, position), "\r\n"))
+		mtr.session.Write("\033c" + strings.Join(DisplayChunk(system, position-mtr.session.Height, position), "\r\n"))
 	}
 
 	if position+1 > mtr.session.Height {
-		mtr.session.Write("\033c"+strings.Join(DisplayChunk(system, 0, position), "\r\n"))
+		mtr.session.Write("\033c" + strings.Join(DisplayChunk(system, 0, position), "\r\n"))
 	}
 
 	mtr.session.Write("\033[" + strconv.Itoa(position) + ";0f")
 	return position
 }
 
-//displays a chunk with given length as a perfect position given
-//this will ensure it only shows the chunk wanted within the args
+// displays a chunk with given length as a perfect position given
+// this will ensure it only shows the chunk wanted within the args
 func DisplayChunk(array []string, position int, at int) []string {
 
 	//for loop
 	return array[position:at]
 }
 
-//centres the text properly
-//this will return the string properly
+// centres the text properly
+// this will return the string properly
 func Centre(s string, c int, dst string) string { //string
 	//for loops through properly
 	//this will ensure its done without any issues

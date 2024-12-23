@@ -1,6 +1,5 @@
 package deployment
 
-
 const (
 	//stores the current appVersion
 	//this will help with better version management
@@ -12,7 +11,7 @@ const (
 
 	//stores the license app properly
 	//this will allow the contact point properly
-	AppName string = "Nosviak2"
+	AppName string = "Morphine"
 
 	//this will store our build id properly
 	//allows us to manage within the license system

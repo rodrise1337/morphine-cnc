@@ -1,12 +1,12 @@
 package parser
 
 import (
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/sources/language/lexer"
 	"errors"
 )
 
-//stores the main function information
-//this ensure its properly done without issues
+// stores the main function information
+// this ensure its properly done without issues
 type Function struct {
 	//stores the main function name without issues
 	//this ensures its done properly without issues happening
@@ -29,12 +29,11 @@ type Function struct {
 	Tokens []lexer.Token //stores all the tokens properly
 }
 
-
-//parses the complete function body without issues
-//this ensures its properly done without errors happening on request
+// parses the complete function body without issues
+// this ensures its properly done without errors happening on request
 func (p *Parser) parseFunction() (*Function, error) {
 
-	//stores the future information without issues 
+	//stores the future information without issues
 	//this will ensure its done properly without issues happening
 	var functionBody *Function = &Function{}
 
@@ -44,8 +43,8 @@ func (p *Parser) parseFunction() (*Function, error) {
 
 	//updates the token array correctly and properly without issues happeing
 	//this will ensure its done properly without issues happening
-	functionBody.Tokens =append(functionBody.Tokens, p.lex.Tokens()[p.position]) //main keyword
-	functionBody.Tokens =append(functionBody.Tokens, p.lex.Tokens()[p.position+1]) //header information properly
+	functionBody.Tokens = append(functionBody.Tokens, p.lex.Tokens()[p.position])   //main keyword
+	functionBody.Tokens = append(functionBody.Tokens, p.lex.Tokens()[p.position+1]) //header information properly
 
 	//properly tries to correctly validate the token
 	//this ensures its properly done without issues happening
@@ -84,7 +83,7 @@ func (p *Parser) parseFunction() (*Function, error) {
 
 	//updates the position render properly
 	//this will store the next position without issues happening
-	current := p.position+len(functionBody.Args)+2 //sets the new position
+	current := p.position + len(functionBody.Args) + 2 //sets the new position
 
 	//detects the return seq properly
 	//this will allow us to properly handle without issues happening
@@ -114,10 +113,9 @@ func (p *Parser) parseFunction() (*Function, error) {
 		functionBody.Tokens = append(functionBody.Tokens, functionBody.Returns...)
 	}
 
-
 	//finds the correct body start without issues
 	//this ensures its done properly without errors happening
-    bodyStart := p.lex.Tokens()[p.position+len(functionBody.Tokens)]
+	bodyStart := p.lex.Tokens()[p.position+len(functionBody.Tokens)]
 	functionBody.Tokens = append(functionBody.Tokens, bodyStart)
 
 	tokens, err := p.ReadBodyUntil(p.position+len(functionBody.Tokens)+1, p.lex.Tokens(), lexer.ParentheseOpen, lexer.ParentheseClose)
@@ -134,7 +132,6 @@ func (p *Parser) parseFunction() (*Function, error) {
 	//updates the token array correctly
 	//this will ensure its done properly without issues
 	tokens = tokens[:len(tokens)-1]
-	
 
 	//correctly executes the parser without issues happening
 	//this will return the array of nodes without issues happening

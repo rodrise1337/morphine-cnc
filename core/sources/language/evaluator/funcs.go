@@ -1,13 +1,13 @@
 package evaluator
 
 import (
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"errors"
 )
 
-//stores the internal functions properly
-//this will allow for better handling without issues happeing
+// stores the internal functions properly
+// this will allow for better handling without issues happeing
 type InternalFunction struct {
 	//stores the function name correctly
 	//allows for properly handling without issues happening
@@ -23,8 +23,8 @@ type InternalFunction struct {
 	Returns []lexer.Token
 }
 
-//tries to correctly find the function with that name
-//this will make sure its properly done without issues happening
+// tries to correctly find the function with that name
+// this will make sure its properly done without issues happening
 func (e *Evaluator) getInternal(name string) *InternalFunction {
 	//ranges throughout the functions array
 	//makes sure its properly done without issues happening
@@ -36,21 +36,21 @@ func (e *Evaluator) getInternal(name string) *InternalFunction {
 			//returns the function correctly
 			return &f
 		}
-		
+
 	}
 
 	return nil
 }
 
-//tries to correctly execute the internal function
-//this will ensure its done properly without errors happening
-//pretty much converts the internal function into the structure properly
-func (e *Evaluator) registerInternal(reg *parser.Function) (error) {
+// tries to correctly execute the internal function
+// this will ensure its done properly without errors happening
+// pretty much converts the internal function into the structure properly
+func (e *Evaluator) registerInternal(reg *parser.Function) error {
 	//correctly fill the options with the object
 	//this ensures its properly done without errors happening
 	var New *InternalFunction = &InternalFunction{
-		Header: reg.Header.Literal(),
-		Nodes: reg.Bodies,
+		Header:  reg.Header.Literal(),
+		Nodes:   reg.Bodies,
 		Returns: reg.Returns,
 	}
 	//stores all the future arguments without issues happening
@@ -59,7 +59,7 @@ func (e *Evaluator) registerInternal(reg *parser.Function) (error) {
 	//ranges throughout every single argument inside the wanted
 	//this will ensure its done properly without issues happening unwantedly
 	for tokens := range reg.Args {
-		//adds support for more rules without issues 
+		//adds support for more rules without issues
 		if len(args) <= 0 {
 			args = append(args, Object{Type: 0, Literal: ""})
 		}

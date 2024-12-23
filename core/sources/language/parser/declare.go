@@ -1,11 +1,11 @@
 package parser
 
 import (
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/sources/language/lexer"
 )
 
-//stores the information about the declare root
-//this will ensure its properly done without issues happening
+// stores the information about the declare root
+// this will ensure its properly done without issues happening
 type DeclareRoute struct {
 	//stores the declare route name
 	//this will ensure its properly done without issues happening
@@ -24,38 +24,37 @@ type DeclareRoute struct {
 	tokens []lexer.Token
 }
 
-
 func (d *DeclareRoute) Tokens() []lexer.Token {
 	return d.tokens
 }
 
-//allows us to access the routeName
-//this will properly allow us to access it
+// allows us to access the routeName
+// this will properly allow us to access it
 func (d *DeclareRoute) RouteName() string {
 	//returns the string properly
 	return d.routeName
 }
 
-//allows us to access the given lexer type
-//this will properly handle without issues happening
+// allows us to access the given lexer type
+// this will properly handle without issues happening
 func (d *DeclareRoute) GivenType() lexer.TokenType {
 	//returns the tokenType properly
 	return d.givenType
 }
 
-//allows us to access the values lexer type
-//this will properly handle without issues happening
+// allows us to access the values lexer type
+// this will properly handle without issues happening
 func (d *DeclareRoute) Values() []lexer.Token {
 	//returns the values properly
 	return d.values
 }
 
-//properly parsers the declare route without issues happening
-//this will make sure its properly done without issues happening 
+// properly parsers the declare route without issues happening
+// this will make sure its properly done without issues happening
 func (p *Parser) HandleDeclare(position int) (*DeclareRoute, error) {
 	//this will be slowly filled with information
 	//allows for better information without issues happening
-	var fill *DeclareRoute = &DeclareRoute{}//fills overtime
+	var fill *DeclareRoute = &DeclareRoute{} //fills overtime
 
 	//saves the first keyword into array
 	//this will properly be saved into the array
@@ -64,7 +63,7 @@ func (p *Parser) HandleDeclare(position int) (*DeclareRoute, error) {
 	//gets the next position inside the array
 	//this will hold the declareroutes routeName properly
 	routeName := p.peek(1)
-	
+
 	//makes sure the next charater is an indent
 	//this will ensure its properly done without issues
 	if routeName.TokenType() != lexer.Indent || routeName == nil {
@@ -74,8 +73,8 @@ func (p *Parser) HandleDeclare(position int) (*DeclareRoute, error) {
 	} else {
 		//this will properly allow the position to be skipped forward
 		//this allows us to properly handle without issues happening on ref...
-		p.position++ //adds one position ontop without issues happening
-		fill.routeName = routeName.Literal() //sets the filled name properly
+		p.position++                                  //adds one position ontop without issues happening
+		fill.routeName = routeName.Literal()          //sets the filled name properly
 		fill.tokens = append(fill.tokens, *routeName) //saves into the array correctly
 	}
 
@@ -89,7 +88,7 @@ func (p *Parser) HandleDeclare(position int) (*DeclareRoute, error) {
 	//we will try to check if they have given it a type name
 	//this will ensure its properly done without issues being given
 	if maybeType.TokenType() != lexer.Assign {
-	
+
 		//this will ensure that the route is safe
 		//this makes sure that the guid isn't invalid
 		if maybeType.TokenType() != lexer.Indent {
@@ -131,7 +130,8 @@ func (p *Parser) HandleDeclare(position int) (*DeclareRoute, error) {
 			//returns the error correctly
 			return nil, ErrNilPointer
 		}
-		p.position++; fill.tokens = append(fill.tokens, *next)
+		p.position++
+		fill.tokens = append(fill.tokens, *next)
 
 		//skips a position ahead properly
 		//this will skip 2 spots ahead without issues happening
@@ -139,11 +139,10 @@ func (p *Parser) HandleDeclare(position int) (*DeclareRoute, error) {
 	} else {
 		//skips one position ahead properly
 		//this will only skip 1 to stop value ignoring
-		p.position += 2 //skips the positions
+		p.position += 2                               //skips the positions
 		fill.tokens = append(fill.tokens, *maybeType) //saves into the array
 		fill.givenType = lexer.EOF
 	}
-
 
 	//loops through the rules without issues happening
 	//this will make sure its properly done without issues happening

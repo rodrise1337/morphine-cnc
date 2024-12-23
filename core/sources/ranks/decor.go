@@ -1,15 +1,15 @@
 package ranks
 
 import (
-	"Nosviak2/core/sources/tools"
+	"Morphine/core/sources/tools"
 	"fmt"
 	"sort"
 	"strings"
 )
 
-//this will properly render each issue without issues
-//this allows for better handling without issues happening on execution
-func CreateSystem(ranks []string) ([]string) {
+// this will properly render each issue without issues
+// this allows for better handling without issues happening on execution
+func CreateSystem(ranks []string) []string {
 	var finish []string = make([]string, 0)
 
 	//stores all possible ranks map properly
@@ -31,8 +31,8 @@ func CreateSystem(ranks []string) ([]string) {
 		//this will make sure its done without issues happening
 		if can, _ := tools.NeedleHaystack(ranks, storage); can { //sets the charaters properly without issues happening properly
 			finish = append(finish, fmt.Sprintf("\x1b[0m\x1b[%sm\x1b[%sm %s \x1b[0m", strings.Join(Convert(PresetRanks[storage].MainColour), ";"), strings.Join(Convert(PresetRanks[storage].SecondColour), ";"), PresetRanks[storage].SignatureCharater))
-		} //returns the values properly without issues happening 
+		} //returns the values properly without issues happening
 	}
-	
+
 	return finish
 }

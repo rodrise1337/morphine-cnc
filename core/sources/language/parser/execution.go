@@ -1,12 +1,12 @@
 package parser
 
 import (
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/sources/language/lexer"
 	"errors"
 )
 
-//stores information about the function being executed properly
-//this will allow for better system handling without issues happening when asked for
+// stores information about the function being executed properly
+// this will allow for better system handling without issues happening when asked for
 type FunctionPath struct {
 	//stores the Labels correctly
 	//these will act the the Tokens calling the function name
@@ -21,8 +21,8 @@ type FunctionPath struct {
 	Tokens []lexer.Token
 }
 
-//properly parses the function statement
-//allows for more advanced issues without error happenings
+// properly parses the function statement
+// allows for more advanced issues without error happenings
 func (p *Parser) ExecuteFunction() (*FunctionPath, error) {
 
 	//stores all the upcoming information properly
@@ -57,11 +57,9 @@ func (p *Parser) ExecuteFunction() (*FunctionPath, error) {
 	//this will allows us to properly skip the correct position
 	functionPath.Tokens = append(functionPath.Tokens, functionPath.Labels...)
 
-	
 	//removes the bracket information properly
 	//this will ensure that we have still skipped the correct positions
 	functionPath.Labels = functionPath.Labels[:len(functionPath.Labels)-1]
-
 
 	//properly renders the body without issues
 	//this will properly and safely read every token until closure
@@ -70,7 +68,6 @@ func (p *Parser) ExecuteFunction() (*FunctionPath, error) {
 		//returns the error correctly
 		return nil, err
 	}
-	
 
 	//saves into the Tokens properly
 	//allows for better system handling without issues
@@ -82,7 +79,8 @@ func (p *Parser) ExecuteFunction() (*FunctionPath, error) {
 
 	//parses the arguments properly
 	//this will ensure its done properly without errors happening
-	argsParsed := p.parseArgs(args); functionPath.Arguments = argsParsed
+	argsParsed := p.parseArgs(args)
+	functionPath.Arguments = argsParsed
 	//returns the information correctly and properly
 	//this will ensure its done properly without errors happening
 	return functionPath, nil

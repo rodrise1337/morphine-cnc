@@ -1,8 +1,8 @@
 package sessions
 
 import (
-	"Nosviak2/core/database"
-	"Nosviak2/core/sources/ranks"
+	"Morphine/core/database"
+	"Morphine/core/sources/ranks"
 	"sync"
 	"time"
 
@@ -13,7 +13,7 @@ var (
 	//stores all the sessions inside the array
 	//this will make sure its done correctly without issues
 	Sessions map[int64]*Session = make(map[int64]*Session)
-	Mutex sync.Mutex
+	Mutex    sync.Mutex
 )
 
 type Session struct {
@@ -58,13 +58,13 @@ type Session struct {
 	Chat bool //checks if the user is inside a chat
 	//stores the temp title properly
 	//this will ensure its done without issues
-	Title string //stores the title string properly
-	CustomTitleReset int64 //sets the custom title reset unix 
-	Viewers int //how many people are watching the screenshare currently
+	Title            string //stores the title string properly
+	CustomTitleReset int64  //sets the custom title reset unix
+	Viewers          int    //how many people are watching the screenshare currently
 }
 
-//shows the window size properly
-//this will be used in certain areas properly
+// shows the window size properly
+// this will be used in certain areas properly
 type WindowSize struct { //stored in type structure
 	Height int //stores the window height
 	Length int //stores the window length

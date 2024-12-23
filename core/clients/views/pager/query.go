@@ -1,8 +1,8 @@
 package pager
 
 import (
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/views"
 	"strings"
 	"unicode/utf8"
 
@@ -10,15 +10,15 @@ import (
 	tml "github.com/naoina/toml"
 )
 
-//stores the information properly
-//this will ensure its done without errors happening
+// stores the information properly
+// this will ensure its done without errors happening
 type TableConfiguration struct { //allows configuring properly
-	Style int `toml:"style"` //stores the ideal table style properly
+	Style   int  `toml:"style"` //stores the ideal table style properly
 	NewLine bool `toml:"newline"`
 }
 
-//properly parses the information without issues
-//this will allow for custom styles without errors happening
+// properly parses the information without issues
+// this will allow for custom styles without errors happening
 func (mtr *MakeTableRender) GetQuery() (*TableConfiguration, error) {
 	//properly tries to load the file
 	//this will use the branding worker without issues
@@ -30,14 +30,13 @@ func (mtr *MakeTableRender) GetQuery() (*TableConfiguration, error) {
 		return nil, err //returns the error correctly and properly
 	}
 
-
 	//returns the values properly
 	//this will ensure its done without errors happening
 	return &texture, nil //returns the error properly
 }
 
-//this will allow for better content control within the system
-//better system controlling without issues happening on request etc
+// this will allow for better content control within the system
+// better system controlling without issues happening on request etc
 func (mtr *MakeTableRender) TypeControl(t int, has bool) *simpletable.Style {
 	if !has && toml.DecorationToml.Gradient.Table.TypeForcedStyle != -1 {
 		return mtr.TypeControl(toml.DecorationToml.Gradient.Table.TypeForcedStyle, true)
@@ -77,11 +76,12 @@ func (mtr *MakeTableRender) WantGradient() bool {
 		if strings.ToLower(current) == mtr.header {
 			return true //returns true correctly and properly
 		}
-	}; return false //returns false properly and securely
+	}
+	return false //returns false properly and securely
 }
 
-//gets the longest terminal line
-//this will ensure its done without any issues
+// gets the longest terminal line
+// this will ensure its done without any issues
 func (mtr *MakeTableRender) GetLongest(dst int) int {
 	//ranges through all the lines
 	//this will allow us to check each line
@@ -89,5 +89,6 @@ func (mtr *MakeTableRender) GetLongest(dst int) int {
 		if utf8.RuneCountInString(l) > dst {
 			dst = utf8.RuneCountInString(l)
 		}
-	}; return dst
+	}
+	return dst
 }

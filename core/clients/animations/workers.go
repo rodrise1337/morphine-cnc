@@ -1,14 +1,14 @@
 package animations
 
 import (
-	"Nosviak2/core/sources/layouts/toml"
+	"Morphine/core/sources/layouts/toml"
 	"errors"
 	"sync"
 	"time"
 )
 
-//gets that current spinners frame
-//this will ensure its done without issues happening
+// gets that current spinners frame
+// this will ensure its done without issues happening
 func AccessCurrentFrame(spinner string) (string, error) {
 	mutex.Lock()
 	defer mutex.Unlock()
@@ -22,22 +22,22 @@ func AccessCurrentFrame(spinner string) (string, error) {
 	}
 }
 
-//stores the spinners config properly
-//this will allow for proper control within the system
+// stores the spinners config properly
+// this will allow for proper control within the system
 type SpinnerConfig struct {
-	Frames []string //stores all frames
-	Position int //stores the current position
+	Frames   []string //stores all frames
+	Position int      //stores the current position
 }
 
 var (
 	//stores all the spinners and there current frame
 	//this will ensure its done without issues happening on request
 	SpinnersPool map[string]*SpinnerConfig = make(map[string]*SpinnerConfig) //stored in array
-	mutex sync.Mutex //mutex for the function correctly without issues happening
+	mutex        sync.Mutex                                                  //mutex for the function correctly without issues happening
 )
 
-//starts the spinner runtime properly
-//this will ensure its done without issues
+// starts the spinner runtime properly
+// this will ensure its done without issues
 func WorkersRuntime() { //returns no values properly
 
 	//ranges through all the toml spinners
@@ -57,8 +57,9 @@ func WorkersRuntime() { //returns no values properly
 			//fmt.Println(pool, CurrentPoolItem.Position + 1 >= len(CurrentPoolItem.Frames))
 			//checks the current positions length within the system
 			//this will allow for the frame current to shift across properly
-			if CurrentPoolItem.Position + 1 >= len(CurrentPoolItem.Frames) {
-				CurrentPoolItem.Position = 0; continue //resets position properly
+			if CurrentPoolItem.Position+1 >= len(CurrentPoolItem.Frames) {
+				CurrentPoolItem.Position = 0
+				continue //resets position properly
 			}
 
 			//enforces the frame shift

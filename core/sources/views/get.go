@@ -1,12 +1,12 @@
 package views
 
 import (
-	"Nosviak2/core/configs"
+	deployment "Morphine/core/configs"
 	"strings"
 )
 
-//gets the view which is inside the path
-//this will make sure its done correctly and safely
+// gets the view which is inside the path
+// this will make sure its done correctly and safely
 func GetView(path ...string) *EngineView {
 	//stores the path upto the file
 	//this ensures its done correctly and properly

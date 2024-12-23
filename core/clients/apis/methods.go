@@ -1,38 +1,37 @@
 package apis
 
 import (
-	attacks "Nosviak2/core/attack"
-	"Nosviak2/core/database"
+	attacks "Morphine/core/attack"
+	"Morphine/core/database"
 	"encoding/json"
 	"net/http"
-
 )
 
 type Method struct {
-	Header			string 			`json:"name"`
-	Launched		int				`json:"attacked"`
+	Header   string `json:"name"`
+	Launched int    `json:"attacked"`
 }
 
-//Methods will list all methods registered on cnc
+// Methods will list all methods registered on cnc
 func Methods(w http.ResponseWriter, r *http.Request) {
-	
 
 	//stores all the methods with the amount launched
 	var amount map[int]string = make(map[int]string)
 
 	//ranges through all methods found within the database
 	for _, method := range attacks.AllMethods(make([]*attacks.Method, 0)) {
-		
+
 		//MethodSent will get all attacks with that method
 		attacks, err := database.Conn.MethodSent(method.Name)
 		if err != nil || len(attacks) <= 0 {
-			amount[0] = method.Name; continue
+			amount[0] = method.Name
+			continue
 		}
 
 		//saves into the map
-		amount[len(attacks)] = method.Name; continue
+		amount[len(attacks)] = method.Name
+		continue
 	}
-
 
 	var times []int = make([]int, 0)
 	for key := range amount {

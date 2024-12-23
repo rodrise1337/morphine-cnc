@@ -1,4 +1,4 @@
-module Nosviak2
+module Morphine
 
 go 1.17
 

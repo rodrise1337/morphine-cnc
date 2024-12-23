@@ -16,7 +16,7 @@ use_table=false
 [AppSettings]
 #allows you to properly control the different settings
 #these will mostly store like AppName etc for better control without issues
-AppName="Nosviak2"
+AppName="Morphine"
 #controls if you want cursor blinking 
 #this will sync within your title and blink on rotation
 cursor_blinking=true

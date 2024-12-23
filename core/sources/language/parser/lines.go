@@ -1,11 +1,11 @@
 package parser
 
 import (
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/sources/language/lexer"
 )
 
-//properly formats all the tokens which are one line
-//this allows for proper handling without issues happening on request
+// properly formats all the tokens which are one line
+// this allows for proper handling without issues happening on request
 type LineFormat struct {
 	//stores the text inside here
 	//this will allow for properly handling without issues happening
@@ -16,8 +16,8 @@ type LineFormat struct {
 	Tokens []lexer.Token
 }
 
-//compresses the text into lines properly
-//allows for proper execution without issues happening allow for safely textures
+// compresses the text into lines properly
+// allows for proper execution without issues happening allow for safely textures
 func (p *Parser) textCompression() (*LineFormat, error) {
 
 	//stores the future structure without issues happening
@@ -31,12 +31,11 @@ func (p *Parser) textCompression() (*LineFormat, error) {
 		//allows for proper handling without errors
 		current := p.lex.Tokens()[text]
 
-
 		//validate source without issues happening
 		//this will properly be formatted without errors happening
 		if current.TokenType() == lexer.Text && current.Position().Row() == p.lex.Tokens()[p.position].Position().Row() {
 			//saves into the system properly without issues happening
-			//this will also properly save into 
+			//this will also properly save into
 			line.Lines = append(line.Lines, current.Literal())
 			line.Tokens = append(line.Tokens, current) //saves current into tokens aswell
 		} else {

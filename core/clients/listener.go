@@ -9,14 +9,14 @@ import (
 
 	"golang.org/x/crypto/ssh"
 
-	"Nosviak2/core/clients/routes"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/layouts/json"
-	"Nosviak2/core/sources/layouts/logs"
+	"Morphine/core/clients/routes"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/layouts/json"
+	"Morphine/core/sources/layouts/logs"
 )
 
-//starts the listener for the server properly
-//this will make sure its done without issues happening
+// starts the listener for the server properly
+// this will make sure its done without issues happening
 func CreateListener(configuration ssh.ServerConfig) error {
 
 	//tries to request the server to start
@@ -42,7 +42,8 @@ func CreateListener(configuration ssh.ServerConfig) error {
 		request, err := network.Accept()
 		if err != nil { //tries to accept the request
 			//prints the error with the connection location properly
-			log.Printf("connection from %s has failed, reason: %s\r\n", request.RemoteAddr().String(), err.Error()); continue
+			log.Printf("connection from %s has failed, reason: %s\r\n", request.RemoteAddr().String(), err.Error())
+			continue
 		}
 
 		//tries to correctly write the log into the file
@@ -54,7 +55,6 @@ func CreateListener(configuration ssh.ServerConfig) error {
 		//prints the new connection information
 		//this will allow for virtual errors without errors
 		log.Printf("new tcp connection has been recorded from %s\r\n", request.RemoteAddr().String())
-
 
 		//serves the new connection properly without issues
 		//this will ensure its happened properly without issues

@@ -1,6 +1,6 @@
 package interference
 
-import "Nosviak2/core/database"
+import "Morphine/core/database"
 
 //checks if the tables exist properly
 //this will ensure its done without any errors happening

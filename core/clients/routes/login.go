@@ -1,15 +1,15 @@
 package routes
 
 import (
-	"Nosviak2/core/clients/views/util"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/database"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/tfx"
-	"Nosviak2/core/sources/layouts/json"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/tools"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/clients/views/util"
+	deployment "Morphine/core/configs"
+	"Morphine/core/database"
+	"Morphine/core/sources/language/lexer"
+	termfx "Morphine/core/sources/language/tfx"
+	"Morphine/core/sources/layouts/json"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/tools"
+	"Morphine/core/sources/views"
 	"io"
 	"strconv"
 
@@ -19,8 +19,8 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-//properly tries to work the information without issues happen
-//this will make sure its done without any errors happening on reqeust
+// properly tries to work the information without issues happen
+// this will make sure its done without any errors happening on reqeust
 func LoginRequest(channel ssh.Channel, conn *ssh.ServerConn) (*database.User, error) {
 
 	//gets the header information properly
@@ -57,7 +57,7 @@ func LoginRequest(channel ssh.Channel, conn *ssh.ServerConn) (*database.User, er
 	//tries to correctly execute the header
 	//this will ensure its done without any errors happening
 	Raw, err := termp.ExecuteString(header.Containing) //renders the string
-	if err != nil { //error handles the statement without issues and errors happening
+	if err != nil {                                    //error handles the statement without issues and errors happening
 		return nil, err //returns the error
 	}
 
@@ -82,7 +82,7 @@ func LoginRequest(channel ssh.Channel, conn *ssh.ServerConn) (*database.User, er
 	//tries to find a valid user with that name
 	//this ensures its done without any errors happening
 	user, err := database.Conn.FindUser(usernameReq) //tries to find the user properly
-	if err != nil || user == nil { //error handles the req properly without any issues happening
+	if err != nil || user == nil {                   //error handles the req properly without any issues happening
 		//tries to render the invalid username render item
 		//this will ensure its done correctly and properly without errors
 		if _, err := channel.Write([]byte(lexer.AnsiUtil(views.GetView("views", "login", "invalid-username.tfx").Containing, lexer.Escapes))); err != nil {
@@ -93,7 +93,7 @@ func LoginRequest(channel ssh.Channel, conn *ssh.ServerConn) (*database.User, er
 		time.Sleep(10 * time.Second)
 		//returns the invalid username error
 		//this will close the session without issues
-		return nil, errors.New(conn.RemoteAddr().String()+" has provided any invalid username "+usernameReq)
+		return nil, errors.New(conn.RemoteAddr().String() + " has provided any invalid username " + usernameReq)
 	}
 	//ranges through all the auth attempts properly
 	//this will ensure its done without any errors happening
@@ -117,7 +117,6 @@ func LoginRequest(channel ssh.Channel, conn *ssh.ServerConn) (*database.User, er
 			continue
 		}
 
-
 		//compares the passwords when hashed properly
 		//this will ensure its done without any errors happening
 		if user.Password != database.HashProduct(passwordReq) {
@@ -128,7 +127,7 @@ func LoginRequest(channel ssh.Channel, conn *ssh.ServerConn) (*database.User, er
 			}
 			//executes the terminal shaker properly
 			//this will shake the terminal window properly
-			tools.ShakeTerminal(5, time.Duration(11 * time.Millisecond), channel)
+			tools.ShakeTerminal(5, time.Duration(11*time.Millisecond), channel)
 
 			time.Sleep(2 * time.Second)
 			//this will ensure its not ignored properly
@@ -140,7 +139,6 @@ func LoginRequest(channel ssh.Channel, conn *ssh.ServerConn) (*database.User, er
 		//this will return the username without issues happening
 		return user, nil //this will ensure its done without any errors
 	}
-	
 
 	//too many attempts banner here
 	//this will try to load without issues happening
@@ -154,27 +152,24 @@ func LoginRequest(channel ssh.Channel, conn *ssh.ServerConn) (*database.User, er
 
 	//returns the error properly without any issues
 	//this will make sure its safe without any errors happening
-	return nil, errors.New(conn.RemoteAddr().String()+" has provided an invalid password for "+usernameReq+" "+strconv.Itoa(json.ConfigSettings.Masters.MaxAuthAttempts)+" times")
+	return nil, errors.New(conn.RemoteAddr().String() + " has provided an invalid password for " + usernameReq + " " + strconv.Itoa(json.ConfigSettings.Masters.MaxAuthAttempts) + " times")
 }
 
-
-
-
-//renders the login screen with the username filed
-//this will ensure its done without any errors happening
+// renders the login screen with the username filed
+// this will ensure its done without any errors happening
 func PrintLoginWithUser(header string, username string, channel ssh.Channel, givenUser string) error {
 	//renders the header properly without issues
 	//this will ensure its done without any errors happening
-	if _, err := channel.Write([]byte("\033c"+lexer.AnsiUtil(header, lexer.Escapes))); err != nil {
+	if _, err := channel.Write([]byte("\033c" + lexer.AnsiUtil(header, lexer.Escapes))); err != nil {
 		return err //returns the error properly
 	}
 
 	//renders the username properly without issues
 	//this will ensure its done without any errors happening
-	if _, err := channel.Write([]byte(lexer.AnsiUtil(username + givenUser, lexer.Escapes))); err != nil {
+	if _, err := channel.Write([]byte(lexer.AnsiUtil(username+givenUser, lexer.Escapes))); err != nil {
 		return err //returns the error properly
-	}; 
-	
+	}
+
 	//returns nil as no errors happening
 	//allows for better control without issues
 	return nil

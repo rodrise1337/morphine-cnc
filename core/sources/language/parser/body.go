@@ -1,12 +1,12 @@
 package parser
 
 import (
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/sources/language/lexer"
 	"errors"
 )
 
-//correctly reads a body until a close is detected
-//this will ensure its done properly without issues happening
+// correctly reads a body until a close is detected
+// this will ensure its done properly without issues happening
 func (p *Parser) ReadBodyUntil(position int, tokens []lexer.Token, open lexer.TokenType, close lexer.TokenType) ([]lexer.Token, error) {
 
 	//stores all the different information inside
@@ -38,13 +38,13 @@ func (p *Parser) ReadBodyUntil(position int, tokens []lexer.Token, open lexer.To
 			if Open > 0 {
 				//removes a group and continues
 				//this will make sure its not ignored properly
-				Open--; continue
+				Open--
+				continue
 			} else {
 				//returns the token correctly and properly
 				return toks, nil
 			}
 		}
-
 
 	}
 

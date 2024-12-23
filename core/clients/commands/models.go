@@ -1,8 +1,8 @@
 package commands
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/configs/models"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/configs/models"
 	"strings"
 	"sync"
 )
@@ -14,8 +14,8 @@ var (
 	mutex    sync.Mutex
 )
 
-//stores the commands structure properly
-//this will help without issues happening on requests
+// stores the commands structure properly
+// this will help without issues happening on requests
 type Command struct {
 	//stores the command name properly
 	//this will be called on when the command is being executed
@@ -30,7 +30,7 @@ type Command struct {
 	CommandDescription string //stores the command decription properly
 	//stores all the permissions needed
 	//this will ensure its done without errors happening
-	CommandPermissions []string //stored in array of strings 
+	CommandPermissions []string //stored in array of strings
 	//stores the command function properly
 	//this will execute when the command length isnt greater than 1
 	CommandFunction func(s *sessions.Session, cmd []string) error
@@ -48,8 +48,8 @@ type Command struct {
 	BinCommand *models.BinCommand //stores the information
 }
 
-//stores the subcommand structure
-//this will be used within subcommands properly
+// stores the subcommand structure
+// this will be used within subcommands properly
 type SubCommand struct {
 	//stores the subcommand name properly
 	//this will be used properly without issues happening
@@ -75,8 +75,8 @@ type SubCommand struct {
 	AutoComplete func(s *sessions.Session) []string
 }
 
-//makes the command correctly
-//this will ensure its done correctly without issues
+// makes the command correctly
+// this will ensure its done correctly without issues
 func MakeCommand(c *Command) {
 	mutex.Lock()
 	defer mutex.Unlock()
@@ -85,15 +85,15 @@ func MakeCommand(c *Command) {
 	Commands[c.CommandName] = c
 }
 
-//tries to correctly find the command
-//this will ensure its done properly without issues happening
+// tries to correctly find the command
+// this will ensure its done properly without issues happening
 func TryCommand(command string) *Command {
 	//tries to find the main command name
 	//this will ensure its done correctly without issues
 	if cmd := Commands[command]; cmd != nil { //checks for the error
 		return cmd //returns the command structure properly
 	}
-	
+
 	//ranges through all the commands
 	//this will ensure its done properly without issues
 	for c := range Commands {
@@ -113,8 +113,8 @@ func TryCommand(command string) *Command {
 	return nil
 }
 
-//tries to correctly find the subcommand
-//this will ensure its done without issues happening
+// tries to correctly find the subcommand
+// this will ensure its done without issues happening
 func (c *Command) FindSubs(inlet string) *SubCommand {
 	//ranges throughout the subcommand
 	//this will ensure we can find the correct information

@@ -1,10 +1,10 @@
 package commands
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/database"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/language"
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/database"
+	"Morphine/core/sources/language"
 
 	"golang.org/x/term"
 )
@@ -40,7 +40,7 @@ func init() {
 				return language.ExecuteLanguage([]string{"commands", "password", "not-matching.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 			}
 			//tries to correctly update the password
-			//this will ensure the users password has been 
+			//this will ensure the users password has been
 			if err := database.Conn.Password(Pass, s.User.Username); err != nil { //returns the error correctly and properly
 				return language.ExecuteLanguage([]string{"commands", "password", "error.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
 			}
@@ -48,7 +48,7 @@ func init() {
 			//updates the session password properly
 			//this will make sure its done without any errors
 			sessions.Sessions[s.ID].User.Password = Pass
-			
+
 			//returns the success message properly
 			//this will allow them to view it was correct
 			return language.ExecuteLanguage([]string{"commands", "password", "success.itl"}, s.Channel, deployment.Engine, s, make(map[string]string))
@@ -56,8 +56,8 @@ func init() {
 	})
 }
 
-//properly builds a prompt without issues
-//this will ensure its complete without errors happening
+// properly builds a prompt without issues
+// this will ensure its complete without errors happening
 func Prompt(file []string, s *sessions.Session) (string, error) { //returns string and error
 	if err := language.ExecuteLanguage(file, s.Channel, deployment.Engine, s, make(map[string]string)); err != nil {
 		return "", err //returns the error correctly and properly without issues

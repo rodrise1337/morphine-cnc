@@ -1,17 +1,17 @@
 package interference
 
 import (
-	"Nosviak2/core/database"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/tools"
+	"Morphine/core/database"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/tools"
 	"encoding/json"
 	"fmt"
 	"os"
 )
 
-//this will properly run the SQL Audit safely
-//this will insert the tables without errors happening
-//makes sure that on setup the tables are inserted without issues
+// this will properly run the SQL Audit safely
+// this will insert the tables without errors happening
+// makes sure that on setup the tables are inserted without issues
 func RunTerminalAudit() error { //returns an error if one happened properly
 	//tries to insert the users table properly
 	//this will ensure its done without any errors happening
@@ -33,8 +33,8 @@ func RunTerminalAudit() error { //returns an error if one happened properly
 
 	//creates the strong password properly
 	//this will ensure its done without any errors
-	Password := tools.CreateStrongPassword(32) //password filter
-	APIKey   := tools.CreateStrongPassword(toml.ApiToml.API.KeyLen) //password filter
+	Password := tools.CreateStrongPassword(32)                    //password filter
+	APIKey := tools.CreateStrongPassword(toml.ApiToml.API.KeyLen) //password filter
 
 	//tries to insert the user properly
 	//this will ensure its done without any errors happening
@@ -61,8 +61,8 @@ func RunTerminalAudit() error { //returns an error if one happened properly
 	return nil
 }
 
-//stores the created username
-//this will be formatted into the json file
+// stores the created username
+// this will be formatted into the json file
 type Created struct {
 	Username string `json:"username"`
 	Password string `json:"password"`

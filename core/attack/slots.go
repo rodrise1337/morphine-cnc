@@ -1,7 +1,7 @@
 package attacks
 
 import (
-	"Nosviak2/core/database"
+	"Morphine/core/database"
 	"strings"
 )
 

@@ -17,4 +17,4 @@ forced=false
 # who can bypass the captcha
 bypass_forced=["admin", "moderator"]
 # Show inside the MFA App
-app="Mirace" 
+app="Morphine" 

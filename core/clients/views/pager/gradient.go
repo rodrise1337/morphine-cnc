@@ -1,19 +1,19 @@
 package pager
 
 import (
-	"Nosviak2/core/sources/tools"
-	"Nosviak2/core/sources/tools/gradient"
+	"Morphine/core/sources/tools"
+	"Morphine/core/sources/tools/gradient"
 	"strings"
 	"unicode/utf8"
 )
 
-//this will properly execute the standard table
-//ensures its done without issues happening on reqeust
+// this will properly execute the standard table
+// ensures its done without issues happening on reqeust
 func (mtr *MakeTableRender) GradientTable() ([]string, error) { //returns error
 	var layers []string = strings.Split(mtr.table.String(), "\n")
 	guide := GetLongestLineWithSTRIP(layers)
-	
-	for pos, text := range layers  {
+
+	for pos, text := range layers {
 		performed, err := gradient.NewWithIntArray(text, mtr.session.Colours...).WorkerWithEscapes(guide)
 		if err != nil {
 			return layers, err
@@ -26,7 +26,6 @@ func (mtr *MakeTableRender) GradientTable() ([]string, error) { //returns error
 	//this makes the system safer without issues happening on request
 	return layers, nil
 }
-
 
 // GetLongestLineWithSTRIP will strip each line and count the longest line
 func GetLongestLineWithSTRIP(str []string) int {

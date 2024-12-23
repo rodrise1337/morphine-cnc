@@ -1,9 +1,9 @@
 package functions
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/sources/language/evaluator"
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/sources/language/evaluator"
+	"Morphine/core/sources/language/lexer"
 	"io"
 )
 

@@ -22,7 +22,7 @@ key="server.key"
 ## View your ongoing attacks ##
     # format 1: http://localhost:8080/ongoing?username=[USERNAME]&password=[PASSWORD]
     # format 2: http://localhost:8080/ongoing?token=[TOKEN]
-## View your Nosviak2 edition ##
+## View your Morphine edition ##
     # format 1: http://localhost:8080/edition?
 ## [DEV] External Rank system ##
     # format 1: http://localhost:8080/rank/access?username=[USERNAME]&password=[PASSWORD]&rank=[RANK]

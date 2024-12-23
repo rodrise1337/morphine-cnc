@@ -1,13 +1,13 @@
 package template
 
 import (
-	"Nosviak2/core/clients/sessions"
+	"Morphine/core/clients/sessions"
 	"errors"
 	"unicode/utf8"
 )
 
-//stores information about the current instance
-//this will allow for proper and safe control of the instances
+// stores information about the current instance
+// this will allow for proper and safe control of the instances
 type TemplateEngine struct {
 	//stores the current line we will render
 	//this will allow for better control without issues
@@ -20,18 +20,18 @@ type TemplateEngine struct {
 	enginePrefix [2]string //stored in type array properly
 }
 
-//creates the new template without issues
-//this will ensure its done without errors happening
+// creates the new template without issues
+// this will ensure its done without errors happening
 func MakeTemplate(line string, prefix [2]string) *TemplateEngine {
 	return &TemplateEngine{ //returns the template properly
-		lines: line, //sets the line properly without issues happening
-		position: 0, //sets the position properly without issues
+		lines:        line,   //sets the line properly without issues happening
+		position:     0,      //sets the position properly without issues
 		enginePrefix: prefix, //sets the engines prefix properly
 	}
 }
 
-//correctly runs the engine without issues
-//this will ensure its done properly without errors
+// correctly runs the engine without issues
+// this will ensure its done properly without errors
 func (t *TemplateEngine) RunEngine(f func(tag string, s *sessions.Session) (int, error), wr *sessions.Session) error {
 
 	//ranges througout the source properly
@@ -61,14 +61,16 @@ func (t *TemplateEngine) RunEngine(f func(tag string, s *sessions.Session) (int,
 				if t.takeEngineOUT() {
 					//sets the finished to true, removes the error chance correctly
 					//this will make sure the header function knows about the header function error
-					finish = true; break //breaks and finishs correctly
+					finish = true
+					break //breaks and finishs correctly
 				} else {
 					//saves into the tag correctly
 					//this will allow the header function to access without errors happening
-					tag += string(t.lines[texture]); continue
+					tag += string(t.lines[texture])
+					continue
 				}
 			}
-			
+
 			//checks if the engine was closed
 			//this will make sure its properly been closed without error
 			if !finish { //this detects that is was closed without issues
@@ -77,15 +79,16 @@ func (t *TemplateEngine) RunEngine(f func(tag string, s *sessions.Session) (int,
 
 			//this will also update the main looper without issues
 			//allows for proper handling without issues happening on request
-			pos = t.position + utf8.RuneCountInString(t.enginePrefix[1]) -1 //skips the correct amount without issues
+			pos = t.position + utf8.RuneCountInString(t.enginePrefix[1]) - 1 //skips the correct amount without issues
 
 			//tries to correctly execute the function without issues
 			//this will make sure its been correctly executed without valid issues
 			_, errors := f(tag, wr) //properly executes under the header function without issues
-			if errors != nil { //tries to correctly error handle without issues happening without a reason
+			if errors != nil {      //tries to correctly error handle without issues happening without a reason
 				//returns the error correcty and safely
 				return errors //error returned properly
-			}; continue //continues if so
+			}
+			continue //continues if so
 		} else { //else we will render the information without a reason
 			//writes to the text to the writer without issues happening
 			//this will ensure that the writer has collected the information
@@ -95,7 +98,6 @@ func (t *TemplateEngine) RunEngine(f func(tag string, s *sessions.Session) (int,
 			}
 		}
 	}
-
 
 	return nil
 }

@@ -1,17 +1,17 @@
 package commands
 
 import (
-	"Nosviak2/core/configs/models"
+	"Morphine/core/configs/models"
 	"io/ioutil"
 	"path/filepath"
+
 	//"sync"
 
 	"github.com/naoina/toml"
 )
 
-
-//gets all the bin command objects
-//this will ensure its done without any issues
+// gets all the bin command objects
+// this will ensure its done without any issues
 func GetBinSettings(dir ...string) error { //returns error
 	//this will try to read the dir properly
 	//allows for better control wtihout issues happening
@@ -49,13 +49,14 @@ func GetBinSettings(dir ...string) error { //returns error
 		//tries to fill the information
 		//this will fill with all the stores
 		Commands[in.Name] = &Command{
-			CommandName: in.Name,
-			Aliases: make([]string, 0),
+			CommandName:        in.Name,
+			Aliases:            make([]string, 0),
 			CommandDescription: in.Description,
 			CommandPermissions: in.Access,
-			CommandFunction: nil, SubCommands: make([]SubCommand, 0),
+			CommandFunction:    nil, SubCommands: make([]SubCommand, 0),
 			CustomCommand: "", BinCommand: &in, //sets the command properly
-		}; mutex.Unlock() //unlocks the settings properly		
+		}
+		mutex.Unlock() //unlocks the settings properly
 	}
 	return nil
 }

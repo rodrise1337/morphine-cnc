@@ -1,15 +1,15 @@
 package commands
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/clients/views/pager"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/database"
-	"Nosviak2/core/sources/language"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/ranks"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/clients/views/pager"
+	deployment "Morphine/core/configs"
+	"Morphine/core/database"
+	"Morphine/core/sources/language"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/ranks"
+	"Morphine/core/sources/views"
 	"fmt"
 	"strings"
 
@@ -43,8 +43,9 @@ func init() {
 			for name, theme := range toml.ThemeConfig.Theme { //ranges through all the themes
 				//checks if hidden or disabled theme
 				//this will ensure its done without any errors
-				if theme.Hidden || !theme.Enabled {continue} //continues looping properly
-
+				if theme.Hidden || !theme.Enabled {
+					continue
+				} //continues looping properly
 
 				var colours []string = make([]string, 0)
 				for _, system := range theme.Decor.Colours {
@@ -54,9 +55,9 @@ func init() {
 
 				//creates the store properly without issues and makes sure they can view it without issues
 				rk := []*simpletable.Cell{ //fills with the information properly without issues and errors happening
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "themes", "values", "name.txt").Containing, lexer.Escapes), "<<$name>>", name)}, //id
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "themes", "values", "description.txt").Containing, lexer.Escapes), "<<$description>>", theme.Description)}, //username
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "themes", "values", "colours.txt").Containing, lexer.Escapes), "<<$colours>>", strings.Join(colours, ""))}, //username
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "themes", "values", "name.txt").Containing, lexer.Escapes), "<<$name>>", name)},                                                     //id
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "themes", "values", "description.txt").Containing, lexer.Escapes), "<<$description>>", theme.Description)},                          //username
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "themes", "values", "colours.txt").Containing, lexer.Escapes), "<<$colours>>", strings.Join(colours, ""))},                          //username
 					{Align: simpletable.AlignLeft, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "themes", "values", "ranks.txt").Containing, lexer.Escapes), "<<$ranks>>", strings.Join(ranks.CreateSystem(theme.Permissions), " "))}, //maxtime
 				}
 
@@ -72,8 +73,8 @@ func init() {
 
 		SubCommands: []SubCommand{
 			{
-				SubcommandName: "change",
-				Description: "change your current theme properly",
+				SubcommandName:     "change",
+				Description:        "change your current theme properly",
 				CommandPermissions: make([]string, 0), CommandSplit: " ",
 				SubCommandFunction: func(s *sessions.Session, cmd []string) error {
 					//checks the length
@@ -89,24 +90,25 @@ func init() {
 					//gets the theme properly
 					//this will be what we change to properly
 					them := toml.ThemeConfig.Theme[strings.ToLower(future)] //lowers string
-					if them == nil { //checks if the theme was found properly
-						return language.ExecuteLanguage([]string{"commands", "themes", "change", "invalidtheme.itl"}, s.Channel, deployment.Engine, s, map[string]string{"theme":cmd[2]})
+					if them == nil {                                        //checks if the theme was found properly
+						return language.ExecuteLanguage([]string{"commands", "themes", "change", "invalidtheme.itl"}, s.Channel, deployment.Engine, s, map[string]string{"theme": cmd[2]})
 					}
 
 					//adds support for the rank system inside the settings
 					//this will get all the ranks and sync them without issues and secures
-					rsystem := ranks.MakeRank(s.User.Username); rsystem.SyncWithString(s.User.Ranks)
-					
+					rsystem := ranks.MakeRank(s.User.Username)
+					rsystem.SyncWithString(s.User.Ranks)
+
 					//checks if they can access the array options
 					//this will add support for the permissions based system
 					if rsystem.CanAccessArray(them.Permissions) { //checks permissions and ensures its safe without issues
-						return language.ExecuteLanguage([]string{"commands", "themes", "change", "permissionsFault.itl"}, s.Channel, deployment.Engine, s, map[string]string{"theme":cmd[2]})
+						return language.ExecuteLanguage([]string{"commands", "themes", "change", "permissionsFault.itl"}, s.Channel, deployment.Engine, s, map[string]string{"theme": cmd[2]})
 					}
 
 					//tries to update the theme value properly
 					//this will allow the system to be updated without errors
 					if err := database.Conn.Theme(s.User.Username, future); err != nil { //error handles
-						return language.ExecuteLanguage([]string{"commands", "themes", "change", "fault-theme.itl"}, s.Channel, deployment.Engine, s, map[string]string{"theme":cmd[2]})
+						return language.ExecuteLanguage([]string{"commands", "themes", "change", "fault-theme.itl"}, s.Channel, deployment.Engine, s, map[string]string{"theme": cmd[2]})
 					}
 
 					//checks if we are updating the sessions
@@ -115,7 +117,7 @@ func init() {
 						//updates inside all the open sessions
 						//this will ensure its done without any errors
 						s.FunctionRemote(s.User.Username, func(t *sessions.Session) {
-							sessions.Sessions[t.ID].User.Theme   = future //updates the central database aswell properly
+							sessions.Sessions[t.ID].User.Theme = future                              //updates the central database aswell properly
 							sessions.Sessions[t.ID].BrandingPath = strings.Split(them.Branding, "/") //updates the theme properly
 							//checks for the default theme properly
 							//this will ensure we can reset the colours
@@ -130,7 +132,7 @@ func init() {
 
 					//returns the success message properly
 					//this will ensure its done without any errors
-					return language.ExecuteLanguage([]string{"commands", "themes", "change", "success.itl"}, s.Channel, deployment.Engine, s, map[string]string{"theme":cmd[2]})
+					return language.ExecuteLanguage([]string{"commands", "themes", "change", "success.itl"}, s.Channel, deployment.Engine, s, map[string]string{"theme": cmd[2]})
 				},
 
 				//AutoComplete will allow for extra args within the command to be completed

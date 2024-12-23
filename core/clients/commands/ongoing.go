@@ -1,13 +1,13 @@
 package commands
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/clients/views/pager"
-	"Nosviak2/core/database"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/language"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/clients/views/pager"
+	deployment "Morphine/core/configs"
+	"Morphine/core/database"
+	"Morphine/core/sources/language"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/views"
 	"fmt"
 	"strconv"
 	"strings"
@@ -53,7 +53,7 @@ func init() {
 			for _, attack := range Attacks { //ranges through all users sessions
 				//creates the store properly without issues
 				rk := []*simpletable.Cell{ //fills with the information properly without issues
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "ongoing", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(attack.ID))}, 
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "ongoing", "values", "id.txt").Containing, lexer.Escapes), "<<$id>>", strconv.Itoa(attack.ID))},
 					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "ongoing", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", attack.Username)},
 					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "ongoing", "values", "method.txt").Containing, lexer.Escapes), "<<$method>>", attack.Method)},
 					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "ongoing", "values", "target.txt").Containing, lexer.Escapes), "<<$target>>", attack.Target)},

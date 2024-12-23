@@ -1,9 +1,9 @@
 package functions
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/sources/language/evaluator"
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/sources/language/evaluator"
+	"Morphine/core/sources/language/lexer"
 	"errors"
 	"io"
 	"strconv"
@@ -21,7 +21,7 @@ func init() {
 			}
 			//tries to convert properly
 			//this will ensure its done without any errors
-			conv, err := strconv.Atoi(args[0].Literal()) //atoi
+			conv, err := strconv.Atoi(args[0].Literal())           //atoi
 			if err != nil || args[0].TokenType() != lexer.String { //checks the type
 				return make([]evaluator.Object, 0), errors.New("error atoi forced")
 			}

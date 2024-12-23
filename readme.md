@@ -1,6 +1,6 @@
-# Generally information about Nosviak2
+# Generally information about Morphine
 
- Firstly thank you for choosing & using Nosviak2
+ Firstly thank you for choosing & using Morphine
 
 ## Suggested specifications
 
@@ -12,15 +12,15 @@ Recommended *CPU*: `4 Cores`
 
 ## Installation
 
-Nosviak2 utilizes a MySQL database for storing data for its clients, this means you will have to
+Morphine utilizes a MySQL database for storing data for its clients, this means you will have to
 install MySQL-server and setup and create your database and a database user for the cnc to access
 via.
 
 
 ### MySQL install for **Ubuntu 20.04**
 
- - As of Nosviak2 v1.2 the cnc will automatically create your database tables so
- - you only need to install, Config & Create the database as Nosviak2 will do the rest.
+ - As of Morphine v1.2 the cnc will automatically create your database tables so
+ - you only need to install, Config & Create the database as Morphine will do the rest.
 
     1. Install       `sudo apt install mysql-server`
     2. Start         `sudo systemctl start mysql.service`
@@ -32,22 +32,22 @@ via.
  - We will now attempt to create the database user for the cnc to access and grant privileges
  - to manage, create & delete users.
     
-    7. Create        `CREATE USER 'nosviak2_client'@'localhost' IDENTIFIED BY 'vKeXAorBwnBQPk3QG83BeB7ncO7WGjWT';`
-    8. Grant perms   `GRANT ALL PRIVILEGES ON * . * TO 'nosviak2_client'@'localhost';`
+    7. Create        `CREATE USER 'Morphine_client'@'localhost' IDENTIFIED BY 'vKeXAorBwnBQPk3QG83BeB7ncO7WGjWT';`
+    8. Grant perms   `GRANT ALL PRIVILEGES ON * . * TO 'Morphine_client'@'localhost';`
     9. Update        `FLUSH PRIVILEGES;`
 
- - Now we much set the configuration options for the database which nosviak2 loads
+ - Now we much set the configuration options for the database which Morphine loads
  - from and parses the information for opening the connection with the database
     indication **1** [location](../assets/config.json) 
     ```json
     "database" : {
         "name" : "Nos2",
-        "username" : "nosviak2_client",
+        "username" : "Morphine_client",
         "password" : "vKeXAorBwnBQPk3QG83BeB7ncO7WGjWT",
         "host" : "localhost:3306"
     }, 
     ```
 
- - Congratulations! you have successfully setup nosviak2
+ - Congratulations! you have successfully setup Morphine
  - [LATER] If you get a `sharing detected` error please run 3 to 4 times to allow rebinding
  - and if that doesn't fix it, please report it to FB

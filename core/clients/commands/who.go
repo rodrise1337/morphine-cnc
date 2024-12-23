@@ -1,10 +1,10 @@
 package commands
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/clients/views/pager"
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/views"
+	"Morphine/core/clients/sessions"
+	"Morphine/core/clients/views/pager"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/views"
 	"strconv"
 	"strings"
 
@@ -20,12 +20,11 @@ func init() {
 		CommandDescription: "sessions opened in your username",
 		CommandFunction: func(s *sessions.Session, cmd []string) error {
 
-			
 			var target string = s.User.Username
 
 			//checks for special targeted usernames
 			//this will allow us to properly view the users
-			if len(cmd) >= 2 && s.CanAccessArray([]string{"admin", "moderator"}){ //checks length properly without issues
+			if len(cmd) >= 2 && s.CanAccessArray([]string{"admin", "moderator"}) { //checks length properly without issues
 				target = cmd[len(cmd)-1] //gets the targeted user properly without any errors happening
 			}
 
@@ -48,10 +47,10 @@ func init() {
 			for _, usr := range s.GetSessions(target) { //ranges through all users sessions
 				//creates the store properly without issues
 				rk := []*simpletable.Cell{ //fills with the information properly without issues
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "who", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)}, //id
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "who", "values", "connected.txt").Containing, lexer.Escapes), "<<$connected>>", usr.Connected.Format("15:04:05"))}, //username
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "who", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)}, //maxtime
-					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "who", "values", "timestamp.txt").Containing, lexer.Escapes), "<<$timestamp>>", strconv.Itoa(int(usr.ID)))}, //maxtime
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "who", "values", "username.txt").Containing, lexer.Escapes), "<<$username>>", usr.User.Username)},                         //id
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "who", "values", "connected.txt").Containing, lexer.Escapes), "<<$connected>>", usr.Connected.Format("15:04:05"))},        //username
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "who", "values", "ip.txt").Containing, lexer.Escapes), "<<$ip>>", usr.Target)},                                            //maxtime
+					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "who", "values", "timestamp.txt").Containing, lexer.Escapes), "<<$timestamp>>", strconv.Itoa(int(usr.ID)))},               //maxtime
 					{Align: simpletable.AlignCenter, Text: strings.ReplaceAll(lexer.AnsiUtil(views.GetView("commands", "who", "values", "client.txt").Containing, lexer.Escapes), "<<$client>>", GuessClient(string(usr.Conn.ClientVersion())))}, //maxtime
 				}
 
@@ -67,8 +66,8 @@ func init() {
 	})
 }
 
-//tries to guess the current ssh client
-//this will ensure we have got it properly
+// tries to guess the current ssh client
+// this will ensure we have got it properly
 func GuessClient(Version string) string { //returns a string properly
 	return strings.ToLower(strings.Split(strings.ReplaceAll(Version, "SSH-2.0-", ""), "_")[0])
 }

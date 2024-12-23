@@ -1,11 +1,11 @@
 package commands
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/configs/models"
-	"Nosviak2/core/sources/language"
-	"Nosviak2/core/sources/ranks"
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/configs/models"
+	"Morphine/core/sources/language"
+	"Morphine/core/sources/ranks"
 	"os/exec"
 
 	"os"
@@ -14,34 +14,34 @@ import (
 	"strings"
 )
 
-//properly tries to run the command
-//this will ensure its done without any errors
+// properly tries to run the command
+// this will ensure its done without any errors
 func RunBinCommand(session *sessions.Session, b *models.BinCommand, cmds []string) error {
 
 	//checks for invalid permissions
 	//allows for proper hanlding without issues
 	if len(b.Access) > 0 && !session.CanAccessArray(b.Access) { //checks access to the bin command properly
-		return language.ExecuteLanguage([]string{"errors", "command403.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command":b.Name})
+		return language.ExecuteLanguage([]string{"errors", "command403.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command": b.Name})
 	}
 
 	//ranges through the env variables properly
 	//this will ensure its done and registered without issues
 	for _, s := range b.Env { //ranges through properly without issues
-		s = EnvSettings(s, session) //runs the settings sortor properly
-		if strings.Count(s,"=") != 1 { //checks for invalid ratio properly
+		s = EnvSettings(s, session)     //runs the settings sortor properly
+		if strings.Count(s, "=") != 1 { //checks for invalid ratio properly
 			continue //continues looping properly without issues happening
 		}
-		
+
 		//sets the env object properly without issues
-		if err := os.Setenv(strings.Split(s,"=")[0], strings.Split(s,"=")[1]); err != nil {
+		if err := os.Setenv(strings.Split(s, "=")[0], strings.Split(s, "=")[1]); err != nil {
 			return err //returns the error properly without issues
 		}
 	}
 
 	//enforces the min args rule
 	//this will ensure its followed without issues
-	if b.MinArgs > len(cmds) - 1{ //len checking properly and renders the error properly without issues happening
-		return language.ExecuteLanguage([]string{"errors", "bin_missing_args.itl"}, session.Channel, deployment.Engine, session, map[string]string{"cmd":cmds[0], "minArgs":strconv.Itoa(b.MinArgs), "givenArgs":strconv.Itoa(len(cmds))})
+	if b.MinArgs > len(cmds)-1 { //len checking properly and renders the error properly without issues happening
+		return language.ExecuteLanguage([]string{"errors", "bin_missing_args.itl"}, session.Channel, deployment.Engine, session, map[string]string{"cmd": cmds[0], "minArgs": strconv.Itoa(b.MinArgs), "givenArgs": strconv.Itoa(len(cmds))})
 	}
 
 	//ranges through all the args inside the command
@@ -55,12 +55,11 @@ func RunBinCommand(session *sessions.Session, b *models.BinCommand, cmds []strin
 		}
 	}
 
-
 	//creates the command information
 	//this will make sure its done without any errors
 	cmd := exec.Command(b.Runtime, b.Args...) //command route
-	cmd.Stdout = session.Channel //in
-	cmd.Stderr = session.Channel //err
+	cmd.Stdout = session.Channel              //in
+	cmd.Stderr = session.Channel              //err
 	//cmd.Stdin = session.Channel  //out
 	//starts the command properly
 	//this will ensure its done without any errors
@@ -78,10 +77,8 @@ func RunBinCommand(session *sessions.Session, b *models.BinCommand, cmds []strin
 	return language.ExecuteLanguage([]string{"prompt.itl"}, session.Channel, deployment.Engine, session, make(map[string]string))
 }
 
-
-
-//stores the input string properly
-//this will ensure its done without any errors happening
+// stores the input string properly
+// this will ensure its done without any errors happening
 func EnvSettings(s string, session *sessions.Session) string {
 	//ranges through all the ranks
 	//this will set a value to each inside the string

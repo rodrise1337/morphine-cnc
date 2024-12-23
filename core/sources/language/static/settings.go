@@ -1,7 +1,7 @@
 package static
 
 import (
-	deployment "Nosviak2/core/configs"
+	deployment "Morphine/core/configs"
 	"io/ioutil"
 	"path/filepath"
 )
@@ -10,8 +10,8 @@ var ( //stores all properly and safely without issues
 	Controls map[string]string = make(map[string]string)
 )
 
-//gets all possible objects within
-//this will ensure its done without errors
+// gets all possible objects within
+// this will ensure its done without errors
 func GetStatic(dir string) error { //err handles
 
 	//tries to read the dir properly
@@ -31,7 +31,7 @@ func GetStatic(dir string) error { //err handles
 		if err != nil { //err handles properly
 			return err
 		}
-		
+
 		//saves into the system properly and safely
 		Controls[settingConfig.Name()] = string(system)
 	}

@@ -1,13 +1,13 @@
 package evaluator
 
 import (
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"errors"
 )
 
-//this will guide the information to the exit properly
-//this will ensure its done properly without errors happening
+// this will guide the information to the exit properly
+// this will ensure its done properly without errors happening
 type Object struct {
 	//stores the object type
 	//this will ensure its done properly
@@ -18,20 +18,19 @@ type Object struct {
 	Literal string //stores the token literal without issues
 }
 
-//arrays the object correctly
+// arrays the object correctly
 func ArrayObject(a ...Object) []Object {
 	return a
 }
 
-
-//properly tries to correctly execute the function
-//this will ensure its done properly without errors happening on request
-//this will safely and properly execute the function path which has been requests
+// properly tries to correctly execute the function
+// this will ensure its done properly without errors happening on request
+// this will safely and properly execute the function path which has been requests
 func (e *Evaluator) executeFunction(f *parser.FunctionPath) ([]Object, error) {
 
 	//makes sure the amount of labels if valid
 	//ensures its properly done without issues
-	if len(f.Labels) % 2 == 0 && len(f.Labels) > 3 {
+	if len(f.Labels)%2 == 0 && len(f.Labels) > 3 {
 		//returns error for invalid function
 		return nil, errors.New("invalid function execution path")
 	}
@@ -95,7 +94,7 @@ func (e *Evaluator) executeFunction(f *parser.FunctionPath) ([]Object, error) {
 		//properly executes the function without issues happening when asked
 		//this ensures its done properly without errors happening on calling
 		return function(args, e.session, e, e.wr)
-	} else{ 
+	} else {
 		//gets the function header
 		//this will be used to locate the function without issues
 		header := f.Labels[0] //gets the header token
@@ -131,7 +130,7 @@ func (e *Evaluator) executeFunction(f *parser.FunctionPath) ([]Object, error) {
 					//this will ensure that matching is going safely ahead
 					if internal.Args[p].Type != args[p].TokenType() {
 						//returns the error correct and properly
-						return nil, errors.New("unmatched arguments has been given wanted: "+internal.Args[p].Literal+" "+internal.Args[p].Type.GetString())
+						return nil, errors.New("unmatched arguments has been given wanted: " + internal.Args[p].Literal + " " + internal.Args[p].Type.GetString())
 					} else {
 						guide = append(guide, Scope{Name: internal.Args[p].Literal, TokenValue: &args[p]})
 					}
@@ -140,14 +139,14 @@ func (e *Evaluator) executeFunction(f *parser.FunctionPath) ([]Object, error) {
 				//transfer all the information without issues happening
 				//this will make sure its done properly without issues happening on request
 				var ELock = &Evaluator{
-					NodeBodies: internal.Nodes,
-					GuideScope: guide,
-					packages: e.packages,
-					functions: e.functions,
+					NodeBodies:        internal.Nodes,
+					GuideScope:        guide,
+					packages:          e.packages,
+					functions:         e.functions,
 					internalFunctions: e.internalFunctions,
-					wr: e.wr,
-					templateRcog: e.templateRcog,
-					session: e.session,
+					wr:                e.wr,
+					templateRcog:      e.templateRcog,
+					session:           e.session,
 				}
 
 				//executes the node bodies correctly
@@ -161,5 +160,5 @@ func (e *Evaluator) executeFunction(f *parser.FunctionPath) ([]Object, error) {
 		//this will be were we have to safely handle the information
 		return function.Function(args, e.session, e, e.wr)
 	}
-	
+
 }

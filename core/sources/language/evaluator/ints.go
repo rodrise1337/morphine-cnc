@@ -1,19 +1,19 @@
 package evaluator
 
 import (
-	"Nosviak2/core/sources/language/lexer"
-	"Nosviak2/core/sources/language/parser"
+	"Morphine/core/sources/language/lexer"
+	"Morphine/core/sources/language/parser"
 	"errors"
 	"strconv"
 )
 
-//compiles the selection of the tokens into one properly
-//this will allow for proper controlling without issues happening
+// compiles the selection of the tokens into one properly
+// this will allow for proper controlling without issues happening
 func (e *Evaluator) compileInt(tokens []lexer.Token) (*lexer.Token, error) {
 	//stores all the different tokens properly without issues
 	//allows for better controlling without issues happening...
 	var operators []lexer.Token = make([]lexer.Token, 0) //creates the array
-	var objects []lexer.Token = make([]lexer.Token, 0) //creates the array
+	var objects []lexer.Token = make([]lexer.Token, 0)   //creates the array
 
 	//properly ranges through all the tokens
 	//this will execute and compile the string literal format
@@ -24,7 +24,7 @@ func (e *Evaluator) compileInt(tokens []lexer.Token) (*lexer.Token, error) {
 		if e.validateOperator(&tokens[position]) {
 			//saves the object into the array
 			//this will properly try to save into the array
-			operators = append(operators, tokens[position])	
+			operators = append(operators, tokens[position])
 		} else {
 			//stores the token properly
 			//this makes sure its done properly
@@ -54,7 +54,7 @@ func (e *Evaluator) compileInt(tokens []lexer.Token) (*lexer.Token, error) {
 					//makes sure its correctly done without issues
 					if len(mem) > 1 {
 						//returns the error properly without issues
-						return nil, errors.New("mismatch type, one wanted, "+strconv.Itoa(len(mem))+" given")
+						return nil, errors.New("mismatch type, one wanted, " + strconv.Itoa(len(mem)) + " given")
 					}
 
 					//skips the valid amount of tokens
@@ -93,7 +93,7 @@ func (e *Evaluator) compileInt(tokens []lexer.Token) (*lexer.Token, error) {
 
 	//ranges through the different objects properly
 	//this will make sure its properly done without issues
-	for stringAgent, operator := 1, 0; stringAgent < len(objects) && operator < len(operators); stringAgent, operator = stringAgent + 1, operator + 1 {
+	for stringAgent, operator := 1, 0; stringAgent < len(objects) && operator < len(operators); stringAgent, operator = stringAgent+1, operator+1 {
 
 		//converts into int without issues properly
 		//this ensures it done properly without issues
@@ -110,23 +110,28 @@ func (e *Evaluator) compileInt(tokens []lexer.Token) (*lexer.Token, error) {
 		case lexer.Addition: //addition in strings properly
 			//properly sorts without issues happening
 			//makes sure its properly done without issues
-			memory = memory + defaultType; continue
+			memory = memory + defaultType
+			continue
 		case lexer.Subtraction: //addition in strings properly
 			//properly sorts without issues happening
 			//makes sure its properly done without issues
-			memory = memory - defaultType; continue
+			memory = memory - defaultType
+			continue
 		case lexer.Multiply: //addition in strings properly
 			//properly sorts without issues happening
 			//makes sure its properly done without issues
-			memory = memory * defaultType; continue
+			memory = memory * defaultType
+			continue
 		case lexer.Divide: //addition in strings properly
 			//properly sorts without issues happening
 			//makes sure its properly done without issues
-			memory = memory / defaultType; continue
+			memory = memory / defaultType
+			continue
 		case lexer.Modulus: //addition in strings properly
 			//properly sorts without issues happening
 			//makes sure its properly done without issues
-			memory = memory % defaultType; continue
+			memory = memory % defaultType
+			continue
 		}
 	}
 

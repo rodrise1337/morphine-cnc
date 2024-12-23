@@ -1,11 +1,11 @@
 package parser
 
 import (
-	"Nosviak2/core/sources/language/lexer"
+	"Morphine/core/sources/language/lexer"
 )
 
-//allows for functions to properly return objects
-//allows for better control without issues happening on request
+// allows for functions to properly return objects
+// allows for better control without issues happening on request
 type ReturnReply struct { //stores the values
 	//stores the different values being returned
 	//this will allow for better system handling without issues
@@ -13,8 +13,8 @@ type ReturnReply struct { //stores the values
 	Tokens []lexer.Token
 }
 
-//properly parses the return values without issues
-//ensures that its properly done without errors happening
+// properly parses the return values without issues
+// ensures that its properly done without errors happening
 func (p *Parser) parseReturn() (*ReturnReply, error) {
 	//properly parses the statement without issues
 	//this ensures its properly done without errors
@@ -29,7 +29,8 @@ func (p *Parser) parseReturn() (*ReturnReply, error) {
 		//this will make sure its valid without issues
 		if p.lex.Tokens()[tok].TokenType() == lexer.Comma {
 			//creates the new array correctly and properly without issues
-			returnValue.Values = append(returnValue.Values, make([]lexer.Token, 0)); continue
+			returnValue.Values = append(returnValue.Values, make([]lexer.Token, 0))
+			continue
 		}
 		//saves correctly into the array properly without issues
 		//this will ensure its properly done without errors happening

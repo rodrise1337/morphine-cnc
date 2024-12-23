@@ -1,9 +1,9 @@
 package clients
 
 import (
-	"Nosviak2/core/configs"
-	"Nosviak2/core/database"
-	"Nosviak2/core/sources/layouts/json"
+	deployment "Morphine/core/configs"
+	"Morphine/core/database"
+	"Morphine/core/sources/layouts/json"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
@@ -12,10 +12,9 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-//tries to listen to the addr given
-//this will ensure its done properly without errors
+// tries to listen to the addr given
+// this will ensure its done properly without errors
 func ProduceClient() error { //returns error properly
-
 
 	//creates the configuration for the server
 	//this will ensure its done without issues happening
@@ -41,7 +40,7 @@ func ProduceClient() error { //returns error properly
 			//this will properly get the password and the hashed product for the password given
 			//this will be mainly used for authenticating users into the systems without issues happening
 			if user.Password == database.HashProduct(string(password)) {
-				return nil, nil  //returns nil and nil as its valid!
+				return nil, nil //returns nil and nil as its valid!
 			}
 
 			//returns the invalid auth error properly
@@ -51,9 +50,8 @@ func ProduceClient() error { //returns error properly
 
 		//sets the default serverVersion
 		//this will make sure its done without issues
-		ServerVersion: fmt.Sprintf("SSH-2.0-OpenSSH_8.6p1 %s@%s", "Nosviak2", deployment.Version),
+		ServerVersion: fmt.Sprintf("SSH-2.0-OpenSSH_8.6p1 %s@%s", "Morphine", deployment.Version),
 	}
-
 
 	//sets the max auth attempts properly
 	//this will make sure its not ignored without issues
@@ -75,7 +73,6 @@ func ProduceClient() error { //returns error properly
 			return json.ConfigSettings.Masters.BeforePasswdPrompt.Message
 		}
 	}
-
 
 	//reads the server key file properly without issues
 	//this will control the servers master key properly without issues

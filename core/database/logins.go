@@ -1,12 +1,12 @@
 package database
 
 import (
-	"Nosviak2/core/sources/tools"
+	"Morphine/core/sources/tools"
 	"time"
 )
 
-//stores the login information
-//this will help with management properly and better handling
+// stores the login information
+// this will help with management properly and better handling
 type Login struct {
 	//stores the remote address used for the login
 	//this ensures its done properly without issues happening
@@ -29,8 +29,8 @@ type Login struct {
 	Success bool
 }
 
-//tries to log the attempt into the database
-//this ensures its done properly without issues happening
+// tries to log the attempt into the database
+// this ensures its done properly without issues happening
 func (c *Connection) LoginAttempt(address, banner, user string, success bool) error {
 	user = tools.SanatizeTool(user)
 	banner = tools.SanatizeTool(banner)
@@ -44,9 +44,8 @@ func (c *Connection) LoginAttempt(address, banner, user string, success bool) er
 	return nil
 }
 
-
-//gets all the login attempts for an account
-//this will ensure its done without issues happening
+// gets all the login attempts for an account
+// this will ensure its done without issues happening
 func (c *Connection) GetLogins(who string) ([]Login, error) {
 	who = tools.SanatizeTool(who)
 	//correctly querys the sql database
@@ -76,8 +75,8 @@ func (c *Connection) GetLogins(who string) ([]Login, error) {
 	return LoginsTillNow, nil
 }
 
-//gets all the login attempts for an account
-//this will ensure its done without issues happening
+// gets all the login attempts for an account
+// this will ensure its done without issues happening
 func (c *Connection) AllLogins() ([]Login, error) {
 	//correctly querys the sql database
 	//this will ensure its done properly

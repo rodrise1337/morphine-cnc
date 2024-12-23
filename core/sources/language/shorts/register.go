@@ -1,10 +1,11 @@
 package shorts
 
 import (
-	"Nosviak2/core/sources/language/evaluator"
-	"Nosviak2/core/sources/language/lexer"
-	//"Nosviak2/core/sources/layouts/functions"
-	"Nosviak2/core/sources/layouts/packages"
+	"Morphine/core/sources/language/evaluator"
+	"Morphine/core/sources/language/lexer"
+
+	//"Morphine/core/sources/layouts/functions"
+	"Morphine/core/sources/layouts/packages"
 )
 
 func Register(c map[string]string, e *evaluator.Evaluator) *evaluator.Evaluator {

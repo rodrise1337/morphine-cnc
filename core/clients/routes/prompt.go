@@ -1,15 +1,15 @@
 package routes
 
 import (
-	attacks "Nosviak2/core/attack"
-	"Nosviak2/core/clients/commands"
-	"Nosviak2/core/clients/sessions"
-	"Nosviak2/core/configs"
-	"Nosviak2/core/sources/language"
-	"Nosviak2/core/sources/layouts/logs"
-	"Nosviak2/core/sources/layouts/toml"
-	"Nosviak2/core/sources/ranks"
-	"Nosviak2/core/sources/tools"
+	attacks "Morphine/core/attack"
+	"Morphine/core/clients/commands"
+	"Morphine/core/clients/sessions"
+	deployment "Morphine/core/configs"
+	"Morphine/core/sources/language"
+	"Morphine/core/sources/layouts/logs"
+	"Morphine/core/sources/layouts/toml"
+	"Morphine/core/sources/ranks"
+	"Morphine/core/sources/tools"
 	"log"
 	"path/filepath"
 
@@ -20,8 +20,8 @@ import (
 	"golang.org/x/term"
 )
 
-//creates the new prompt properly
-//this will safely handle without issues happening
+// creates the new prompt properly
+// this will safely handle without issues happening
 func NewPrompt(session *sessions.Session) error {
 
 	//tries to print the home screen
@@ -54,12 +54,13 @@ func NewPrompt(session *sessions.Session) error {
 		//saves into the written book
 		//this will allow for recall without issues
 		session.Written = append(session.Written, message+"\r\n")
-		
+
 		//this will ensure its done without issues
 		if err != nil { //error handles the read
 			//creates a new terminal app properly
 			//this will make sure its done correctly without issues happening
-			application = term.NewTerminal(session.Channel, ""); continue
+			application = term.NewTerminal(session.Channel, "")
+			continue
 		}
 
 		sessions.Mutex.Lock()
@@ -69,7 +70,7 @@ func NewPrompt(session *sessions.Session) error {
 		//properly pushes the command to be executed
 		//this will execute the command without issues happening
 		if err := ExecuteCommand(message, session); err != nil { //error handles the statement properly
-			if err := language.ExecuteLanguage([]string{"errors", "commandError.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command":message, "error":err.Error()}); err != nil {
+			if err := language.ExecuteLanguage([]string{"errors", "commandError.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command": message, "error": err.Error()}); err != nil {
 				return err //returns the error correctly and properly without issues happening
 			}
 		}
@@ -77,19 +78,19 @@ func NewPrompt(session *sessions.Session) error {
 
 }
 
-//executes the incoming command properly
-//this will make sure it executes without issues happening
+// executes the incoming command properly
+// this will make sure it executes without issues happening
 func ExecuteCommand(cmd string, session *sessions.Session) error {
 	//splits the command properly
 	//this will be used properly without issues happening
 	var command []string = strings.Split(cmd, " ") //splits
-	if command[0] == "" { //validates the 0 length properly
+	if command[0] == "" {                          //validates the 0 length properly
 		return nil //returns and ends the function properly
 	}
 
 	//executes the language properly
 	//this will ensure its done without errors
-	if err := language.ExecuteLanguage([]string{"commands", "before-command.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command":command[0]}); err != nil {
+	if err := language.ExecuteLanguage([]string{"commands", "before-command.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command": command[0]}); err != nil {
 		return err
 	}
 
@@ -115,25 +116,25 @@ func ExecuteCommand(cmd string, session *sessions.Session) error {
 	//checks if the command is equal to nil
 	//this will allow us to properly handle without issues
 	if cmds == nil { //checks if the command is nil properly and renders the invalid command properly
-		return language.ExecuteLanguage([]string{"errors", "command404.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command":command[0]})
+		return language.ExecuteLanguage([]string{"errors", "command404.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command": command[0]})
 	}
 
 	//tries to check if the command is blacklisted
 	//this will allow for better control without issues
 	blocked, _ := tools.NeedleHaystack(toml.ConfigurationToml.AppSettings.NoCmds, strings.ToLower(command[0]))
 	if blocked && len(cmds.CustomCommand) <= 0 { //checks for the nil pointer properly
-		return language.ExecuteLanguage([]string{"errors", "command404.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command":command[0]})
+		return language.ExecuteLanguage([]string{"errors", "command404.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command": command[0]})
 	}
 
 	//creates the rank instance
 	//this will start the string handle properly
 	rank := ranks.MakeRank(session.User.Username) //makes instance
-	rank.SyncWithString(session.User.Ranks) //syncs with the user
-	
+	rank.SyncWithString(session.User.Ranks)       //syncs with the user
+
 	//checks to see if they can access the object
 	//this will allow for better handling without issues
 	if len(cmds.CommandPermissions) > 0 && !rank.CanAccessArray(cmds.CommandPermissions) { //ensures the user can access without issues
-		return language.ExecuteLanguage([]string{"errors", "command403.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command":command[0]})
+		return language.ExecuteLanguage([]string{"errors", "command403.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command": command[0]})
 	}
 
 	//checks for possible subcommands
@@ -149,13 +150,13 @@ func ExecuteCommand(cmd string, session *sessions.Session) error {
 			if cmds.InvalidSubCommand != nil { //returns invalid subcommand
 				return cmds.InvalidSubCommand(session, command) //this will make sure if its set we execute
 			} //executes the default branding properly without issues happening on request
-			return language.ExecuteLanguage([]string{"errors", "subcommand404.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command":command[0], "subcommand":command[1]})
+			return language.ExecuteLanguage([]string{"errors", "subcommand404.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command": command[0], "subcommand": command[1]})
 		}
 
 		//properly tries to see if the user can access this object without issues
 		//this will ensure either its valid or not without issues and makes sure its valid
 		if len(subcommand.CommandPermissions) > 0 && !rank.CanAccessArray(subcommand.CommandPermissions) {
-			return language.ExecuteLanguage([]string{"errors", "subcommand403.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command":command[0], "subcommand":command[1]})
+			return language.ExecuteLanguage([]string{"errors", "subcommand403.itl"}, session.Channel, deployment.Engine, session, map[string]string{"command": command[0], "subcommand": command[1]})
 		}
 
 		//tries to execute the function properly
@@ -174,7 +175,6 @@ func ExecuteCommand(cmd string, session *sessions.Session) error {
 	if cmds.CommandFunction == nil && cmds.BinCommand != nil { //follows bin route
 		return commands.RunBinCommand(session, cmds.BinCommand, command) //returns the runbincommand properly
 	}
-	
 
 	//tries to execute the function correctly
 	//this will safely and properly execute without issues
